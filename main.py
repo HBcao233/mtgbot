@@ -9,7 +9,7 @@ from util.log import logger
 
 api_id = 4
 api_hash = '014b35b6184100b085b0d0572f9b5103'
-  
+
 
 class Bot(TelegramClient):
   async def connect(self):
@@ -31,7 +31,8 @@ class Bot(TelegramClient):
     
     await self(functions.bots.ResetBotCommandsRequest(scope=types.BotCommandScopeDefault(), lang_code='zh'))
     
-    
+if len(config.token) < 10:
+  raise ValueError('请提供正确的bot token')
 bot = config.bot = Bot(util.getFile('bot.session'), api_id, api_hash).start(bot_token=config.token)
 
 

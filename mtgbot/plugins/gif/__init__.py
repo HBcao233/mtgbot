@@ -1,11 +1,11 @@
 from telethon import types
-import os
+import os.path 
 
 import config
 import util
 from util import logger
 from plugin import handler
-from .data_source import video2gif, tgs2gif
+from .data_source import video2gif, tgs2gif, getLottiePath
 
 
 @handler('gif', info="视频转gif")
@@ -35,12 +35,14 @@ async def _gif(event):
     )
   else:
     img = util.getCache(document_id)
-    await reply_message.download_media(file=img)
+    if os.path.isfile(img):
+      await reply_message.download_media(file=img)
     
     if mime_type == 'application/x-tgsticker':
-      if os.system('lottie2gif') == 32512:
+      lottiepath = getLottiePath()
+      if lottiepath is None:
         return await mid.edit('暂不支持动态贴纸转换')
-      res = await tgs2gif(document_id)
+      res = await tgs2gif(lottiepath, document_id)
     else:
       res = await video2gif(document_id)
     if not res:

@@ -3,16 +3,19 @@ import config
 
 
 def _getFile(path='', name=''):
-  f = ''
+  f = os.path.join(path, name)
+  if os.path.isfile(f) or '.' in name:
+    return f
+    
+  f = os.path.join(path, f'{name}.cache')
+  if os.path.isfile(f):
+    return f
+  
   for i in os.listdir(path):
-    if os.path.splitext(i)[0] == name:
-      f = i
-      break
-  if f == "":
-    f = name
-    if "." not in f:
-      f += ".cache"
-  return os.path.join(path, f)
+    if os.path.splitext(i)[0] == _name:
+      return i
+  
+  return os.path.join(path, f'{_name}.cache')
   
 def getFile(dir_name='', name=''):
   name = str(name)
