@@ -1,0 +1,7 @@
+telethon
+cryptg
+httpx[http2]
+ujson
+python-dateutil
+bs4
+opencv-python

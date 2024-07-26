@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  mtgbot:
+    container_name: mtgbot
+    build: .
+    stop_signal: SIGINT
+    volumes:
+      - .:/tgbot
+    env_file:
+      - mtgbot/.env
+    environment:
+      - BOT_HOME=mtgbot
+  tgbot2:
+    container_name: tgbot2
+    build: .
+    stop_signal: SIGINT
+    volumes:
+      - .:/tgbot
+    env_file:
+      - tgbot2/.env
+    environment:
+      - BOT_HOME=tgbot2
+      
