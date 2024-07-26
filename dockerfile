@@ -4,6 +4,6 @@ RUN mkdir /tgbot
 WORKDIR /tgbot
 COPY requirements.txt /tgbot
 RUN python3 -m pip install -r requirements.txt
-# COPY . /mtgbot
+# COPY . /tgbot
 COPY ./lib/telethon /usr/local/lib/python3.9/site-packages/telethon
 CMD ["python3", "/tgbot/main.py"] 

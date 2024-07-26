@@ -38,6 +38,6 @@ docker logs mtgbot
 ```
 
 ## 依赖 Dependencies
-* [Telethon](https://github.com/python-telegram-bot/python-telegram-bot)
+* [Telethon](https://github.com/LonamiWebs/Telethon)
 * [httpx](https://github.com/encode/httpx)
 * [lottie2gif](https://github.com/rroy233/lottie2gif)
