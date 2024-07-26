@@ -14,16 +14,23 @@ async def _gif(event):
     return await event.reply('请用命令回复一条消息')
   logger.info(reply_message)
   mime_type = reply_message.media.document.mime_type
-  if mime_type == 'image/gif':
-    return await event.reply('该消息已经是 gif 格式了')
   if 'video' not in mime_type and mime_type != 'application/x-tgsticker':
     return await event.reply('该消息不包含视频或动态贴纸')
-  for i in v.attributes:
-    if isinstance(i, types.DocumentAttributeVideo):
-      break
-  if i.duration > 60:
-    await event.reply('这个视频太长了')
   
+  attributes = reply_message.media.document. attributes
+  a = None
+  _ext = 'cache'
+  for i in attributes:
+    if isinstance(i, types.DocumentAttributeVideo):
+      a = i
+    if isinstance(i, types.DocumentAttributeFilename):
+      _ext = os.path.splitext(i.file_name)[-1]
+      
+  if a.duration > 60:
+    await event.reply('这个视频太长了')
+  if mime_type == 'image/gif':
+    return await event.reply('该消息已经是 gif 格式了')
+    
   mid = await event.reply('转换中...')
   
   data = util.Documents()
@@ -41,7 +48,7 @@ async def _gif(event):
       file_reference=b''
     )
   else:
-    img = util.getCache(document_id)
+    img = util.getCache(f'{document_id}.{_ext}')
     if not os.path.isfile(img):
       await reply_message.download_media(file=img)
     
@@ -77,9 +84,20 @@ async def _video_convert(event, ext='mp4'):
   mime_type = reply_message.media.document.mime_type
   if 'video' not in mime_type and mime_type not in ['application/x-tgsticker', 'image/gif']:
     return await event.reply('该消息不包含视频或动态贴纸')
-  if mime_type == 'video/' + ext:
+ 
+  attributes =reply_message.media.document.attributes
+  is_sticker = False
+  _ext = 'cache'
+  for i in attributes:
+    if isinstance(i, types.DocumentAttributeSticker):
+      is_sticker = True
+      break
+    if isinstance(i, types.DocumentAttributeFilename):
+        _ext = os.path.splitext(i.file_name)[-1]
+        
+  if not is_sticker and mime_type == 'video/' + ext:
     return await event.reply(f'该消息已经是 {ext} 格式了')
-  
+    
   mid = await event.reply('转换中...')
   
   data = util.Videos()
@@ -90,7 +108,7 @@ async def _video_convert(event, ext='mp4'):
       id=document[0],
       access_hash=document[1],
       date=None,
-      mime_type='video/mp4',
+      mime_type='video/'+ext,
       size=0,
       thumbs=None,
       dc_id=document[2],
@@ -98,21 +116,24 @@ async def _video_convert(event, ext='mp4'):
       file_reference=b''
     )
   else:
-    img = util.getCache(document_id)
+    img = util.getCache(f'{document_id}.{_ext}')
     if not os.path.isfile(img):
       await reply_message.download_media(file=img)
-    
-    if mime_type == 'application/x-tgsticker':
-      lottiepath = getLottiePath()
-      if lottiepath is None:
-        return await mid.edit('暂不支持动态贴纸转换')
-      img = await tgs2gif(lottiepath, img)
-      if not img:
-        return await mid.edit('转换失败')
+      
+    if mime_type == 'video/' + ext:
+      res = img
+    else:
+      if mime_type == 'application/x-tgsticker':
+        lottiepath = getLottiePath()
+        if lottiepath is None:
+          return await mid.edit('暂不支持动态贴纸转换')
+        img = await tgs2gif(lottiepath, img)
+        if not img:
+          return await mid.edit('转换失败')
      
-    res = await video2ext(img, 'mp4')
-    if not res:
-      return await mid.edit('转换失败')
+      res = await video2ext(img, 'mp4')
+      if not res:
+        return await mid.edit('转换失败')
     
     document, duration, w, h, thumb = util.videoInfo(res)
     document = await config.bot.upload_file(document)
@@ -120,7 +141,10 @@ async def _video_convert(event, ext='mp4'):
     file = types.InputMediaUploadedDocument(
       file=document,
       mime_type='video/' + ext, 
-      attributes=[types.DocumentAttributeVideo(duration=int(duration), w=int(w), h=int(h), supports_streaming=True)],
+      attributes=[
+        types.DocumentAttributeVideo(duration=int(duration), w=int(w), h=int(h), supports_streaming=True), 
+        types.DocumentAttributeFilename(file_name=f'{document_id}.webm')
+      ],
       thumb=thumb,
     )
   
