@@ -12,10 +12,10 @@ def _getFile(path='', name=''):
     return f
   
   for i in os.listdir(path):
-    if os.path.splitext(i)[0] == _name:
+    if os.path.splitext(i)[0] == name:
       return i
   
-  return os.path.join(path, f'{_name}.cache')
+  return os.path.join(path, f'{name}.cache')
   
 def getFile(dir_name='', name=''):
   name = str(name)

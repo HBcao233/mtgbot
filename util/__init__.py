@@ -13,11 +13,12 @@ from .file import (
   getWorkFile,
 )
 
+from . import media
 from .media import (
   videoInfo,
-  getPhotoThumbnail,
   resizePhoto,
   img2bytes,
+  getPhotoThumbnail,
 )
 
 from .data import (
@@ -45,9 +46,10 @@ __all__ = [
   'getCache',
   'getWorkFile',
   
+  'media',
   'videoInfo',
-  'getPhotoThumbnail',
   'resizePhoto',
+  'getPhotoThumbnail'
   
   'getData',
   'setData',
