@@ -12,7 +12,7 @@ from .data_source import video2gif, tgs2gif, getLottiePath, video2ext
 async def _gif(event):
   if not (reply_message := await event.message.get_reply_message()):
     return await event.reply('请用命令回复一条消息')
-  logger.info(reply_message)
+  logger.debug(reply_message)
   mime_type = reply_message.media.document.mime_type
   if 'video' not in mime_type and mime_type != 'application/x-tgsticker':
     return await event.reply('该消息不包含视频或动态贴纸')
@@ -59,6 +59,7 @@ async def _gif(event):
     force_document=True,
     attributes=[types.DocumentAttributeAnimated()],
   )
+  logger.debug('result: %s', res)
   await mid.delete()
   with data:
     data[key] = res
@@ -67,7 +68,7 @@ async def _gif(event):
 async def _video_convert(event, ext='mp4'):
   if not (reply_message := await event.message.get_reply_message()):
     return await event.reply('请用命令回复一条消息')
-  logger.info(reply_message)
+  logger.debug(reply_message)
   mime_type = reply_message.media.document.mime_type
   if 'video' not in mime_type and mime_type not in ['application/x-tgsticker', 'image/gif']:
     return await event.reply('该消息不包含视频或动态贴纸')
@@ -124,7 +125,7 @@ async def _video_convert(event, ext='mp4'):
     thumb=thumb,
     attributes=attributes,
   )
-  logger.info('result: %s', res)
+  logger.debug('result: %s', res)
   await mid.delete()
   with data:
     data[key] = res

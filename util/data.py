@@ -38,11 +38,19 @@ class Data(object):
   def __len__(self):
     return len(self.data)
     
+  @staticmethod
+  def value_to_json(v):
+    return v
+    
+  @staticmethod
+  def value_de_json(v):
+    return v
+    
   def __getitem__(self, key, default=None):
-    return self.data.get(str(key), default)
+    return self.value_de_json(self.data.get(str(key), default))
     
   def __setitem__(self, key, value):
-    self.data[str(key)] = value
+    self.data[str(key)] = self.value_to_json(value)
   
   def __delitem__(self, key):
     print(f'del data {key}')
@@ -83,6 +91,12 @@ class Documents(Data):
   
   @staticmethod
   def value_to_json(v):
+    if v is None:
+      return None
+    if isinstance(v, types.Message):
+      v = v.media.document
+    if not isinstance(v, types.Document):
+      raise ValueError('value not a document')
     return utils.pack_bot_file_id(v)
     # return dict(id=v.id, access_hash=v.access_hash, dc_id=v.dc_id)
     
@@ -101,20 +115,6 @@ class Documents(Data):
       file_reference=b'', 
       thumbs=None,
     )
-  
-  def __getitem__(self, key, default=None):
-    return self.value_de_json(self.data.get(str(key), default))
-    
-  def __setitem__(self, key, value):
-    if isinstance(value, dict):
-      _value = value
-    elif isinstance(value, types.Message):
-      value = value.media.document
-    if isinstance(value, types.Document):
-      _value = self.value_to_json(value)
-    else:
-      raise ValueError('value not a document')
-    super().__setitem__(key, _value)
 
 class Videos(Documents):
   def __init__(self):
