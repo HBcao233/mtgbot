@@ -1,5 +1,7 @@
-import os.path 
 from telethon import TelegramClient, events, types, functions, errors
+import os.path 
+import asyncio
+import inspect
 
 import config
 import util
@@ -49,6 +51,32 @@ async def start(event, text):
   raise events.StopPropagation
 
 
+@handler('cancel', info='取消当前正在进行的任务')
+async def _cancel(event):
+  f1 = f2 = True
+  for i in asyncio.all_tasks():
+    coro = i.get_coro()
+    c = coro.cr_frame
+    _name = inspect.getmodule(c).__name__
+    if coro.cr_running: 
+      logger.info(f'任务: {i.get_name()}, 来自 {_name}')
+    if coro.cr_running and not _name.startswith('telethon'):
+      f1 = False
+      i.cancel()
+      _locals = inspect.getargvalues(c).locals
+      
+      if (mid := _locals.get('mid', None)):
+        await event.reply(
+          f'取消任务 {id(i)}',
+          reply_to=mid.message_id,
+        )
+        f2 = False
+  if f1:
+    return await event.respond('没有任务正在进行中')
+  if f2:
+    await event.respond('已取消所有任务')
+  
+  
 async def main():
   commands = []
   for i in config.commands:
@@ -68,5 +96,9 @@ async def main():
 if __name__ == '__main__':
   load_plugins()
   bot.loop.create_task(main())
-  bot.run_until_disconnected()
-  
+  try:
+    bot.run_until_disconnected()
+  except asyncio.exceptions.CancelledError:
+    pass
+  except KeyboardInterrupt:
+    pass

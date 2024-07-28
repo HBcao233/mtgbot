@@ -10,7 +10,7 @@ def videoInfo(path):
   cap = cv2.VideoCapture(path)
   rate = cap.get(5)
   frame_count = cap.get(7)
-  duration = frame_count / rate
+  duration = round(frame_count / rate, 2)
   width = cap.get(3)
   height = cap.get(4)
   cap.set(cv2.CAP_PROP_POS_FRAMES, 1)

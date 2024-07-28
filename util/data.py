@@ -1,5 +1,7 @@
+from telethon import types, utils
 import ujson as json
 import os.path
+
 from .file import getDataFile
 
 
@@ -25,10 +27,10 @@ class Data(object):
     self.data = getData(file)
     
   def __str__(self):
-    return 'Data' + str(self.data)
+    return f'Data(file={self.file}, data={self.data})'
     
   def __repr__(self):
-    return 'Data' + repr(self.data)
+    return self.__repr__()
   
   def __contains__(self, key):
     return key in self.data
@@ -75,10 +77,50 @@ class Photos(Data):
   def __init__(self):
     super().__init__('photos')
 
-class Videos(Data):
+class Documents(Data):
+  def __init__(self, file='documents'):
+    super().__init__(file)
+  
+  @staticmethod
+  def value_to_json(v):
+    return utils.pack_bot_file_id(v)
+    # return dict(id=v.id, access_hash=v.access_hash, dc_id=v.dc_id)
+    
+  @staticmethod
+  def value_de_json(v):
+    if v is None:
+      return None
+    if isinstance(v, str):
+      return v
+    return types.Document(
+      **v,
+      date=None,
+      mime_type='', 
+      size=0, 
+      attributes=[],
+      file_reference=b'', 
+      thumbs=None,
+    )
+  
+  def __getitem__(self, key, default=None):
+    return self.value_de_json(self.data.get(str(key), default))
+    
+  def __setitem__(self, key, value):
+    if isinstance(value, dict):
+      _value = value
+    elif isinstance(value, types.Message):
+      value = value.media.document
+    if isinstance(value, types.Document):
+      _value = self.value_to_json(value)
+    else:
+      raise ValueError('value not a document')
+    super().__setitem__(key, _value)
+
+class Videos(Documents):
   def __init__(self):
     super().__init__('videos')
-
-class Documents(Data):
+    
+class Animations(Documents):
   def __init__(self):
-    super().__init__('documents')
+    super().__init__('animations')
+    

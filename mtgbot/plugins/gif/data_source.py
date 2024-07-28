@@ -4,6 +4,7 @@ import os.path
 
 import util
 from util.log import logger
+from util.progress import FFmpegProgress
 
 
 pipe_kwargs = dict(
@@ -12,7 +13,7 @@ pipe_kwargs = dict(
 )
   
   
-async def video2gif(img, event, mid):
+async def video2gif(img):
   _path, name = os.path.split(img)
   _name, _ = os.path.splitext(name)
   palette = os.path.join(_path, _name + '_palette.png')
@@ -76,16 +77,16 @@ def getLottiePath():
   return None
   
   
-async def video2ext(img, ext='mp4'):
+async def video2ext(img, ext, mid):
   _path, name = os.path.split(img)
   _name, _ = os.path.splitext(name)
   output = os.path.join(_path, _name + '.' + ext)
   
   command = ['ffmpeg', '-i', img, output, '-pix_fmt', 'yuv420p', '-y']
-  proc = await asyncio.create_subprocess_exec(*command, **pipe_kwargs)
-  stdout, stderr = await proc.communicate()
-  if proc.returncode != 0 and stderr: 
-    logger.error(stderr.decode('utf8'))
+  bar = FFmpegProgress(mid)
+  returncode, stdout = await bar.run(command)
+  if returncode != 0:
+    logger.warning(stdout.decode())
     return False
   return output
   

@@ -19,7 +19,7 @@ async def _gif(event):
   
   attributes = reply_message.media.document. attributes
   a = None
-  _ext = 'cache'
+  _ext = '.cache'
   for i in attributes:
     if isinstance(i, types.DocumentAttributeVideo):
       a = i
@@ -35,20 +35,9 @@ async def _gif(event):
   
   data = util.Documents()
   document_id = reply_message.media.document.id
-  if (document := data[document_id]) and len(document) == 4 and document[3] == 'image/gif':
-    file=types.Document(
-      id=document[0],
-      access_hash=document[1],
-      date=None,
-      mime_type='image/gif',
-      size=0,
-      thumbs=None,
-      dc_id=document[2],
-      attributes=[types.DocumentAttributeAnimated()],
-      file_reference=b''
-    )
-  else:
-    img = util.getCache(f'{document_id}.{_ext}')
+  key = f'{document_id}_to_gif'
+  if not (file := data[key]):
+    img = util.getCache(str(document_id) + _ext)
     if not os.path.isfile(img):
       await reply_message.download_media(file=img)
     
@@ -62,8 +51,7 @@ async def _gif(event):
     if not res:
       return await mid.edit('转换失败')
       
-    document = open(res, 'rb')
-    file = await config.bot.upload_file(document)
+    file = open(res, 'rb')
   
   mid = await mid.edit('发送中...')
   res = await event.reply(
@@ -73,8 +61,7 @@ async def _gif(event):
   )
   await mid.delete()
   with data:
-    v = res.media.document
-    data[document_id] = [v.id, v.access_hash, v.dc_id, v.mime_type]
+    data[key] = res
   
   
 async def _video_convert(event, ext='mp4'):
@@ -87,7 +74,7 @@ async def _video_convert(event, ext='mp4'):
  
   attributes =reply_message.media.document.attributes
   is_sticker = False
-  _ext = 'cache'
+  _ext = '.cache'
   for i in attributes:
     if isinstance(i, types.DocumentAttributeSticker):
       is_sticker = True
@@ -99,27 +86,16 @@ async def _video_convert(event, ext='mp4'):
     return await event.reply(f'该消息已经是 {ext} 格式了')
     
   mid = await event.reply('转换中...')
-  
   data = util.Videos()
   document_id = reply_message.media.document.id
-  
-  if (document := data[document_id]) and len(document) == 7 and document[3] == 'image/gif':
-    file=types.Document(
-      id=document[0],
-      access_hash=document[1],
-      date=None,
-      mime_type='video/'+ext,
-      size=0,
-      thumbs=None,
-      dc_id=document[2],
-      attributes=[types.DocumentAttributeVideo(duration=document[4], w=int(document[5]), h=int(document[6]), supports_streaming=True)],
-      file_reference=b''
-    )
-  else:
-    img = util.getCache(f'{document_id}.{_ext}')
+  key = f'{document_id}_to_{ext}'
+  thumb = None
+  attributes = None
+  if not (file := data[key]):
+    img = util.getCache(str(document_id) + _ext)
     if not os.path.isfile(img):
       await reply_message.download_media(file=img)
-      
+    
     if mime_type == 'video/' + ext:
       res = img
     else:
@@ -131,32 +107,27 @@ async def _video_convert(event, ext='mp4'):
         if not img:
           return await mid.edit('转换失败')
      
-      res = await video2ext(img, 'mp4')
+      res = await video2ext(img, ext, mid)
       if not res:
         return await mid.edit('转换失败')
-    
-    document, duration, w, h, thumb = util.videoInfo(res)
-    document = await config.bot.upload_file(document)
-    thumb = await config.bot.upload_file(thumb)
-    file = types.InputMediaUploadedDocument(
-      file=document,
-      mime_type='video/' + ext, 
-      attributes=[
-        types.DocumentAttributeVideo(duration=int(duration), w=int(w), h=int(h), supports_streaming=True), 
-        types.DocumentAttributeFilename(file_name=f'{document_id}.webm')
-      ],
-      thumb=thumb,
-    )
+  
+    file, duration, w, h, thumb = util.videoInfo(res)
+    attributes = [
+      types.DocumentAttributeVideo(duration=duration, w=int(w), h=int(h), supports_streaming=True), 
+      types.DocumentAttributeFilename(file_name=f'{document_id}.{ext}')
+    ]
   
   mid = await mid.edit('发送中...')
-  res = await event.reply(file=file)
+  res = await event.reply(
+    file=file,
+    supports_streaming=True,
+    thumb=thumb,
+    attributes=attributes,
+  )
+  logger.info('result: %s', res)
   await mid.delete()
   with data:
-    v = res.media.document
-    for i in v.attributes:
-      if isinstance(i, types.DocumentAttributeVideo):
-        break
-    data[document_id] = [v.id, v.access_hash, v.dc_id, v.mime_type, i.duration, i.w, i.h]
+    data[key] = res
 
 
 @handler('mp4', info="动图转mp4")

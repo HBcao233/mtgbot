@@ -1,4 +1,5 @@
 from telethon import events
+
 import config
 from plugin import handler
 
