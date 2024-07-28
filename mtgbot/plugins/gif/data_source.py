@@ -13,35 +13,22 @@ pipe_kwargs = dict(
 )
   
   
-async def video2gif(img):
+async def video2gif(img, mid):
   _path, name = os.path.split(img)
   _name, _ = os.path.splitext(name)
   palette = os.path.join(_path, _name + '_palette.png')
   output = os.path.join(_path, _name + '.gif')
-  
-  command = [
-    'ffmpeg', 
-    '-i', img, 
-    '-vf', 'palettegen', 
-    palette, '-y'
-  ]
-  proc = await asyncio.create_subprocess_exec(*command, **pipe_kwargs)
-  stdout, stderr = await proc.communicate()
-  if proc.returncode != 0 and stderr: 
-    logger.error(stderr.decode('utf8'))
-    return False
-
   command = [
     'ffmpeg', 
     '-i', img,
-    '-i', palette,
-    '-filter_complex', 'paletteuse',
+    '-vf', 'fps=10,scale=480:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse',
     output, '-y'
   ]
-  proc = await asyncio.create_subprocess_exec(*command, **pipe_kwargs)
-  stdout, stderr = await proc.communicate()
-  if proc.returncode != 0 and stderr: 
-    logger.error(stderr.decode('utf8'))
+  bar = FFmpegProgress(mid)
+  bar.set_prefix('转换中...')
+  returncode, stdout = await bar.run(command)
+  if returncode != 0: 
+    logger.error(stdout)
     return False
   return output
   
@@ -84,6 +71,7 @@ async def video2ext(img, ext, mid):
   
   command = ['ffmpeg', '-i', img, output, '-pix_fmt', 'yuv420p', '-y']
   bar = FFmpegProgress(mid)
+  bar.set_prefix('转换中...')
   returncode, stdout = await bar.run(command)
   if returncode != 0:
     logger.warning(stdout.decode())

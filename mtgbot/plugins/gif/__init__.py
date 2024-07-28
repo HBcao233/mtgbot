@@ -5,6 +5,7 @@ import config
 import util
 from util import logger
 from plugin import handler
+from util.progress import Progress
 from .data_source import video2gif, tgs2gif, getLottiePath, video2ext
 
 
@@ -32,14 +33,15 @@ async def _gif(event):
     return await event.reply('该消息已经是 gif 格式了')
     
   mid = await event.reply('转换中...')
-  
+  bar = Progress(mid)
   data = util.Documents()
   document_id = reply_message.media.document.id
   key = f'{document_id}_to_gif'
   if not (file := data[key]):
     img = util.getCache(str(document_id) + _ext)
     if not os.path.isfile(img):
-      await reply_message.download_media(file=img)
+      bar.set_prefix('下载中...')
+      await reply_message.download_media(file=img, progress_callback=bar.update)
     
     if mime_type == 'application/x-tgsticker':
       lottiepath = getLottiePath()
@@ -47,17 +49,20 @@ async def _gif(event):
         return await mid.edit('暂不支持动态贴纸转换')
       res = await tgs2gif(lottiepath, img)
     else:
-      res = await video2gif(img)
+      res = await video2gif(img, mid)
     if not res:
       return await mid.edit('转换失败')
       
     file = open(res, 'rb')
   
-  mid = await mid.edit('发送中...')
-  res = await event.reply(
+  bar.set_prefix('发送中...')
+  res = await config.bot.send_file(
+    entity=event.message.peer_id,
+    reply_to=event.message,
     file=file,
     force_document=True,
     attributes=[types.DocumentAttributeAnimated()],
+    progress_callback=bar.update
   )
   logger.debug('result: %s', res)
   await mid.delete()
@@ -73,7 +78,7 @@ async def _video_convert(event, ext='mp4'):
   if 'video' not in mime_type and mime_type not in ['application/x-tgsticker', 'image/gif']:
     return await event.reply('该消息不包含视频或动态贴纸')
  
-  attributes =reply_message.media.document.attributes
+  attributes = reply_message.media.document.attributes
   is_sticker = False
   _ext = '.cache'
   for i in attributes:
@@ -87,6 +92,7 @@ async def _video_convert(event, ext='mp4'):
     return await event.reply(f'该消息已经是 {ext} 格式了')
     
   mid = await event.reply('转换中...')
+  bar = Progress(mid)
   data = util.Videos()
   document_id = reply_message.media.document.id
   key = f'{document_id}_to_{ext}'
@@ -95,7 +101,8 @@ async def _video_convert(event, ext='mp4'):
   if not (file := data[key]):
     img = util.getCache(str(document_id) + _ext)
     if not os.path.isfile(img):
-      await reply_message.download_media(file=img)
+      bar.set_prefix('下载中...')
+      await reply_message.download_media(file=img, progress_callback=bar.update)
     
     if mime_type == 'video/' + ext:
       res = img
@@ -118,12 +125,15 @@ async def _video_convert(event, ext='mp4'):
       types.DocumentAttributeFilename(file_name=f'{document_id}.{ext}')
     ]
   
-  mid = await mid.edit('发送中...')
-  res = await event.reply(
+  bar.set_prefix('发送中...')
+  res = await config.bot.send_file(
+    entity=event.message.peer_id,
+    reply_to=event.message,
     file=file,
     supports_streaming=True,
     thumb=thumb,
     attributes=attributes,
+    progress_callback=bar.update
   )
   logger.debug('result: %s', res)
   await mid.delete()

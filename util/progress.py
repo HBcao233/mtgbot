@@ -14,9 +14,6 @@ class Progress:
     self.mid = mid
     self.p = 0
     self.total = total
-    self.loop = config.bot.loop
-    asyncio.set_event_loop(self.loop)
-    self.task = None
     self.set_prefix(prefix if prefix else mid.message)
     
   def set_prefix(self, prefix=''):
@@ -24,16 +21,15 @@ class Progress:
       prefix += '\n'
     self.prefix = prefix
     
-  async def update(self, p=0):
-    if self.task is not None:
-      self.task.cancel()
-      self.task = None
-    x = math.floor(104 * p / self.total)
+  async def update(self, p=0, total=None):
+    if total is None:
+      total = self.total
+    x = math.floor(104 * p / total)
     text = '[' 
     text += self.bar[8] * (x // 8)
     text += self.bar[x % 8]
     text += self.bar[0] * (13 - x // 8)
-    precent = f'{p / self.total * 100:.2f}'.rstrip("0").rstrip(".")
+    precent = f'{p / total * 100:.2f}'.rstrip("0").rstrip(".")
     text += f'] {precent}%' 
     try:
       await self.mid.edit(self.prefix + text)
@@ -64,14 +60,14 @@ class FFmpegProgress(Progress):
         return s
         
     proc = await asyncio.create_subprocess_exec(*command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    stdout = []
     while line := (await proc.stdout.read(100)).decode():
+      stdout.append(line)
       if 'time=' in line:
         for i in line.strip('\n').split():
           if 'time=' in i:
             time = to_seconds(i[5:].split(':'))
             break
         await self.update(int(time / full_time *100))
-    
-    stdout, stderr = await proc.communicate()
-    return proc.returncode, stdout
+    return proc.returncode, '\n'.join(stdout)
         
