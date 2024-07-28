@@ -9,10 +9,6 @@ from plugin import load_plugins, handler
 from util.log import logger
 
 
-api_id = 4
-api_hash = '014b35b6184100b085b0d0572f9b5103'
-
-
 class Bot(TelegramClient):
   async def connect(self):
     await super().connect()
@@ -33,9 +29,12 @@ class Bot(TelegramClient):
     
     await self(functions.bots.ResetBotCommandsRequest(scope=types.BotCommandScopeDefault(), lang_code='zh'))
     
-if len(config.token) < 10:
-  raise ValueError('请提供正确的bot token')
-bot = config.bot = Bot(util.getFile('bot.session'), api_id, api_hash).start(bot_token=config.token)
+if len(config.token) < 36 or ':' not in config.token:
+  raise ValueError('请提供正确的 bot token')
+if not config.api_id or not config.api_hash:
+  raise ValueError('请提供正确的 api_id 和 api_hash')
+logger.info(f'当前 bot_token={config.token.split(":")[0]+"*"*35}, api_id={config.api_id}')
+bot = config.bot = Bot(util.getFile('bot.session'), config.api_id, config.api_hash).start(bot_token=config.token)
 
 
 @handler('start')

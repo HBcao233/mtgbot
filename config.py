@@ -2,6 +2,10 @@ import sys
 import os.path
 
 
+default_api_id = '4'
+default_api_hash = '014b35b6184100b085b0d0572f9b5103'
+
+
 class Config:
   botRoot = workPath = os.path.dirname(os.path.realpath(__file__))
   commands = []
@@ -12,6 +16,9 @@ class Config:
       self.botRoot = os.path.join(self.workPath, self.bot_home)
     
     self.token = self.env.get('token')
+    self.api_id = self.env.get('api_id', '') or self.env.get('app_id', '') or default_api_id
+    self.api_hash = self.env.get('api_hash', '') or self.env.get('app_hash', '') or default_api_hash
+    
     self.echo_chat_id = int(x) if (x := self.env.get('echo_chat_id', '')) else 0
     self.superadmin = [int(x) for x in self.env.get('superadmin', '').split(',') if x]
     
