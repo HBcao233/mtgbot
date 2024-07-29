@@ -58,7 +58,7 @@ class EchoedMessage(MessageData):
     return None, None
 
 
-@bot.on(events.NewMessage)
+@bot.on(events.NewMessage(pattern=r'^(?!/).*'))
 async def _(event):
   message = event.message 
   if config.echo_chat_id == 0:
@@ -105,7 +105,12 @@ async def handler(update):
     return
   logger.debug(update.stringify())
   
-  cid, mid = EchoedMessage.get_echo(update.peer, update.msg_id)
+  message = (await bot.get_messages(update.peer, ids=[update.msg_id]))[0]
+  if utils.get_peer_id(message.from_id) == bot.me.id:
+    cid, mid = EchoedMessage.get_origin(update.peer, update.msg_id)
+  else:
+    cid, mid = EchoedMessage.get_echo(update.peer, update.msg_id)
+  
   if not cid or not mid:
     return
   
