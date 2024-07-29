@@ -1,4 +1,5 @@
 from telethon import TelegramClient, events, types, functions, errors
+import telethon
 import os.path 
 import asyncio
 import inspect
@@ -7,6 +8,7 @@ import config
 import util
 from plugin import load_plugins, handler
 from util.log import logger
+from util.data import MessageData
 
 
 class Bot(TelegramClient):
@@ -25,9 +27,28 @@ class Bot(TelegramClient):
       self.me = await self.get_me()
     else:
       self.me = me
-    logger.info(self.me)
+    logger.info('当前登录账户信息: %s', self.me)
     
     await self(functions.bots.ResetBotCommandsRequest(scope=types.BotCommandScopeDefault(), lang_code='zh'))
+  
+    
+async def call_callback(request, res):
+  logger.debug(f'触发 __call__ \nreq: {request}; \nres: {res}')
+  if (
+    isinstance(request, functions.messages.SendMessageRequest) or 
+    isinstance(request, functions.messages.SendMediaRequest) or 
+    isinstance(request, functions.messages.SendMultiMediaRequest)
+  ):
+    if isinstance(res, types.UpdateShortSentMessage):
+      MessageData.add_message(request.peer, res.id)
+    else:
+      messages = config.bot._get_response_message(request, res, request.peer)
+      if utils.is_list_like(messages):
+        for i in messages:
+          MessageData.add_message(request.peer, i.id)
+      else:
+        MessageData.add_message(request.peer, messages.id)
+      
     
 if len(config.token) < 36 or ':' not in config.token:
   raise ValueError('请提供正确的 bot token')
@@ -35,14 +56,14 @@ if not config.api_id or not config.api_hash:
   raise ValueError('请提供正确的 api_id 和 api_hash')
 logger.info(f'当前 bot_token={config.token.split(":")[0]+"*"*35}, api_id={config.api_id}')
 bot = config.bot = Bot(util.getFile('bot.session'), config.api_id, config.api_hash).start(bot_token=config.token)
+bot.set_call_callback(call_callback)
 
 
 @handler('start')
 async def start(event, text):
-  logger.info(event.message)
   if text == '':
     for i in config.bot.list_event_handlers():
-      if getattr(i[1], 'pattern'):
+      if getattr(i[1], 'pattern', None):
         p = i[1].pattern.__self__.pattern
         if (p.startswith('^/help') or p.startswith('/help')):
           await i[0](event)
@@ -75,7 +96,12 @@ async def _cancel(event):
   if f2:
     await event.respond('已取消所有任务')
   
-  
+
+@bot.on(events.NewMessage)
+async def _(event):
+  MessageData.add_message(event.message.peer_id, event.message)
+
+
 async def main():
   commands = []
   for i in config.commands:

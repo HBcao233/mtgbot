@@ -1,5 +1,6 @@
 import logging
 import sys
+import config
 
 
 logging.getLogger("httpx").setLevel(logging.ERROR)
@@ -7,7 +8,8 @@ logging.getLogger("telethon.network.mtprotosender").setLevel(logging.ERROR)
 
 
 logging.basicConfig(
-    format="[%(asctime)s %(name)s] %(levelname)s: %(message)s", level=logging.INFO
+    format="[%(asctime)s %(name)s] %(levelname)s: %(message)s", 
+    level=logging.INFO if not config.debug else logging.DEBUG
 )
 
 logger = logging.getLogger("mtgbot")

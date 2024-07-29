@@ -17,7 +17,8 @@ async def help(event):
   await event.respond(
     (
       f'Hi, [{util.string.markdown_escape(name)}](tg://user?id={peer_id})! 这里是传话姬小派魔! \n'
-      "发送任意内容，小派魔都会原话传达给主人~"
+      "发送任意内容，小派魔都会原话传达给主人～\n"
+      "ps: 表情回应也可以转发哦～"
     ),
     buttons=Button.url('源代码', "https://github.com/HBcao233/mtgbot"),
   )

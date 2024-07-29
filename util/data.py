@@ -1,8 +1,10 @@
 from telethon import types, utils
 import ujson as json
 import os.path
+import sqlite3
 
 from .file import getDataFile
+from .log import logger
 
 
 def getData(file: str) -> dict:
@@ -123,4 +125,132 @@ class Videos(Documents):
 class Animations(Documents):
   def __init__(self):
     super().__init__('animations')
+  
+
+def chat_id_to_bytes(i):
+  if i < -9999999999:
+    i = i + 990000000000
+  return i.to_bytes(4, 'big', signed=True)
+
+def chat_id_from_bytes(b):
+  i = int.from_bytes(b, 'big', signed=True)
+  if i < -9999999999:
+    i = i - 990000000000
+  return i
+  
+
+class MessageData():
+  _conn = sqlite3.connect(getDataFile('messages.db'))
+  inited = False
+  @classmethod
+  def init(cls):
+    if cls.inited: return
+    cls._conn.execute(f"CREATE TABLE if not exists messages(id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id int NOT NULL, message_id int NOT NULL)")
+    cls._conn.execute(f"CREATE UNIQUE INDEX if not exists id_index ON messages (id)")
+    cls._conn.commit()
+    cls.inited = True
+  
+  @classmethod
+  def add_message(cls, chat_id, message_id):
+    chat_id = utils.get_peer_id(chat_id)
+    if isinstance(message_id, types.Message):
+      message_id = message_id.id
+    cls.init()
+    if cls.has_message(chat_id, message_id):
+      return
+    logger.debug(f'add_message chat_id: {chat_id} message_id: {message_id}')
+    r = cls._conn.execute(f"insert into messages(chat_id, message_id) values(?,?)", (chat_id, message_id))
+    cls._conn.commit()
+    return r.fetchone()
+  
+  @classmethod
+  def get_chat(cls, chat_id):
+    chat_id = utils.get_peer_id(chat_id)
+    cls.init()
+   
+    r = cls._conn.execute(f"SELECT id FROM messages WHERE chat_id='{chat_id}'")
+    if (res := r.fetchone()):
+      return res[0]
+    return None
+  
+  @classmethod
+  def has_chat(cls, chat_id):
+    chat_id = utils.get_peer_id(chat_id)
+    cls.init()
+    return cls.get_chat(chat_id) is not None
+  
+  @classmethod
+  def get_message(cls, chat_id, message_id=None):
+    cls.init()
+    if isinstance(chat_id, types.Message):
+      if message_id is None:
+        message_id = chat_id.id
+      chat_id = chat_id.peer_id
+    chat_id = utils.get_peer_id(chat_id)
+    if isinstance(message_id, types.Message):
+      message_id = message_id.id
+    if message_id is None:
+      raise ValueError('message_id is not offered')
+    r = cls._conn.execute(f"SELECT id FROM messages WHERE chat_id='{chat_id}' and message_id='{message_id}'")
+    if (res := r.fetchone()):
+      return res[0]
+    return None
+  
+  @classmethod
+  def get_message_by_mid(cls, mid):
+    cls.init()
+    r = cls._conn.execute(f"SELECT chat_id, message_id FROM messages WHERE id='{mid}'")
+    if (res := r.fetchone()):
+      return res[0], res[1]
+    return None, None
     
+  @classmethod
+  def has_message(cls, chat_id, message_id):
+    cls.init()
+    chat_id = utils.get_peer_id(chat_id)
+    if isinstance(message_id, types.Message):
+      message_id = message_id.id
+    return cls.get_message(chat_id, message_id) is not None
+  
+  @classmethod
+  def iter_chats(cls):
+    cls.init()
+    _set = set()
+    _id = 0
+    while True:
+      r = cls._conn.execute(f"SELECT chat_id, id FROM messages WHERE id > '{_id}' ORDER BY id ASC LIMIT 1")
+      if not (res := r.fetchone()):
+        break
+      chat_id, _id = res
+      if chat_id is None:
+        break
+      if chat_id not in _set:
+        yield chat_id
+      _set.add(chat_id)
+      
+  @classmethod
+  def iter_messages(cls, chat_id, *, offset_id=None, reverse=False):
+    chat_id = utils.get_peer_id(chat_id)
+    cls.init()
+    _id = 0
+    while True:
+      offset = ''
+      sort = 'ASC'
+      t = f"and id > '{_id}'"
+      if offset_id: offset = f"and message_id > '{offset_id}'"
+        
+      if reverse:
+        sort = 'DESC'
+        t = ''
+        if t != 0:
+          t = f"and id < '{_id}'"
+        if offset_id: offset = f"and message_id < '{offset_id}'"
+      
+      r = cls._conn.execute(f"SELECT message_id, id FROM messages WHERE chat_id = '{chat_id}' {t} {offset} ORDER BY id {sort} LIMIT 1")
+      if not (res := r.fetchone()):
+        break
+      message_id, _id = res
+      if message_id is None:
+        break
+      yield message_id
+      

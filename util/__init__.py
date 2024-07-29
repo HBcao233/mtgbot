@@ -1,5 +1,5 @@
 from .log import logger
-from . import string
+from . import string, file, media, data, curl
 from .string import (
   randStr,
   md5sum,
@@ -13,7 +13,6 @@ from .file import (
   getWorkFile,
 )
 
-from . import media
 from .media import (
   videoInfo,
   resizePhoto,
@@ -28,6 +27,7 @@ from .data import (
   Photos,
   Videos,
   Documents,
+  MessageData,
 )
 
 from .curl import (
@@ -36,30 +36,15 @@ from .curl import (
 
 __all__ = [
   'logger',
-  'string',
-  'randStr',
-  'md5sum',
+  'string', 'file', 'media', 'data', 'curl',
   
-  'getFile',
-  'getResource',
-  'getDataFile',
-  'getCache',
-  'getWorkFile',
+  'randStr', 'md5sum',
   
-  'media',
-  'videoInfo',
-  'resizePhoto',
-  'getPhotoThumbnail'
+  'getFile', 'getResource', 'getDataFile', 'getCache', 'getWorkFile',
   
-  'getData',
-  'setData',
-  'Data', 
-  'Photos',
-  'Videos',
-  'Documents',
+  'videoInfo', 'resizePhoto', 'getPhotoThumbnail',
   
-  'request',
-  'get',
-  'post',
-  'getImg',
+  'getData', 'setData', 'Data', 'Photos', 'Videos', 'Documents', 'MessageData',
+  
+  'request', 'get', 'post', 'getImg',
 ]

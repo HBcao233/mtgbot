@@ -18,6 +18,9 @@ class Config:
     self.token = self.env.get('token')
     self.api_id = self.env.get('api_id', '') or self.env.get('app_id', '') or default_api_id
     self.api_hash = self.env.get('api_hash', '') or self.env.get('app_hash', '') or default_api_hash
+    self.debug = False
+    if self.env.get('debug', '') in ['true', 'T', '1', 'True', 'debug']:
+      self.debug = True
     
     self.echo_chat_id = int(x) if (x := self.env.get('echo_chat_id', '')) else 0
     self.superadmin = [int(x) for x in self.env.get('superadmin', '').split(',') if x]
