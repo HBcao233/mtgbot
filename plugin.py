@@ -2,6 +2,7 @@ import traceback
 import re
 import os.path
 import inspect
+import functools
 
 import config
 from util.log import logger
@@ -12,8 +13,8 @@ class Command:
   def __init__(
     self, cmd, func, *,
     pattern=None,
-    info="", 
-    desc="",
+    info="", # BotCommand 中的描述信息
+    desc="", # 当 text 为空是返回的详细信息
     scope="",
     **kwargs,
   ):
@@ -33,7 +34,9 @@ class Command:
 
 def handler(cmd, pattern=None, **kwargs):
   def deco(func):
+    @functools.wraps(func)
     async def _func(event, text=None, *_args, **_kwargs):
+      event.cmd = Command(cmd, _func, **kwargs)
       args = inspect.signature(func).parameters
       if 'text' not in args:
         return await func(event, *_args, **_kwargs)
@@ -46,6 +49,8 @@ def handler(cmd, pattern=None, **kwargs):
             .lstrip(cmd)
             .strip()
         )
+      if not text and kwargs.get('desc', ''):
+        return await event.reply(desc)
       return await func(event, text, *_args, **_kwargs)
     config.commands.append(Command(cmd, _func, **kwargs))
     kw = {k:v for k, v in kwargs.items() if k in ['incoming', 'outgoing', 'from_users', 'forwards', 'chats', 'blacklist_chats', 'func']}

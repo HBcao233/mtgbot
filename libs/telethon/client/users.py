@@ -112,8 +112,11 @@ class UserMethods:
                     e.__class__.__name__, e)
 
                 await asyncio.sleep(2)
-            except (errors.FloodWaitError, errors.FloodPremiumWaitError,
-                    errors.SlowModeWaitError, errors.FloodTestPhoneWaitError) as e:
+            except (
+                errors.FloodWaitError, 
+                errors.SlowModeWaitError,
+                errors.FloodTestPhoneWaitError
+            ) as e:
                 last_error = e
                 if utils.is_list_like(request):
                     request = request[request_index]

@@ -1,4 +1,4 @@
-from telethon import TelegramClient, events, types, functions, errors
+from telethon import TelegramClient, events, types, functions, errors, utils
 import telethon
 import os.path 
 import asyncio
@@ -33,7 +33,7 @@ class Bot(TelegramClient):
   
     
 async def call_callback(request, res):
-  logger.debug(f'触发 __call__ \nreq: {request}; \nres: {res}')
+  logger.debug(f'触发 __call__ request: {request.__class__.__name__}; result: {res.__class__.__name__}')
   if (
     isinstance(request, functions.messages.SendMessageRequest) or 
     isinstance(request, functions.messages.SendMediaRequest) or 
@@ -73,34 +73,28 @@ async def start(event, text):
 
 @handler('cancel', info='取消当前正在进行的任务')
 async def _cancel(event):
-  f1 = f2 = True
-  for i in asyncio.all_tasks():
-    coro = i.get_coro()
-    c = coro.cr_frame
-    _name = inspect.getmodule(c).__name__
-    if coro.cr_running: 
-      logger.info(f'任务: {i.get_name()}, 来自 {_name}')
-    if coro.cr_running and not _name.startswith('telethon'):
-      f1 = False
+  import traceback
+  f = True
+    
+  for i in config.bot._event_handler_tasks:
+    _locals = inspect.getargvalues(i.get_coro().cr_frame).locals
+    
+    c = _locals.get('callback', None)
+    _event = _locals.get('event', None)
+    module_name = inspect.getmodule(c).__name__
+    if module_name != '__main__' and event.peer_id.user_id == _event.peer_id.user_id:
+      logger.info(f'取消任务 {i.get_name()}')
       i.cancel()
-      _locals = inspect.getargvalues(c).locals
-      
-      if (mid := _locals.get('mid', None)):
-        await event.reply(
-          f'取消任务 {id(i)}',
-          reply_to=mid.message_id,
-        )
-        f2 = False
-  if f1:
-    return await event.respond('没有任务正在进行中')
-  if f2:
-    await event.respond('已取消所有任务')
+      f = False
+  if f:
+    return await event.respond('当前没有任务正在进行中')
+  await event.respond('已取消所有进行中的任务')
   
 
 @bot.on(events.NewMessage)
 async def _(event):
   MessageData.add_message(event.message.peer_id, event.message)
-
+  
 
 async def main():
   commands = []
