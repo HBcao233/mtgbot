@@ -94,15 +94,14 @@ async def get_info(message):
       ])
   if message.media:
     _type = 'Document'
-    media = getattr(message.media, 'photo', None) or getattr(message.media, 'document', None)
-    file_id = utils.pack_bot_file_id(media)
-    if utils.is_image(media):
+    file_id = utils.pack_bot_file_id(message.media)
+    if utils.is_image(message.media):
       _type = 'Photo'
-    elif utils.is_gif(media):
+    elif utils.is_gif(message.media):
       _type = 'Gif'
-    elif utils.is_video(media):
+    elif utils.is_video(message.media):
       _type = 'Video'
-    elif utils.is_audio(media):
+    elif utils.is_audio(message.media):
       _type = 'Audio'
     info.append('media: ')
     info.extend(indent([

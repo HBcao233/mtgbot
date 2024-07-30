@@ -1,6 +1,4 @@
-from telethon import TelegramClient, events, types, functions, errors, utils
-import telethon
-import os.path 
+from telethon import events, types, functions, errors, utils
 import asyncio
 import inspect
 
@@ -9,54 +7,15 @@ import util
 from plugin import load_plugins, handler
 from util.log import logger
 from util.data import MessageData
+from bot import Bot
 
 
-class Bot(TelegramClient):
-  async def connect(self):
-    await super().connect()
-    me = await self.get_me()
-    if me is None:
-      logger.info('认证失败, 尝试重新登录')
-      try:
-        await self.sign_in(bot_token=config.token)
-      except errors.FloodWaitError as e:
-        logger.info('遇到 FloodWaitError, %s秒后重试', e.seconds)
-        await asyncio.sleep(e.seconds)
-        await self.sign_in(bot_token=config.token)
-      
-      self.me = await self.get_me()
-    else:
-      self.me = me
-    logger.info('当前登录账户信息: %s', self.me)
-    
-    await self(functions.bots.ResetBotCommandsRequest(scope=types.BotCommandScopeDefault(), lang_code='zh'))
-  
-    
-async def call_callback(request, res):
-  logger.debug(f'触发 __call__ request: {request.__class__.__name__}; result: {res.__class__.__name__}')
-  if (
-    isinstance(request, functions.messages.SendMessageRequest) or 
-    isinstance(request, functions.messages.SendMediaRequest) or 
-    isinstance(request, functions.messages.SendMultiMediaRequest)
-  ):
-    if isinstance(res, types.UpdateShortSentMessage):
-      MessageData.add_message(request.peer, res.id)
-    else:
-      messages = config.bot._get_response_message(request, res, request.peer)
-      if utils.is_list_like(messages):
-        for i in messages:
-          MessageData.add_message(request.peer, i.id)
-      else:
-        MessageData.add_message(request.peer, messages.id)
-      
-    
 if len(config.token) < 36 or ':' not in config.token:
   raise ValueError('请提供正确的 bot token')
 if not config.api_id or not config.api_hash:
   raise ValueError('请提供正确的 api_id 和 api_hash')
 logger.info(f'当前 bot_token={config.token.split(":")[0]+"*"*35}, api_id={config.api_id}')
 bot = config.bot = Bot(util.getFile('bot.session'), config.api_id, config.api_hash).start(bot_token=config.token)
-bot.set_call_callback(call_callback)
 
 
 @handler('start')
@@ -93,7 +52,7 @@ async def _cancel(event):
 
 @bot.on(events.NewMessage)
 async def _(event):
-  MessageData.add_message(event.message.peer_id, event.message)
+  MessageData.add_message(event.message.peer_id, event.message.id, getattr(event.message, 'grouped_id', None))
   
 
 async def main():

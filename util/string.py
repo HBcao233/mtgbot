@@ -2,6 +2,7 @@ import random
 import hashlib
 import re
 from typing import Union
+from collections.abc import Sequence, Mapping
 
 
 markdown_escape_chars = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
@@ -128,4 +129,39 @@ def width(s: str) -> int:
   for i in s:
     res += get_width(ord(i))
   return res
+
+class Options():
+  def __init__(self, text: str, **args: Mapping[str, Union[str, Sequence[str]]]):
+    self.text = text
+    self.args = args
+    self._options = set()
+    arr = text.split(" ")
+    for k, v in args.items():
+      if isinstance(v, str):
+        v = (v, )
+      if any((i in arr) for i in v) or k in arr:
+        self._options.add(k)
+    
+  def __getattr__(self, key, default=False):
+    return key in self._options
+    
+  def __getitem__(self, key, default=False):
+    return key in self._options
   
+  def __contains__(self, item):
+    return item in self._options
+  
+  def __iter__(self):
+    return iter(self.args)
+  
+  def keys(self):
+    return self.args.keys()
+    
+  def items(self):
+    return {k: k in self for k in self.args}.items()
+    
+  def __str__(self):
+    return f"Option({', '.join(f'{k}={v}' for k,v in self.items())})"
+  
+  def __repr__(self):
+    return self.__str__()

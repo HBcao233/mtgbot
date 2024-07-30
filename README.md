@@ -39,9 +39,16 @@ docker restart tgbot2
 
 # 查看运行日志
 docker logs mtgbot
+
+注意，
+如果只修改py代码可以直接 docker restart 重启
+如果修改了 .env, requirement.txt 或 libs 文件夹等, 
+则需要进入项目目录 docker compose build && docker compose up -d 重新构建镜像
 ```
 
 ## 依赖 Dependencies
 * [Telethon](https://github.com/LonamiWebs/Telethon)
 * [httpx](https://github.com/encode/httpx)
 * [lottie2gif](https://github.com/rroy233/lottie2gif)
+* [ffmpeg](https://github.com/ffmpeg/ffmpeg)
+* [opencv-python](https://github.com/opencv/opencv-python)

@@ -33,6 +33,8 @@ class Command:
 
 
 def handler(cmd, pattern=None, **kwargs):
+  if pattern is None:
+    pattern = r'^/'+cmd+'.*'
   def deco(func):
     @functools.wraps(func)
     async def _func(event, text=None, *_args, **_kwargs):
@@ -54,7 +56,8 @@ def handler(cmd, pattern=None, **kwargs):
       return await func(event, text, *_args, **_kwargs)
     config.commands.append(Command(cmd, _func, **kwargs))
     kw = {k:v for k, v in kwargs.items() if k in ['incoming', 'outgoing', 'from_users', 'forwards', 'chats', 'blacklist_chats', 'func']}
-    config.bot.add_event_handler(_func, events.NewMessage(pattern=r'^/'+cmd, **kw))
+    
+    config.bot.add_event_handler(_func, events.NewMessage(pattern=pattern, **kw))
     return _func
   return deco
   

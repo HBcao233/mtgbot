@@ -86,6 +86,32 @@ class Data(object):
 class Photos(Data):
   def __init__(self):
     super().__init__('photos')
+  
+  @staticmethod
+  def value_to_json(v):
+    if v is None:
+      return None
+    if isinstance(v, types.Message):
+      v = v.photo
+    if not isinstance(v, types.Photo):
+      raise ValueError('value not a photo')
+    return utils.pack_bot_file_id(v)
+
+  @staticmethod
+  def value_de_json(v):
+    if v is None:
+      return None
+    if isinstance(v, str):
+      return v
+    return types.Photo(
+      **v,
+      date=None,
+      sizes=[], 
+      file_reference=b'', 
+      thumbs=None,
+      has_stickers=False,
+      video_sizes=[],
+    )
 
 class Documents(Data):
   def __init__(self, file='documents'):
@@ -145,21 +171,26 @@ class MessageData():
   @classmethod
   def init(cls):
     if cls.inited: return
-    cls._conn.execute(f"CREATE TABLE if not exists messages(id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id int NOT NULL, message_id int NOT NULL)")
+    cls._conn.execute(f"CREATE TABLE if not exists messages(id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER NOT NULL, message_id INTEGER NOT NULL)")
     cls._conn.execute(f"CREATE UNIQUE INDEX if not exists id_index ON messages (id)")
+    r = cls._conn.execute(f"select count(name) from sqlite_master where type='table' and name='messages' and sql like '%grouped_id%'")
+    if not (res := r.fetchone()) or res[0] == 0:
+      cls._conn.execute(f"ALTER TABLE messages ADD COLUMN grouped_id INTEGER DEFAULT value NULL")
     cls._conn.commit()
     cls.inited = True
   
   @classmethod
-  def add_message(cls, chat_id, message_id):
+  def add_message(cls, chat_id, message_id, grouped_id=None):
     chat_id = utils.get_peer_id(chat_id)
     if isinstance(message_id, types.Message):
+      grouped_id = getattr(message_id, 'grouped_id', None)
       message_id = message_id.id
     cls.init()
     if cls.has_message(chat_id, message_id):
       return
-    logger.debug(f'add_message chat_id: {chat_id} message_id: {message_id}')
-    r = cls._conn.execute(f"insert into messages(chat_id, message_id) values(?,?)", (chat_id, message_id))
+    logger.debug(f'add_message chat_id: {chat_id}, message_id: {message_id}, grouped_id: {grouped_id}')
+    
+    r = cls._conn.execute(f"insert into messages(chat_id, message_id, grouped_id) values(?,?,?)", (chat_id, message_id, grouped_id))
     cls._conn.commit()
     return r.fetchone()
   
@@ -253,4 +284,12 @@ class MessageData():
       if message_id is None:
         break
       yield message_id
-      
+  
+  @classmethod
+  def get_group(cls, grouped_id: int) -> list[int]:
+    cls.init()
+    r = cls._conn.execute(f"SELECT message_id FROM messages WHERE grouped_id='{grouped_id}'")
+    if (res := r.fetchall()):
+      return [i[0] for i in res]
+    return []
+    
