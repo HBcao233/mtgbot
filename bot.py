@@ -26,20 +26,20 @@ class Bot(TelegramClient):
     
     await self(functions.bots.ResetBotCommandsRequest(scope=types.BotCommandScopeDefault(), lang_code='zh'))
     
-  async def call_callback(request, res):
+  async def _call_callback(self, request, res):
     logger.debug(f'触发 __call__ request: {request.__class__.__name__}; result: {res.__class__.__name__}')
     if (
       isinstance(request, functions.messages.SendMessageRequest) or 
       isinstance(request, functions.messages.SendMediaRequest) or 
       isinstance(request, functions.messages.SendMultiMediaRequest)
     ):
-      if isinstance(res, types.UpdateShortSentMessage):
-        MessageData.add_message(request.peer, res.id)
-      else:
-        messages = config.bot._get_response_message(request, res, request.peer)
-        if utils.is_list_like(messages):
-          for i in messages:
-            MessageData.add_message(request.peer, i)
-        else:
-          MessageData.add_message(request.peer, messages)
-          
+      _request = request
+      if isinstance(request, functions.messages.SendMultiMediaRequest):
+        _request = [i.random_id for i in request.multi_media]
+      messages = self._get_response_message(_request, res, request.peer)
+      if not utils.is_list_like(messages):
+        messages = [messages]
+      logger.info(messages)
+      for i in messages:
+        MessageData.add_message(request.peer, i)
+     

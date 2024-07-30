@@ -11,6 +11,8 @@ _pattern = re.compile(r'^/?(?:roll)? ?(-?\d{1,3})?[ \/~-]*?(-?\d{1,3})? *$')
 bot = config.bot 
 @handler('roll', info='生成随机数 /roll [min=0] [max=9]', pattern=_pattern)
 async def roll(event):
+  if event.message.media:
+    return
   _min, _max = getMinMax(event.pattern_match)
   res = random.randint(_min, _max)
   msg = f'🎲 骰到了 {res} ({_min} ~ {_max})' 

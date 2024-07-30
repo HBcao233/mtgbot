@@ -26,7 +26,7 @@ async def _tid(event, text):
     match = _group_pattern.search(text)
   if not match:
     return event.reply('用法: /tid <url/tid> [hide] [mark] 获取推文\n  hide: 获取简略推文\n  mark: 添加遮罩')
-  logger.info(match.group(0))
+  
   tid = match.group(1)
   options = util.string.Options(text, hide=('简略', '省略'), mark=('spoiler', '遮罩'))
   logger.info(f"{tid = }, {options = }")
@@ -35,7 +35,7 @@ async def _tid(event, text):
   if type(res) == str:
     return await event.reply(res)
   if 'tombstone' in res.keys():
-    logger.info(json.dumps(res))
+    logger.info('tombstone: %s', json.dumps(res))
     return await event.reply(res['tombstone']['text']['text'])
   
   msg, full_text, time = parseTidMsg(res) 

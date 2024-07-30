@@ -11,7 +11,7 @@ from telethon import events
 
 class Command:
   def __init__(
-    self, cmd, func, *,
+    self, cmd, *,
     pattern=None,
     info="", # BotCommand 中的描述信息
     desc="", # 当 text 为空是返回的详细信息
@@ -19,30 +19,31 @@ class Command:
     **kwargs,
   ):
     self.cmd = cmd
-    self.func = func
+    if pattern is None:
+      pattern = r'^/'+cmd+'.*'
     self.pattern = pattern
     self.info = info
     self.desc = desc
     self.scope = scope
-  
+    self.kwargs = {k:v for k, v in kwargs.items() if k in ['incoming', 'outgoing', 'from_users', 'forwards', 'chats', 'blacklist_chats', 'func']}
+    
   def __str__(self):
-    res = f'Command(cmd={self.cmd}, func={self.func}'
-    if self.pattern is not None:
-      res += f', pattern={self.pattern}'
-    return res + ')'
-
-
-def handler(cmd, pattern=None, **kwargs):
-  if pattern is None:
-    pattern = r'^/'+cmd+'.*'
-  def deco(func):
+    return 'Command(' + ', '.join(f'{k}={v}' for k in ['cmd', 'func', 'pattern', 'info', 'desc', 'scope', 'kwargs'] if (v := getattr(self, cmd, None)) is not None) + ')'
+    
+  def __repr__(self):
+    return self.__str__()
+    
+  def __call__(self, func):
+    config.commands.append(self)
+    
     @functools.wraps(func)
-    async def _func(event, text=None, *_args, **_kwargs):
-      event.cmd = Command(cmd, _func, **kwargs)
-      args = inspect.signature(func).parameters
-      if 'text' not in args:
-        return await func(event, *_args, **_kwargs)
-      if text is None and event.message.message:
+    async def _func(event, *args, **kwargs):
+      event.cmd = self
+      _args = inspect.signature(func).parameters
+      if 'text' not in _args:
+        return await func(event, *args, **kwargs)
+      text = ''
+      if event.message.message:
         text = (
           event.message.message
             .lstrip('/' + cmd)
@@ -51,16 +52,17 @@ def handler(cmd, pattern=None, **kwargs):
             .lstrip(cmd)
             .strip()
         )
-      if not text and kwargs.get('desc', ''):
-        return await event.reply(desc)
-      return await func(event, text, *_args, **_kwargs)
-    config.commands.append(Command(cmd, _func, **kwargs))
-    kw = {k:v for k, v in kwargs.items() if k in ['incoming', 'outgoing', 'from_users', 'forwards', 'chats', 'blacklist_chats', 'func']}
+      if not text and self.desc:
+        return await event.reply(self.desc)
+      return await func(event, text, *args, **kwargs)
     
-    config.bot.add_event_handler(_func, events.NewMessage(pattern=pattern, **kw))
-    return _func
-  return deco
+    self.func = _func
+    config.bot.add_event_handler(self.func, events.NewMessage(pattern=self.pattern, **self.kwargs))
+    return self.func
+    
   
+handler = Command
+
   
 def load_plugin(name):
   try:
