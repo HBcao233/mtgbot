@@ -53,7 +53,9 @@ async def _tid(event, text):
     videos = util.Videos()
     for i, ai in enumerate(medias):
       if ai["type"] == "photo":
-        if not (add := photos[ai['md5']]):
+        if (add := photos[ai['md5']]):
+          add = _deal_file_id(add, options.mark)
+        else:
           img = await util.getImg(ai['url'], headers=headers, ext=True)
           file = await bot.upload_file(img)
           add = types.InputMediaUploadedPhoto(
@@ -64,7 +66,9 @@ async def _tid(event, text):
       else:
         url = ai["url"]
         md5 = ai['md5']
-        if not (add := videos.get(md5, None)):
+        if (add := videos.get(md5, None)):
+          add = _deal_file_id(add, options.mark)
+        else:
           path = await util.getImg(url, headers=headers, ext="mp4")
           
           video, duration, w, h, thumb = util.videoInfo(path)
@@ -95,16 +99,74 @@ async def _tid(event, text):
         t = photos if ai.photo else videos
         t[medias[i]['md5']] = ai 
   
-  data = (
-    (b'unmark_' if options.mark else b'mark_') + 
-    res[0].id.to_bytes(4, 'big') + b'~' +
-    event.sender_id.to_bytes(6, 'big', signed=True)
-  )
+  message_id_bytes = res[0].id.to_bytes(4, 'big')
+  sender_bytes = b'~' + event.sender_id.to_bytes(6, 'big', signed=True)
+  tid_bytes = int(tid).to_bytes(8, 'big')
   await event.reply(
     '获取完成',
     buttons=[
-      Button.inline('添加遮罩', data)
+      Button.inline('移除遮罩' if options.mark else '添加遮罩', b'mark_' + message_id_bytes + sender_bytes),
+      Button.inline('详细描述' if options.hide else '简略描述', b'tid_' + message_id_bytes + b'_' + tid_bytes + sender_bytes),
     ]
   )
   raise events.StopPropagation
   
+  
+_button_pattern = re.compile(rb'tid_([\x00-\xff]{4,4})_([\x00-\xff]{8,8})(?:~([\x00-\xff]{6,6}))?$').match
+@bot.on(events.CallbackQuery(
+  pattern=_button_pattern
+))
+async def _event(event):
+  peer = event.query.peer
+  match = event.pattern_match
+  message_id = int.from_bytes(match.group(1), 'big')
+  tid = int.from_bytes(match.group(2), 'big')
+  sender_id = None 
+  if (t := match.group(3)):
+    sender_id = int.from_bytes(t, 'big')
+  logger.info(f'{message_id=}, {tid=}, {sender_id=}, {event.sender_id=}')
+  
+  if sender_id and event.sender_id and sender_id != event.sender_id:
+    return await event.answer('只有消息发送者可以修改', alert=True)
+  
+  message = await bot.get_messages(peer, ids=message_id)
+  if message is None:
+    return await event.answer('消息被删除', alert=True)
+  hide = '年' in message.message
+  msg = f'https://x.com/i/status/{tid}'
+  if not hide:
+    res = await get_twitter(tid)
+    if type(res) == str or 'tombstone' in res:
+      if type(res) != str:
+        res = res['tombstone']['text']['text'].replace('了解更多', '')
+      return await event.answer(res, alert=True)
+    msg, _, _ = parseTidMsg(res)
+  try:
+    await message.edit(msg, parse_mode='html')
+  except errors.MessageNotModifiedError:
+    logger.warning('MessageNotModifiedError')
+      
+  message = await event.get_message()
+  buttons = message.buttons[0]
+  text = '详细描述' if hide else '简略描述'
+  index = 0
+  for i, ai in enumerate(buttons):
+    if _button_pattern(ai.data):
+      index = i
+      data = ai.data
+      break
+  buttons[index] = Button.inline(text, data)
+  
+  try:
+    await event.edit(buttons=buttons)
+  except errors.MessageNotModifiedError:
+    logger.warning('MessageNotModifiedError')
+  await event.answer()
+  
+
+def _deal_file_id(file_id, spoiler: bool):
+  media = utils.resolve_bot_file_id(file_id)
+  media = utils.get_input_media(media)
+  media.spoiler = spoiler
+  return media
+          

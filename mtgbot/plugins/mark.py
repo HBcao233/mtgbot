@@ -69,6 +69,8 @@ async def _event(event):
     return await event.answer('只有消息发送者可以修改', alert=True)
   
   message = await bot.get_messages(peer, ids=message_id)
+  if message is None:
+    return await event.answer('消息被删除', alert=True)
   ids = [message_id]
   if message.grouped_id:
     ids = util.data.MessageData.get_group(message.grouped_id)
@@ -84,7 +86,7 @@ async def _event(event):
     
   message = await event.get_message()
   buttons = message.buttons[0]
-  text = '取消遮罩' if spoiler else '添加遮罩'
+  text = '移除遮罩' if spoiler else '添加遮罩'
   index = 0
   for i, ai in enumerate(buttons):
     if _button_pattern(ai.data):
@@ -93,7 +95,10 @@ async def _event(event):
       break
   buttons[index] = Button.inline(text, data)
   
-  await event.edit(buttons=buttons)
+  try:
+    await event.edit(buttons=buttons)
+  except errors.MessageNotModifiedError:
+    logger.warning('MessageNotModifiedError')
   await event.answer()
   
   
