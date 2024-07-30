@@ -1,4 +1,4 @@
-from telethon import events, utils
+from telethon import events, utils, errors, Button
 import re 
 
 import config
@@ -23,21 +23,19 @@ async def _mark(event, spoiler=True):
       getattr(reply_message.media, 'spoiler', False) is spoiler
     ):
       return await event.respond('该媒体已经有遮罩了' if spoiler else '该媒体没有遮罩')
-    media = utils.get_input_media(reply_message.media)
-    media.spoiler = spoiler
+    media = override_message_spoiler(reply_message, spoiler)
     caption = reply_message.text
   else:
     ids = util.data.MessageData.get_group(reply_message.grouped_id)
     logger.info(ids)
     messages = await bot.get_messages(reply_message.peer_id, ids=ids)
-    logger.info(messages)
     if (
       (spoiler and all(getattr(i.media, 'spoiler', False) for i in messages)) or 
       (not spoiler and not any(getattr(i.media, 'spoiler', False) for i in messages))
     ):
       return await event.respond('这组媒体都有遮罩' if spoiler else '这组媒体都没有遮罩')
     
-    media = list(override_spoiler(messages, spoiler))
+    media = [override_message_spoiler(i, spoiler) for i in messages]
     caption = [i.text for i in messages]
     
   await bot.send_file(reply_message.peer_id, media, caption=caption)
@@ -52,16 +50,55 @@ async def _mark(event, spoiler=True):
 async def _unmark(event):
   return await _mark(event, False)
     
-  
+
+_button_pattern = re.compile(rb'mark_([\x00-\xff]{4,4})(?:~([\x00-\xff]{6,6}))?$').match
 @bot.on(events.CallbackQuery(
-  pattern=re.compile(b'mark_')
+  pattern=_button_pattern
 ))
-async def _event():
-  pass
+async def _event(event):
+  peer = event.query.peer
+  
+  match = event.pattern_match
+  message_id = int.from_bytes(match.group(1), 'big')
+  sender_id = None 
+  if (t := match.group(2)):
+    sender_id = int.from_bytes(t, 'big')
+  logger.info(f'{message_id=}, {sender_id=}, {event.sender_id=}')
+  
+  if sender_id and event.sender_id and sender_id != event.sender_id:
+    return await event.answer('只有消息发送者可以修改', alert=True)
+  
+  message = await bot.get_messages(peer, ids=message_id)
+  ids = [message_id]
+  if message.grouped_id:
+    ids = util.data.MessageData.get_group(message.grouped_id)
+  
+  messages = await bot.get_messages(peer, ids=ids)
+  spoiler = not messages[0].media.spoiler
+  for m in messages:
+    file = override_message_spoiler(m, spoiler)
+    try:
+      await m.edit(file=file)
+    except errors.MessageNotModifiedError:
+      logger.warning('MessageNotModifiedError')
+    
+  message = await event.get_message()
+  buttons = message.buttons[0]
+  text = '取消遮罩' if spoiler else '添加遮罩'
+  index = 0
+  for i, ai in enumerate(buttons):
+    if _button_pattern(ai.data):
+      index = i
+      data = ai.data
+      break
+  buttons[index] = Button.inline(text, data)
+  
+  await event.edit(buttons=buttons)
+  await event.answer()
   
   
-def override_spoiler(messages, spoiler: bool):
-  for i, ai in enumerate(messages):
-    media = utils.get_input_media(ai.media)
-    media.spoiler = spoiler
-    yield media
+def override_message_spoiler(message, spoiler: bool):
+  media = utils.get_input_media(message.media)
+  media.spoiler = spoiler
+  return media
+  

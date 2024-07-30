@@ -20,7 +20,7 @@ class Command:
   ):
     self.cmd = cmd
     if pattern is None:
-      pattern = r'^/'+cmd+'.*'
+      pattern = r'^/' + self.cmd + '.*'
     self.pattern = pattern
     self.info = info
     self.desc = desc
@@ -46,10 +46,10 @@ class Command:
       if event.message.message:
         text = (
           event.message.message
-            .lstrip('/' + cmd)
+            .lstrip('/' + self.cmd)
             .lstrip("@" + config.bot.me.username)
             .lstrip("/start")
-            .lstrip(cmd)
+            .lstrip(self.cmd)
             .strip()
         )
       if not text and self.desc:

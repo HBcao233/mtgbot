@@ -1,13 +1,14 @@
 import re
-import ujson as json
 import dateutil.parser
 import datetime
 import urllib.parse
 import traceback
+import ujson as json
 
 import config
 import util
 from util.log import logger
+
 
 env = config.env
 csrf_token = env.get('twitter_csrf_token', '')
@@ -66,19 +67,17 @@ async def get_twitter(tid):
     r = await util.get(
       url, params=data, headers=headers, 
     )
-    tweet_detail = r.json()
-    if "errors" in tweet_detail.keys() and len(tweet_detail["errors"]) > 0:
-        if tweet_detail["errors"][0]["code"] == 144:
-            return "推文不存在"
-        return tweet_detail["errors"][0]["message"]
+    res = r.json()
+    if "errors" in res and len(res["errors"]) > 0:
+      if res["errors"][0]["code"] == 144:
+        return "推文不存在"
+      return res["errors"][0]["message"]
 
-    entries = tweet_detail["data"]["threaded_conversation_with_injections_v2"][
-        "instructions"
-    ][0]["entries"]
-    tweet_entrie = list(
-      filter(lambda x: x["entryId"] == f"tweet-{tid}", entries)
-    )[0]
-    tweet_result = tweet_entrie["content"]["itemContent"]["tweet_results"]["result"]
+    entries = res["data"]["threaded_conversation_with_injections_v2"]["instructions"][0]["entries"]
+    tweet_entrie = [i for i in entries if i["entryId"] == f"Tweet-{tid}" or i["entryId"] == f'tweet-{tid}']
+    if len(tweet_entrie) == 0:
+      return '解析失败'
+    tweet_result = tweet_entrie[0]["content"]["itemContent"]["tweet_results"]["result"]
     if "tweet" in tweet_result.keys():
       return tweet_result["tweet"]
     else:
@@ -86,6 +85,7 @@ async def get_twitter(tid):
   except json.JSONDecodeError:
     return f"未找到tid为{tid}的推文"
   except Exception:
+    logger.info(r.text)
     logger.warning(traceback.format_exc())
     return "连接超时"
 

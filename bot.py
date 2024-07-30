@@ -33,13 +33,15 @@ class Bot(TelegramClient):
       isinstance(request, functions.messages.SendMediaRequest) or 
       isinstance(request, functions.messages.SendMultiMediaRequest)
     ):
+      if isinstance(res, types.UpdateShortSentMessage):
+        return MessageData.add_message(request.peer, res.id)
+        
       _request = request
       if isinstance(request, functions.messages.SendMultiMediaRequest):
         _request = [i.random_id for i in request.multi_media]
       messages = self._get_response_message(_request, res, request.peer)
       if not utils.is_list_like(messages):
         messages = [messages]
-      logger.info(messages)
       for i in messages:
         MessageData.add_message(request.peer, i)
      

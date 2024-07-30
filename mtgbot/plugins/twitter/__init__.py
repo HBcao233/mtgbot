@@ -1,6 +1,7 @@
 from telethon import events, types, functions, utils, Button
 import re 
 import os
+import ujson as json 
 
 import config
 import util
@@ -36,7 +37,7 @@ async def _tid(event, text):
     return await event.reply(res)
   if 'tombstone' in res.keys():
     logger.info('tombstone: %s', json.dumps(res))
-    return await event.reply(res['tombstone']['text']['text'])
+    return await event.reply(res['tombstone']['text']['text'].replace('了解更多', ''))
   
   msg, full_text, time = parseTidMsg(res) 
   msg = msg if not options.hide else 'https://x.com/i/status/' + tid
@@ -94,5 +95,16 @@ async def _tid(event, text):
         t = photos if ai.photo else videos
         t[medias[i]['md5']] = ai 
   
+  data = (
+    (b'unmark_' if options.mark else b'mark_') + 
+    res[0].id.to_bytes(4, 'big') + b'~' +
+    event.sender_id.to_bytes(6, 'big', signed=True)
+  )
+  await event.reply(
+    '获取完成',
+    buttons=[
+      Button.inline('添加遮罩', data)
+    ]
+  )
   raise events.StopPropagation
   

@@ -153,18 +153,6 @@ class Animations(Documents):
     super().__init__('animations')
   
 
-def chat_id_to_bytes(i):
-  if i < -9999999999:
-    i = i + 990000000000
-  return i.to_bytes(4, 'big', signed=True)
-
-def chat_id_from_bytes(b):
-  i = int.from_bytes(b, 'big', signed=True)
-  if i < -9999999999:
-    i = i - 990000000000
-  return i
-  
-
 class MessageData():
   _conn = sqlite3.connect(getDataFile('messages.db'))
   inited = False
