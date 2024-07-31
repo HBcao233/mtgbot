@@ -213,22 +213,16 @@ async def send_photos(event, res, msg, options, mid):
     key = f"{pid}_p{i}"
     if not options.origin:
       key += '_regular'
-    if file_id := data[key]:
-      return _deal_file_id(file_id, options.mark)
-      
+    if (file_id := data[key]):
+      return util.media.file_id_to_media(file_id, options.mark)
+    
     try:
-      img = await util.getImg(url, saveas=key, ext=True, headers=headers)
+      media = await util.getImg(url, saveas=key, ext=True, headers=headers)
     except Exception:
       logger.error(traceback.format_exc())
       raise PluginException(f'p{i} 图片获取失败')
-    bar.add(1)
-    _, media, _ = await bot._file_to_media(
-      img, 
-      force_document=options.origin,
-      supports_streaming=True, 
-    )
-    media.spoiler = options.mark
-    return media
+    await bar.add(1)
+    return await util.media.file_to_media(media, options.mark)
   
   tasks = [get_img(i) for i in range(count)]
   result = await asyncio.gather(*tasks)
@@ -253,10 +247,3 @@ async def send_photos(event, res, msg, options, mid):
       data[key] = m[i]
   await mid.delete()
   return m
-  
-
-def _deal_file_id(file_id, spoiler: bool):
-  media = utils.resolve_bot_file_id(file_id)
-  media = utils.get_input_media(media)
-  media.spoiler = spoiler
-  return media

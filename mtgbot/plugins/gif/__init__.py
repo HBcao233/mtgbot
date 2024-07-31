@@ -83,7 +83,8 @@ async def _video_convert(event, ext='mp4'):
   mime_type = reply_message.media.document.mime_type
   if 'video' not in mime_type and mime_type not in ['application/x-tgsticker', 'image/gif']:
     return await event.reply('该消息不包含视频或动态贴纸')
- 
+  
+  options = util.string.Options(event.message.message, force=())
   attributes = reply_message.media.document.attributes
   is_sticker = False
   _ext = '.cache'
@@ -94,7 +95,7 @@ async def _video_convert(event, ext='mp4'):
     if isinstance(i, types.DocumentAttributeFilename):
         _ext = os.path.splitext(i.file_name)[-1]
         
-  if not is_sticker and mime_type == 'video/' + ext:
+  if not options.force and not is_sticker and mime_type == 'video/' + ext:
     return await event.reply(f'该消息已经是 {ext} 格式了')
     
   mid = await event.reply('转换中...')

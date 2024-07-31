@@ -1,7 +1,10 @@
-import os.path
+from telethon import types, utils
+import os
 import cv2
 import time 
 import numpy as np
+
+import config
 from .log import logger
 from .file import getCache
 
@@ -52,3 +55,53 @@ def resizePhoto(path, maxSize=2560, size=None, saveas=None) -> cv2.Mat:
     cv2.imwrite(saveas, img)
   return img
   
+  
+def message_media_to_media(message_media, spoiler: bool = False):
+  media = utils.get_input_media(message_media)
+  media.spoiler = spoiler
+  return media
+  
+def message_to_media(message: types.Message, spoiler: bool = False):
+  media = utils.get_input_media()
+  media.spoiler = spoiler
+  return message_media_to_media(message.media, spoiler)
+  
+def file_id_to_media(file_id, spoiler: bool = False):
+  media = utils.resolve_bot_file_id(file_id)
+  media = utils.get_input_media(media)
+  media.spoiler = spoiler
+  return media
+
+async def file_to_media(
+  path, spoiler=False, *,
+  force_document=False, 
+  file_size=None,
+  progress_callback=None,
+  attributes=None, 
+  thumb=None,
+  allow_cache=True, 
+  voice_note=False, 
+  video_note=False,
+  supports_streaming=True, 
+  mime_type=None, 
+  as_image=None,
+  ttl=None, 
+  nosound_video=True,
+):
+  input_file, media, as_image = await config.bot._file_to_media(
+    path, 
+    force_document=False, 
+    file_size=file_size,
+    progress_callback=progress_callback,
+    attributes=attributes, thumb=thumb,
+    allow_cache=allow_cache, 
+    voice_note=voice_note, 
+    video_note=video_note,
+    supports_streaming=supports_streaming, 
+    mime_type=mime_type, 
+    as_image=as_image,
+    ttl=ttl, 
+    nosound_video=nosound_video,
+  )
+  media.spoiler = spoiler
+  return media

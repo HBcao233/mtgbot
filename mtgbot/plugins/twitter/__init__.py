@@ -21,6 +21,8 @@ _group_pattern = re.compile(r'(?:^(?:/?tid(?:@%s)?) ?|(?:https?://)?(?:twitter|x
 async def _tid(event, text):
   if not event.message.is_private and not _group_pattern(text):
     return
+  if event.message.photo or event.message.video:
+    return
   match = event.pattern_match
   if match.group(1) is None:
     return await event.reply(
@@ -45,62 +47,39 @@ async def _tid(event, text):
   msg, full_text, time = parseTidMsg(res) 
   msg = msg if not options.hide else 'https://x.com/i/status/' + tid
   tweet = res["legacy"]
-  
-  medias = parseMedias(tweet)
-  if len(medias) == 0:
+  medias_info = parseMedias(tweet)
+  if len(medias_info) == 0:
     return await event.reply(msg, parse_mode='HTML')
     
+  medias = []
+  photos = util.Photos()
+  videos = util.Videos()
+  for i in medias_info:
+    url = i["url"]
+    md5 = i['md5']
+    t = photos if i['type'] == 'photo' else videos
+    ext = 'jpg' if i['type'] == 'photo' else 'mp4'
+    if (file_id := t[md5]):
+      media = util.media.file_id_to_media(file_id, options.mark)
+    else:
+      file = await util.getImg(url, headers=headers, ext=ext)
+      if i['type'] == 'video':
+        file = await to_mp4(file)
+      media = await util.media.file_to_media(file, options.mark)
+    medias.append(media)
   async with bot.action(event.chat_id, 'photo'):
-    ms = []
-    photos = util.Photos()
-    videos = util.Videos()
-    for i, ai in enumerate(medias):
-      if ai["type"] == "photo":
-        if (add := photos[ai['md5']]):
-          add = _deal_file_id(add, options.mark)
-        else:
-          img = await util.getImg(ai['url'], headers=headers, ext=True)
-          file = await bot.upload_file(img)
-          add = types.InputMediaUploadedPhoto(
-            file=file,
-            spoiler=options.mark,
-          )
-        ms.append(add)
-      else:
-        url = ai["url"]
-        md5 = ai['md5']
-        if (add := videos.get(md5, None)):
-          add = _deal_file_id(add, options.mark)
-        else:
-          path = await util.getImg(url, headers=headers, ext="mp4")
-          
-          video, duration, w, h, thumb = util.videoInfo(path)
-          video = await bot.upload_file(video)
-          thumb = await bot.upload_file(thumb)
-          add = types.InputMediaUploadedDocument(
-            file=video,
-            spoiler=options.mark,
-            thumb=thumb,
-            mime_type='video/mp4',
-            nosound_video=True,
-            attributes=[
-              types.DocumentAttributeVideo(duration=duration, w=int(w), h=int(h), supports_streaming=True), 
-            ]
-          )
-        ms.append(add)
-        
-  res = await bot.send_file(
-    event.message.chat_id,
-    file=ms,
-    reply_to=event.message,
-    caption=msg,
-    parse_mode='HTML',
-  )
+    res = await bot.send_file(
+      event.message.chat_id,
+      medias,
+      reply_to=event.message,
+      caption=msg,
+      parse_mode='HTML',
+    )
   with photos:
     with videos:
       for i, ai in enumerate(res):
         t = photos if ai.photo else videos
-        t[medias[i]['md5']] = ai 
+        t[medias_info[i]['md5']] = ai 
   
   message_id_bytes = res[0].id.to_bytes(4, 'big')
   sender_bytes = b'~' + event.sender_id.to_bytes(6, 'big', signed=True)
@@ -168,10 +147,3 @@ async def _event(event):
     logger.warning('MessageNotModifiedError')
   await event.answer()
   
-
-def _deal_file_id(file_id, spoiler: bool):
-  media = utils.resolve_bot_file_id(file_id)
-  media = utils.get_input_media(media)
-  media.spoiler = spoiler
-  return media
-          

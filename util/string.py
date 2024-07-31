@@ -139,7 +139,7 @@ class Options():
     for k, v in args.items():
       if isinstance(v, str):
         v = (v, )
-      if any((i in arr) for i in v) or k in arr:
+      if any((i in arr) for i in v if i != '') or k in arr:
         self._options.add(k)
     
   def __getattr__(self, key, default=False):

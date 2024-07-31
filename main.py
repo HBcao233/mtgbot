@@ -41,7 +41,7 @@ async def _cancel(event):
     c = _locals.get('callback', None)
     _event = _locals.get('event', None)
     module_name = inspect.getmodule(c).__name__
-    if module_name != '__main__' and event.peer_id.user_id == _event.peer_id.user_id:
+    if module_name != '__main__' and event.sender_id == _event.sender_id:
       logger.info(f'取消任务 {i.get_name()}')
       i.cancel()
       f = False

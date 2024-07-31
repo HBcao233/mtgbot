@@ -4,6 +4,8 @@ import datetime
 import urllib.parse
 import traceback
 import ujson as json
+import asyncio
+import os
 
 import config
 import util
@@ -148,4 +150,24 @@ def parseMedias(tweet):
         'variants': variants,
       })
   return res
+  
+  
+async def to_mp4(path):
+  _path, _name = os.path.split(path)
+  _name, _ = os.path.splitext(path)
+  output = os.path.join(_path, _name + '_1.mp4')
+  command = [
+    'ffmpeg', '-i', path, 
+    '-c:v', 'h264',
+    '-c:a', 'copy',
+    '-pix_fmt', 'yuv420p', 
+    '-y', output,
+    '-hide_banner', '-loglevel', 'verbose'
+  ]
+  proc = await asyncio.create_subprocess_exec(*command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT)
+  returncode = await proc.wait()
+  if returncode != 0:
+    logger.warning(proc.stdout.decode())
+    return path
+  return output
   
