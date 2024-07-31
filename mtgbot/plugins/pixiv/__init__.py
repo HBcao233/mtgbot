@@ -22,6 +22,8 @@ _group_pattern = re.compile(r'(?:^(?:/?pid(?:@%s)?) ?|(?:https?://)?(?:www\.)?(?
 async def _pixiv(event, text):
   if not event.message.is_private and not _group_pattern(text):
     return
+  if event.message.photo or event.message.video:
+    return
   match = event.pattern_match
   if not (pid := match.group(1)):
     return await event.reply(
