@@ -11,8 +11,9 @@ from .data_source import headers, get_twitter, parseTidMsg, parseMedias
 
 
 bot = config.bot
-_pattern = re.compile(r'(?:^|^(?:/?tid(?:@%s)?) ?|(?:https?://)?(?:twitter|x|vxtwitter|fxtwitter)\.com/[a-zA-Z0-9_]+/status/)(\d{13,20})(?:[^0-9].*)?$|^/tid.*$' % bot.me.username).search
-_group_pattern = re.compile(r'(?:^(?:/?tid(?:@%s)?) ?|(?:https?://)?(?:twitter|x|vxtwitter|fxtwitter)\.com/[a-zA-Z0-9_]+/status/)(\d{13,20})(?:[^0-9].*)?$' % bot.me.username).search
+_p = r'(?:^|^(?:/?tid(?:@%s)?) ?|(?:https?://)?(?:twitter|x|vxtwitter|fxtwitter)\.com/[a-zA-Z0-9_]+/status/)(\d{13,20})(?:[^0-9].*)?$|^/tid' % bot.me.username
+_pattern = re.compile(_p).search
+_group_pattern = re.compile(_p.replace(r'(?:^|', r'^(?:')).search
 @handler(
   'tid', 
   pattern=_pattern,

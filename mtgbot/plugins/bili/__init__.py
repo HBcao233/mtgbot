@@ -9,15 +9,13 @@ from .data_source import headers, get_bili, parse_msg, get_video
 
 
 bot = config.bot
-_pattern = re.compile(r"(?:^|^(?:/?bili(?:@%s)?) ?|(?:https?://)?bilibili\.com/video/)(av\d{1,11}|BV[0-9a-zA-Z]{8,12})|(?:b23\.tv\\?/((?![0-9]{7,7})[0-9a-zA-Z]{7,7}))|^/bili$" % bot).search
+_pattern = re.compile(r"(?:^|^(?:/?bili(?:@%s)?) ?|(?:https?://)?bilibili\.com/video/)(av\d{1,11}|BV[0-9a-zA-Z]{8,12})|(?:b23\.tv\\?/((?![0-9]{7,7})[0-9a-zA-Z]{7,7}))|^/bili" % bot).search
 @handler(
   'bili',
   pattern=_pattern,
   info='av号或bv号获取视频',
 )
 async def _(event, text):
-  if not event.message.is_private and not _group_pattern(text):
-    return
   if event.message.photo or event.message.video:
     return
   match = event.pattern_match

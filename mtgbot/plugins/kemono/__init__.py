@@ -13,20 +13,18 @@ from .data_source import parse_msg, parse_page
 
 
 bot = config.bot
-_pattern = re.compile(r"^/?(?:kid)? ?(?:(?:https://)?kemono\.(?:party|su)/)?([a-z]+)(?:(?:/user)?/(\d+))?(?:/post)?/(\d+)").search
+_pattern = re.compile(r"^/?(?:kid(?:@%s)?)? ?(?:(?:https://)?kemono\.(?:party|su)/)?([a-z]+)(?:(?:/user)?/(\d+))?(?:/post)?/(\d+)|^/kid" % bot.me.username).match
 @handler('kid',
   pattern=_pattern,
   info="kenomo爬取 /kid <url>"
 )
-async def kid(event, text):
-  if not event.message.is_private:
-    return
+async def _kid(event, text):
   if event.message.photo or event.message.video:
     return
   match = event.pattern_match
   if not (_kid := match.group(3)):
-    return await update.message.reply_text(
-      "用法: /kid <url>"
+    return await event.reply(
+      "用法: /kid <kemono_url>"
     )
   options = util.string.Options(text, nocache=(), mark=('遮罩', 'spoiler'))
   source = match.group(1)

@@ -13,8 +13,9 @@ from .data_source import headers, get_pixiv, parse_msg, get_anime, get_telegraph
 
 
 bot = config.bot
-_pattern = re.compile(r'(?:^|^(?:/?pid(?:@%s)?) ?|(?:https?://)?(?:www\.)?(?:pixiv\.net/(?:member_illust\.php\?.*illust_id=|artworks/|i/)))(\d{6,12})(?:[^0-9].*)?$|^/(?:pid)$' % bot.me.username).search
-_group_pattern = re.compile(r'(?:^(?:/?pid(?:@%s)?) ?|(?:https?://)?(?:www\.)?(?:pixiv\.net/(?:member_illust\.php\?.*illust_id=|artworks/|i/)))(\d{6,12})(?:[^0-9].*)?$' % bot.me.username).search
+_p = r'(?:^|^(?:/?pid(?:@%s)?) ?|(?:https?://)?(?:www\.)?(?:pixiv\.net/(?:member_illust\.php\?.*illust_id=|artworks/|i/)))(\d{6,12})(?:[^0-9].*)?$|^/pid.*$' % bot.me.username
+_pattern = re.compile(_p).search
+_group_pattern = re.compile(_p.replace(r'(?:^|', r'^(?:')).search
 @handler('pid', 
   pattern=_pattern,
   info='获取p站作品 /pid <url/pid> [hide] [mark]',

@@ -15,14 +15,12 @@ from util.progress import Progress
 
 
 bot = config.bot
-_pattern = re.compile(r'^/?(?:eid)? ?(?:https?://)?(e[x-])hentai\.org/([sg])/([0-9a-z]+)/([0-9a-z-]+)').search
+_pattern = re.compile(r'^/?(?:eid)? ?(?:https?://)?(e[x-])hentai\.org/([sg])/([0-9a-z]+)/([0-9a-z-]+)|^/eid').match
 @handler('eid',
   pattern=_pattern,
   info="e站爬取 /eid <url> [hide] [mark]"
 )
 async def eid(event, text):
-  if not event.message.is_private:
-    return
   if event.message.photo or event.message.video:
     return
   match = event.pattern_match
