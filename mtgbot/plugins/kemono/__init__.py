@@ -19,7 +19,7 @@ _pattern = re.compile(r"^/?(?:kid)? ?(?:(?:https://)?kemono\.(?:party|su)/)?([a-
   info="kenomo爬取 /kid <url>"
 )
 async def kid(event, text):
-  if not event.message.is_private and not _group_pattern(text):
+  if not event.message.is_private:
     return
   if event.message.photo or event.message.video:
     return

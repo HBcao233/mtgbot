@@ -90,7 +90,7 @@ async def file_to_media(
 ):
   input_file, media, as_image = await config.bot._file_to_media(
     path, 
-    force_document=False, 
+    force_document=force_document, 
     file_size=file_size,
     progress_callback=progress_callback,
     attributes=attributes, thumb=thumb,

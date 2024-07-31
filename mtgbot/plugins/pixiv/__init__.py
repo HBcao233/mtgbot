@@ -224,7 +224,10 @@ async def send_photos(event, res, msg, options, mid):
       logger.error(traceback.format_exc())
       raise PluginException(f'p{i} 图片获取失败')
     await bar.add(1)
-    return await util.media.file_to_media(media, options.mark)
+    return await util.media.file_to_media(
+      media, options.mark, 
+      force_document=options.origin,
+    )
   
   tasks = [get_img(i) for i in range(count)]
   result = await asyncio.gather(*tasks)
