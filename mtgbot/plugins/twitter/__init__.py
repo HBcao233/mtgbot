@@ -11,22 +11,25 @@ from .data_source import headers, get_twitter, parseTidMsg, parseMedias
 
 
 bot = config.bot
-_p = r'(?:^|^(?:/?tid|Tid|TID) ?|(?:https?://)?(?:twitter|x|vxtwitter|fxtwitter)\.com/[a-zA-Z0-9_]+/status/)(\d{13,})(?:[^0-9].*)?$'
-_pattern = re.compile(_p)
-_group_pattern = re.compile(_p.replace(r'(?:^|', r'(?:'))
+_pattern = re.compile(r'(?:^|^(?:/?tid(?:@%s)?) ?|(?:https?://)?(?:twitter|x|vxtwitter|fxtwitter)\.com/[a-zA-Z0-9_]+/status/)(\d{13,20})(?:[^0-9].*)?$|^/tid.*$' % bot.me.username).search
+_group_pattern = re.compile(r'(?:^(?:/?tid(?:@%s)?) ?|(?:https?://)?(?:twitter|x|vxtwitter|fxtwitter)\.com/[a-zA-Z0-9_]+/status/)(\d{13,20})(?:[^0-9].*)?$' % bot.me.username).search
 @handler(
   'tid', 
-  pattern=_pattern.search,
+  pattern=_pattern,
   info='获取推文 /tid <url/tid> [hide] [mark]',
 )
 async def _tid(event, text):
-  message = event.message
-  if message.is_private:
-    match = event.pattern_match
-  else:
-    match = _group_pattern.search(text)
-  if not match:
-    return event.reply('用法: /tid <url/tid> [hide] [mark] 获取推文\n  hide: 获取简略推文\n  mark: 添加遮罩')
+  if not event.message.is_private and not _group_pattern(text):
+    return
+  match = event.pattern_match
+  if match.group(1) is None:
+    return await event.reply(
+      '用法: /tid <url/tid> [options]:\n'
+      '获取推文\n'
+      '- <url/tid>: 推文链接或 status id\n'
+      '- [hide/简略]: 获取简略推文\n'
+      '- [mark/遮罩]: 添加遮罩'
+    )
   
   tid = match.group(1)
   options = util.string.Options(text, hide=('简略', '省略'), mark=('spoiler', '遮罩'))
@@ -127,7 +130,9 @@ async def _event(event):
   logger.info(f'{message_id=}, {tid=}, {sender_id=}, {event.sender_id=}')
   
   if sender_id and event.sender_id and sender_id != event.sender_id:
-    return await event.answer('只有消息发送者可以修改', alert=True)
+    participant = await bot.get_permissions(peer, event.sender_id)
+    if not participant.delete_messages:
+      return await event.answer('只有消息发送者可以修改', alert=True)
   
   message = await bot.get_messages(peer, ids=message_id)
   if message is None:

@@ -14,7 +14,6 @@ class Command:
     self, cmd, *,
     pattern=None,
     info="", # BotCommand 中的描述信息
-    desc="", # 当 text 为空是返回的详细信息
     scope="",
     **kwargs,
   ):
@@ -23,7 +22,6 @@ class Command:
       pattern = r'^/' + self.cmd + '.*'
     self.pattern = pattern
     self.info = info
-    self.desc = desc
     self.scope = scope
     self.kwargs = {k:v for k, v in kwargs.items() if k in ['incoming', 'outgoing', 'from_users', 'forwards', 'chats', 'blacklist_chats', 'func']}
     
@@ -43,17 +41,11 @@ class Command:
       if 'text' not in _args:
         return await func(event, *args, **kwargs)
       text = ''
-      if event.message.message:
-        text = (
-          event.message.message
-            .lstrip('/' + self.cmd)
-            .lstrip("@" + config.bot.me.username)
-            .lstrip("/start")
-            .lstrip(self.cmd)
-            .strip()
-        )
-      if not text and self.desc:
-        return await event.reply(self.desc)
+      if len(args) > 0:
+        args = list(args)
+        text = args.pop(0)
+      if not text and getattr(event, 'message', None) and getattr(event.message, 'message', None):
+        text = event.message.message
       return await func(event, text, *args, **kwargs)
     
     self.func = _func

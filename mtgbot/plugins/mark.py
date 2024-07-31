@@ -1,4 +1,4 @@
-from telethon import events, utils, errors, Button
+from telethon import events, utils, errors, functions, Button
 import re 
 
 import config
@@ -66,7 +66,9 @@ async def _event(event):
   logger.info(f'{message_id=}, {sender_id=}, {event.sender_id=}')
   
   if sender_id and event.sender_id and sender_id != event.sender_id:
-    return await event.answer('只有消息发送者可以修改', alert=True)
+    participant = await bot.get_permissions(peer, event.sender_id)
+    if not participant.delete_messages:
+      return await event.answer('只有消息发送者可以修改', alert=True)
   
   message = await bot.get_messages(peer, ids=message_id)
   if message is None:
@@ -85,15 +87,15 @@ async def _event(event):
       logger.warning('MessageNotModifiedError')
     
   message = await event.get_message()
-  buttons = message.buttons[0]
+  buttons = message.buttons
   text = '移除遮罩' if spoiler else '添加遮罩'
   index = 0
-  for i, ai in enumerate(buttons):
+  for i, ai in enumerate(buttons[0]):
     if _button_pattern(ai.data):
       index = i
       data = ai.data
       break
-  buttons[index] = Button.inline(text, data)
+  buttons[0][index] = Button.inline(text, data)
   
   try:
     await event.edit(buttons=buttons)
