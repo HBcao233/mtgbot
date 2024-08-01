@@ -1,12 +1,13 @@
+from telethon import events
 import traceback
 import re
 import os.path
 import inspect
 import functools
+import asyncio 
 
 import config
 from util.log import logger
-from telethon import events
 
 
 class Command:
@@ -38,15 +39,40 @@ class Command:
     async def _func(event, *args, **kwargs):
       event.cmd = self
       _args = inspect.signature(func).parameters
-      if 'text' not in _args:
-        return await func(event, *args, **kwargs)
-      text = ''
-      if len(args) > 0:
-        args = list(args)
-        text = args.pop(0)
-      if not text and getattr(event, 'message', None) and getattr(event.message, 'message', None):
-        text = event.message.message
-      return await func(event, text, *args, **kwargs)
+      if 'text' in _args:
+        text = ''
+        if len(args) > 0:
+          args = list(args)
+          text = args.pop(0)
+        if not text and getattr(event, 'message', None) and getattr(event.message, 'message', None):
+          text = event.message.message
+        args = [text] + list(args)
+      
+      sender = await event.get_sender()
+      name = getattr(sender, 'first_name', None) or getattr(sender, 'title', None)
+      if t := getattr(sender, 'last_name', None):
+        name += ' ' + t
+      if event.chat_id == event.sender_id:
+        info = f'被 {name}({sender.id}) 私聊触发'
+      else:
+        chat = await event.get_chat()
+        chatname = getattr(chat, 'first_name', None) or getattr(chat, 'title', None)
+        if t := getattr(chat, 'last_name', None):
+          chatname += ' ' + t
+        info = f'在群组 {chatname}({event.chat_id}) 中被 {name}({event.sender_id}) 触发'
+    
+      logger.info(f'命令 "{self.cmd}" ' + info)
+      res = None
+      try:
+        res = await func(event, *args, **kwargs)
+      except asyncio.CancelledError:
+        logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 被取消')
+      except events.StopPropagation:
+        pass
+      except:
+        logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 异常结束')
+      logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 运行结束')
+      return res
     
     self.func = _func
     config.bot.add_event_handler(self.func, events.NewMessage(pattern=self.pattern, **self.kwargs))

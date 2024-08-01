@@ -62,8 +62,6 @@ def message_media_to_media(message_media, spoiler: bool = False):
   return media
   
 def message_to_media(message: types.Message, spoiler: bool = False):
-  media = utils.get_input_media()
-  media.spoiler = spoiler
   return message_media_to_media(message.media, spoiler)
   
 def file_id_to_media(file_id, spoiler: bool = False):

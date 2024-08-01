@@ -1,67 +1,63 @@
-import asyncio
-import subprocess
-import os.path
+import os
+import traceback
+from rlottie_python import LottieAnimation
 
 import util
 from util.log import logger
 from util.progress import FFmpegProgress
 
-
-pipe_kwargs = dict(
-  stdout=asyncio.subprocess.PIPE,
-  stderr=asyncio.subprocess.PIPE
-)
-  
   
 async def video2gif(img, mid):
   _path, name = os.path.split(img)
-  _name, _ = os.path.splitext(name)
-  palette = os.path.join(_path, _name + '_palette.png')
+  _name, _ext = os.path.splitext(name)
+  
+  d = os.path.join(_path, _name)
+  if not os.path.isdir(d):
+    os.mkdir(d)
+  pngs = os.path.join(d, '%03d.png')
   output = os.path.join(_path, _name + '.gif')
+  
+  cv = 'h264'
+  if _ext == '.webm':
+    cv = 'libvpx-vp9'
   command = [
-    'ffmpeg', 
-    '-i', img,
-    '-vf', 'fps=10,scale=480:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse',
-    output, '-y'
+    'ffmpeg', '-c:v', cv, '-i', img, 
+    '-vf', 'scale=480:-1:flags=lanczos,pad=480:ih:(ow-iw)/2:(oh-ih)/2:00000000',
+    '-y', pngs
   ]
   bar = FFmpegProgress(mid)
-  bar.set_prefix('转换中...')
+  bar.set_prefix('转换中(1/2)...')
   returncode, stdout = await bar.run(command)
   if returncode != 0: 
     logger.error(stdout)
     return False
+  command = [
+    'ffmpeg', '-i', pngs, 
+    '-lavfi', '[0:v]split[s0][s1];[s0]palettegen=reserve_transparent=on:transparency_color=00000000[p];[s1][p]paletteuse',
+    output, '-y'
+  ]
+  bar.set_prefix('转换中(2/2)...')
+  returncode, stdout = await bar.run(command)
+  if returncode != 0: 
+    logger.error(stdout)
+    return False
+  
+  try:
+    for i in os.listdir(d):
+      os.remove(os.path.join(d, i))
+    os.rmdir(d)
+  except:
+    logger.warning(traceback.format_exc())
   return output
   
   
-async def tgs2gif(lottiepath, img):
+async def tgs2ext(img, ext='gif'):
   _path, name = os.path.split(img)
   _name, _ = os.path.splitext(name)
-  json_output = os.path.join(_path, _name + '.json')
-  output = os.path.join(_path, _name + '.gif')
-  
-  proc = subprocess.Popen(['gzip', '-d', '-c'], stdin=open(img, 'rb'), stdout=open(json_output, 'wb'), stderr=subprocess.PIPE)
-  stdout, stderr = proc.communicate()
-  if proc.returncode != 0 and stderr: 
-    logger.error(stderr.decode('utf8'))
-    return False
-  
-  proc = await asyncio.create_subprocess_exec(lottiepath, json_output, '512x512', '00ffffff', **pipe_kwargs)
-  stdout, stderr = await proc.communicate()
-  if proc.returncode != 0 and stderr: 
-    logger.error(stderr.decode('utf8'))
-    return False
-  os.rename(json_output + '.gif', output)
+  output = os.path.join(_path, _name + '.' + ext)
+  anim = LottieAnimation.from_tgs(img)
+  anim.save_animation(output)
   return output
-
-
-def getLottiePath():
-  ret = subprocess.Popen(['lottie2gif'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-  if ret.returncode == 256:
-    return 'lottie2gif'
-  path = util.getWorkFile('lottie2gif')
-  if os.path.isfile(path):
-    return path
-  return None
   
   
 async def video2ext(img, ext, mid):

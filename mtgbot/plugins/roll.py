@@ -7,8 +7,10 @@ from util import logger
 from plugin import handler
 
 
-_pattern = re.compile(r'^/?(?:roll)? ?(-?\d{1,3})?[ \/~-]*?(-?\d{1,3})? *$')
 bot = config.bot 
+_p = r'[ \[\(\{]*(-?\d{1,3})? *(?:[\/~d,:-]|to)*? *(-?\d{1,3})?[ \]\)\}]*$'
+_pattern = re.compile((r'/?roll(?:@%s)?' % bot.me.username) + _p).match
+_query_pattern = re.compile(_p).match
 @handler('roll', info='生成随机数 /roll [min=0] [max=9]', pattern=_pattern)
 async def roll(event):
   if event.message.media:
@@ -21,7 +23,7 @@ async def roll(event):
 
 
 @bot.on(events.InlineQuery(
-  pattern=_pattern
+  pattern=_query_pattern
 ))
 async def _(event):
   builder = event.builder

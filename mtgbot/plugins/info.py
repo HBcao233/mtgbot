@@ -14,6 +14,7 @@ async def _(event):
   logger.info(message)
   await event.respond(await get_info(message), reply_to=message)
   raise events.StopPropagation
+   
   
 async def get_info(message):
   info = []
@@ -26,15 +27,16 @@ async def get_info(message):
   
   async def get_chat_info(peer):
     chat = await config.bot.get_entity(peer)
+    logger.info(chat)
     _type = 'Unkown'
-    if isinstance(chat, types.User):
+    if isinstance(peer, types.PeerUser):
       if chat.bot:
         _type = 'Bot'
       else:
         _type = 'User'
-    elif isinstance(chat, types.Chat):
-      _type = 'Chat'
-    elif isinstance(chat, types.Channel):
+    elif isinstance(peer, types.PeerChat) or (isinstance(peer, types.PeerChannel) and not getattr(chat, 'broadcast', False)):
+      _type = 'Group'
+    elif isinstance(peer, types.PeerChannel):
       _type = 'Channel'
     
     name = getattr(chat, 'first_name', None) or getattr(chat, 'title', None)
@@ -47,6 +49,12 @@ async def get_info(message):
     ]
     if getattr(chat, 'username', None):
       info.append(f'username: @{chat.username}')
+    if _type == 'Group':
+      info.extend([
+        f'megagroup: {chat.megagroup}',
+        f'gigagroup: {chat.gigagroup}',
+        f'forum: {chat.forum}'
+      ])
     return info
   
   info = [
@@ -55,7 +63,7 @@ async def get_info(message):
   if message.message:
     text = message.message
     text_raw = None
-    if message.entities:
+    if message.text != message.message:
       text = message.text
       text_raw = message.message
     
@@ -95,6 +103,11 @@ async def get_info(message):
   if message.media:
     _type = 'Document'
     file_id = utils.pack_bot_file_id(message.media)
+    mime_type = 'application/octet-stream'
+    if isinstance(message.media, types.MessageMediaPhoto):
+      mime_type = 'image/jpeg'
+    elif isinstance(message.media, types.MessageMediaDocument):
+      mime_type = message.media.document.mime_type
     if utils.is_image(message.media):
       _type = 'Photo'
     elif utils.is_gif(message.media):
@@ -106,6 +119,7 @@ async def get_info(message):
     info.append('media: ')
     info.extend(indent([
       f'type: {_type}',
-      f'file_id: `{file_id}`'
+      f'file_id: `{file_id}`',
+      f'mime_type: {mime_type}',
     ]))
   return to_str(info)

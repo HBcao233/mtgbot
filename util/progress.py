@@ -62,7 +62,7 @@ class FFmpegProgress(Progress):
     proc = await asyncio.create_subprocess_exec(*command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     stdout = []
     while line := (await proc.stdout.read(100)).decode():
-      stdout.append(line)
+      stdout.append(line.strip())
       if 'time=' in line:
         for i in line.strip('\n').split():
           if 'time=' in i:

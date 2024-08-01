@@ -14,7 +14,7 @@ from .data_source import PluginException, get_post, parse_msg, parse_medias
 
 
 bot = config.bot
-_pattern = re.compile(r'^(?:/?fanbox(?:@%s)? ?)?(?:https?://)?(?:(?:[a-z0-9]+\.)?fanbox\.cc/(?:[@a-z0-9]+/)?posts/)?(\d+)|^/fanbox' % bot.me.username).match
+_pattern = re.compile(r'(?:^/?fanbox(?:@%s)? |(?:https?://)?(?:(?:[a-z0-9]+\.)?fanbox\.cc/)(?:[@a-z0-9]+/)?(?:posts/)?)(\d+)|^/fanbox' % bot.me.username).match
 @handler('fanbox', 
   pattern=_pattern,
   info="获取fanbox作品 /fanbox <url/postId> [hide] [mark]"

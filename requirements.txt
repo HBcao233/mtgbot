@@ -5,3 +5,6 @@ ujson
 python-dateutil
 bs4
 opencv-python
+pillow
+rlottie-python
+moviepy

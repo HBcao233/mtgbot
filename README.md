@@ -49,6 +49,7 @@ docker logs mtgbot
 ## 依赖 Dependencies
 * [Telethon](https://github.com/LonamiWebs/Telethon)
 * [httpx](https://github.com/encode/httpx)
-* [lottie2gif](https://github.com/rroy233/lottie2gif)
+* [rlottie-python](https://github.com/laggykiller/rlottie-python)
 * [ffmpeg](https://github.com/ffmpeg/ffmpeg)
 * [opencv-python](https://github.com/opencv/opencv-python)
+* [moviepy](https://github.com/Zulko/moviepy)

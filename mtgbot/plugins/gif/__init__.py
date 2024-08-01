@@ -7,7 +7,7 @@ import util
 from util import logger
 from plugin import handler
 from util.progress import Progress
-from .data_source import video2gif, tgs2gif, getLottiePath, video2ext
+from .data_source import video2gif, tgs2ext, video2ext
 
 
 @handler('gif', 
@@ -21,6 +21,7 @@ async def _gif(event):
   if 'video' not in mime_type and mime_type != 'application/x-tgsticker':
     return await event.reply('该消息不包含视频或动态贴纸')
   
+  options = util.string.Options(event.message.message, force=(), nocache=())
   attributes = reply_message.media.document. attributes
   a = None
   _ext = '.cache'
@@ -30,7 +31,7 @@ async def _gif(event):
     if isinstance(i, types.DocumentAttributeFilename):
       _ext = os.path.splitext(i.file_name)[-1]
       
-  if a.duration > 60:
+  if a and a.duration > 60:
     await event.reply('这个视频太长了')
   if mime_type == 'image/gif':
     return await event.reply('该消息已经是 gif 格式了')
@@ -41,17 +42,14 @@ async def _gif(event):
     data = util.Documents()
     document_id = reply_message.media.document.id
     key = f'{document_id}_to_gif'
-    if not (file := data[key]):
+    if options.nocache or not (file := data[key]):
       img = util.getCache(str(document_id) + _ext)
       if not os.path.isfile(img):
         bar.set_prefix('下载中...')
         await reply_message.download_media(file=img, progress_callback=bar.update)
       
       if mime_type == 'application/x-tgsticker':
-        lottiepath = getLottiePath()
-        if lottiepath is None:
-          return await mid.edit('暂不支持动态贴纸转换')
-        res = await tgs2gif(lottiepath, img)
+        res = await tgs2ext(img, 'gif')
       else:
         res = await video2gif(img, mid)
       if not res:
@@ -118,13 +116,13 @@ async def _video_convert(event, ext='mp4'):
         lottiepath = getLottiePath()
         if lottiepath is None:
           return await mid.edit('暂不支持动态贴纸转换')
-        img = await tgs2gif(lottiepath, img)
+        img = await tgs2ext(img, ext)
         if not img:
           return await mid.edit('转换失败')
-     
-      res = await video2ext(img, ext, mid)
-      if not res:
-        return await mid.edit('转换失败')
+      else:
+        res = await video2ext(img, ext, mid)
+        if not res:
+          return await mid.edit('转换失败')
   
     file, duration, w, h, thumb = util.videoInfo(res)
     attributes = [
