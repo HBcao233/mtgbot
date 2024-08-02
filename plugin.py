@@ -63,15 +63,19 @@ class Command:
     
       logger.info(f'命令 "{self.cmd}" ' + info)
       res = None
+      sp = None
       try:
         res = await func(event, *args, **kwargs)
       except asyncio.CancelledError:
         logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 被取消')
-      except events.StopPropagation:
-        pass
-      except:
+      except events.StopPropagation as e:
+        sp = e
+      except Exception as e:
         logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 异常结束')
+        raise e
       logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 运行结束')
+      if sp is not None:
+        raise sp
       return res
     
     self.func = _func
