@@ -10,7 +10,9 @@ services:
     env_file:
       - mtgbot/.env
     environment:
-      - BOT_HOME=mtgbot
+      BOT_HOME: mtgbot
+      TZ: Asia/Shanghai
+      
   tgbot2:
     container_name: tgbot2
     build: .
@@ -20,5 +22,6 @@ services:
     env_file:
       - tgbot2/.env
     environment:
-      - BOT_HOME=tgbot2
+      BOT_HOME: tgbot2
+      TZ: Asia/Shanghai
       

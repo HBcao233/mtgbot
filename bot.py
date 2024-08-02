@@ -1,5 +1,9 @@
 from telethon import TelegramClient, events, types, functions, errors, utils
 import asyncio
+import inspect
+import functools
+import itertools
+from datetime import datetime, timedelta
 
 import config
 from util.log import logger
@@ -44,4 +48,62 @@ class Bot(TelegramClient):
         messages = [messages]
       for i in messages:
         MessageData.add_message(request.peer, i)
-     
+        
+  async def delete_messages(
+    self,
+    entity: 'hints.EntityLike',
+    message_ids: 'typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]',
+    *,
+    revoke: bool = True,
+    check_permission: bool = True
+  ) -> 'typing.Sequence[types.messages.AffectedMessages]':
+    has_permission = True
+    if revoke and check_permission:
+      permissions = await self.get_permissions(entity, 'me')
+      has_permission = bool(permissions.delete_messages)
+    if has_permission:
+      return await super().delete_messages(entity, message_ids, revoke=revoke)
+    
+    if not utils.is_list_like(message_ids):
+      message_ids = (message_ids,)
+      
+    gets = await self.get_messages(entity, ids=[m for m in message_ids if isinstance(m, int)])
+    messages = [
+      m for m in itertools.chain(message_ids, gets)
+      if isinstance(m, (types.Message, types.MessageService, types.MessageEmpty))
+    ]
+    if any(i.sender_id != self.me.id for i in messages):
+      t = [i.id for i in messages if i.sender_id != self.me.id]
+      logger.warning(f'No permission to delete messages{t} in Channel {utils.get_peer_id(entity)}')
+    return await super().delete_messages(entity, [i.id for i in messages if i.sender_id == self.me.id], revoke=revoke)
+ 
+  @staticmethod
+  def schedule_decorator(func):
+    if not inspect.isawaitable(func):
+      @functools.wraps(func)
+      def _func(*args, **kwargs):
+        logger.info(f'计划任务 {func.__qualname__} 开始执行')
+        res = func(*args, **kwargs)
+        logger.info(f'计划任务 {func.__qualname__} 执行完毕')
+        return res
+      return _func
+    else:
+      @functools.wraps(func)
+      async def _func():
+        logger.info(f'计划任务 {func.__qualname__} 开始执行')
+        res = await func
+        logger.info(f'计划任务 {func.__qualname__} 执行完毕')
+        return res
+      return _func()
+    
+  def schedule(self, time, func):
+    run_time = (datetime.now() + timedelta(seconds=time)).strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+    logger.info(f'计划任务 {func.__qualname__} 将在 {time}秒后({run_time}) 执行')
+    func = self.schedule_decorator(func)
+    if inspect.isawaitable(func):
+      func = functools.partial(self.loop.create_task, func)
+    self.loop.call_later(time, func)
+  
+  def schedule_delete_messages(self, time, *args, **kwargs):
+    self.schedule(time, self.delete_messages(*args, **kwargs))
+    

@@ -6,13 +6,15 @@ from util.log import logger
 from plugin import handler
 
 
+bot = config.bot
 @handler('info')
 async def _(event):
   message = event.message
   if (reply_message := await event.message.get_reply_message()):
     message = reply_message
   logger.info(message)
-  await event.respond(await get_info(message), reply_to=message)
+  m = await event.respond(await get_info(message), reply_to=message)
+  bot.schedule_delete_messages(30, m.peer_id, [m.id, event.message.id])
   raise events.StopPropagation
    
   
@@ -26,7 +28,7 @@ async def get_info(message):
     return ('  ' * (times-1) + '- ' + i for i in info)
   
   async def get_chat_info(peer):
-    chat = await config.bot.get_entity(peer)
+    chat = await bot.get_entity(peer)
     logger.info(chat)
     _type = 'Unkown'
     if isinstance(peer, types.PeerUser):
@@ -51,9 +53,9 @@ async def get_info(message):
       info.append(f'username: @{chat.username}')
     if _type == 'Group':
       info.extend([
-        f'megagroup: {chat.megagroup}',
-        f'gigagroup: {chat.gigagroup}',
-        f'forum: {chat.forum}'
+        f'megagroup: {getattr(chat, "megagroup", False)}',
+        f'gigagroup: {getattr(chat, "gigagroup", False)}',
+        f'forum: {getattr(chat, "forum", False)}'
       ])
     return info
   
