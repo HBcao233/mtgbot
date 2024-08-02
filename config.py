@@ -1,3 +1,4 @@
+from telethon import types, utils
 import sys
 import os.path
 

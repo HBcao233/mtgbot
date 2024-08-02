@@ -28,8 +28,6 @@ class Bot(TelegramClient):
       self.me = me
     logger.info('当前登录账户信息: %s', self.me)
     
-    await self(functions.bots.ResetBotCommandsRequest(scope=types.BotCommandScopeDefault(), lang_code='zh'))
-    
   async def _call_callback(self, request, res):
     logger.debug(f'触发 __call__ request: {request.__class__.__name__}; result: {res.__class__.__name__}')
     if (
@@ -38,7 +36,7 @@ class Bot(TelegramClient):
       isinstance(request, functions.messages.SendMultiMediaRequest)
     ):
       if isinstance(res, types.UpdateShortSentMessage):
-        return MessageData.add_message(request.peer, res.id)
+        return MessageData.add_message(utils.get_peer_id(request.peer), res.id)
         
       _request = request
       if isinstance(request, functions.messages.SendMultiMediaRequest):

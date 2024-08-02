@@ -1,10 +1,11 @@
 from telethon import events, types, functions, errors, utils
 import asyncio
 import inspect
+import ujson as json
 
 import config
 import util
-from plugin import load_plugins, handler
+from plugin import load_plugins, handler, Scope
 from util.log import logger
 from util.data import MessageData
 from bot import Bot
@@ -57,28 +58,43 @@ async def _cancel(event):
 
 @bot.on(events.NewMessage)
 async def _(event):
-  MessageData.add_message(event.message.peer_id, event.message.id, getattr(event.message, 'grouped_id', None))
+  MessageData.add_message(utils.get_peer_id(event.message.peer_id), event.message.id, getattr(event.message, 'grouped_id', None))
   
 
-async def main():
-  commands = []
+'''
+types.BotCommandScopePeerUser, 
+types.BotCommandScopePeerAdmins,
+types.BotCommandScopePeer,
+types.BotCommandScopeChatAdmins,
+types.BotCommandScopeChats,
+types.BotCommandScopeUsers,
+types.BotCommandScopeDefault,
+'''
+async def init():
+  commands = {}
   for i in config.commands:
-    if i.info != '' and i.scope == '':
-      commands.append(types.BotCommand(
-        command=i.cmd,
-        description=i.info
-      ))
-  if len(commands) > 0:
+    if i.info != '':
+      c = (i.cmd, i.info)
+      for s in i.scope:
+        if s not in commands: 
+          commands[s] = set()
+        commands[s].add(c)
+  for k in commands:
+    if not isinstance(k.type, types.BotCommandScopeDefault):
+      commands[k].update(commands[Scope.all()])
+  
+  logger.info(json.dumps({k: str([i[0] for i in v]) for k,v in commands.items()}, indent=2, ensure_ascii=False))
+  for k, v in commands.items():
     await bot(functions.bots.SetBotCommandsRequest(
-      scope=types.BotCommandScopeDefault(),
+      scope=await k.to_command_scope(),
       lang_code='zh',
-      commands=commands
+      commands=[types.BotCommand(*i) for i in v]
     ))
-    
-
+  
+  
 if __name__ == '__main__':
   load_plugins()
-  bot.loop.create_task(main())
+  bot.loop.create_task(init())
   try:
     bot.run_until_disconnected()
   except asyncio.exceptions.CancelledError:
