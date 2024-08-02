@@ -59,8 +59,10 @@ class Bot(TelegramClient):
   ) -> 'typing.Sequence[types.messages.AffectedMessages]':
     has_permission = True
     if revoke and check_permission:
-      permissions = await self.get_permissions(entity, 'me')
-      has_permission = bool(permissions.delete_messages)
+      peer = utils.get_peer(entity)
+      if not isinstance(peer, types.PeerUser):
+        permissions = await self.get_permissions(entity, 'me')
+        has_permission = bool(permissions.delete_messages)
     if has_permission:
       return await super().delete_messages(entity, message_ids, revoke=revoke)
     
