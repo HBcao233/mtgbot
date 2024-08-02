@@ -70,8 +70,9 @@ async def _gif(event):
     await mid.delete()
     with data:
       data[key] = res
-  except CancelledError:
+  except CancelledError as e:
     await mid.edit('任务取消')
+    raise e
   
   
 async def _video_convert(event, ext='mp4'):

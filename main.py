@@ -40,9 +40,14 @@ async def _cancel(event):
     
     c = _locals.get('callback', None)
     _event = _locals.get('event', None)
+    cmd_tip = ''
+    for cmd in config.commands:
+      if c is cmd.func:
+        cmd_tip = f'(命令 "{cmd.cmd}"({_event.chat_id}-{_event.sender_id}))'
+        break
     module_name = inspect.getmodule(c).__name__
     if module_name != '__main__' and event.sender_id == _event.sender_id:
-      logger.info(f'取消任务 {i.get_name()}')
+      logger.info(f'取消任务 {i.get_name()} {cmd_tip}')
       i.cancel()
       f = False
   if f:
