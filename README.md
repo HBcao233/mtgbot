@@ -1,22 +1,19 @@
 # tgbot
 一个基于 telethon 的 Telegram 机器人框架
 
-根目录下 mtgbot 和 tgbot2 文件夹为两个机器人实现, 每个实例需在 docker-compose.yml 中注册，并且文件夹下需要有  .env 文件以及 plugins 插件目录
+根目录下 mtgbot 和 tgbot2 文件夹为两个机器人实例, 每个实例需在 docker-compose.yml 中注册，并且文件夹下需要有  .env 文件以及 plugins 插件目录
 
-mtgbot 功能:
-* 解析 pixiv.net, x.com, e-hentai.org, exhentai.org, kemono.su 图片/视频等发送至 tg
-* 转换动图和视频, 动态贴纸
-* demo: [@hbcao1bot](https://t.me/hbcao1bot)
+### 基于本框架的插件 
+* [mtgbot-plugins](https://github.com/HBcao233/mtgbot-plugins)
 
-tgbot2功能:
-* 传话来者的消息给主人
-* demo: [@hbcao2bot](https://t.me/hbcao2bot)
+### demo
+* [@hbcao1bot](https://t.me/hbcao1bot)
+* [@hbcao2bot](https://t.me/hbcao2bot)
 
-旧仓库: 
-* https://github.com/HBcao233/tgbot
-* https://github.com/HBcao233/tgbot2
-
-其他插件: https://github.com/HBcao233/mtgbot-plugins
+### 旧仓库
+* [tgbot](https://github.com/HBcao233/tgbot)
+* [tgbot1](https://github.com/HBcao233/tgbot2)
+* [tgbot-plugins](https://github.com/HBcao233/tgbot-plugins)
 
 ## 使用 Usage
 ```

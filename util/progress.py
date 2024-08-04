@@ -1,16 +1,52 @@
+from telethon import custom
 import math 
 import traceback
 import asyncio
 import subprocess
+from typing import Union 
 
 import config
-from util.log import logger
+from .log import logger
 
 
 class Progress:
+  '''进度条
+  
+  Arguments
+    mid (Message <telethon.tl.custom.message.Message>): 用于进度条显示的 Message
+    total (int | float): 总数，将会以 p/total 计算当前进度百分比
+    prefix (str): 进度条前显示的字符
+    
+  Attributes
+    bar (list[str]): 一个由全角空格及八分之一至完整方块共9个UTF-8字符组成的列表
+    p (int): 当前进度
+    
+  Example
+    mid = event.reply('请等待...')
+    bar = Progress(mid)
+    for i in range(100)
+      bar.update(i+1)
+      await asyncio.sleep(1)
+    
+    bar.set_prefix('发送中...')
+    async with bot.action(event.chat_id, 'video'):
+      await bot.send_file(
+        event.chat_id,
+        media,
+        reply_to=event.message,
+        progress_callback=bar.update,
+      )
+    
+    command = ['ffmpeg', ...]
+    returncode, stdout = util.ffmpeg(command, bar.update)
+  '''
   bar = ['\u3000', '\u258f', '\u258e', '\u258d', '\u258c', '\u258b', '\u258a', '\u2589', '\u2588']
   
-  def __init__(self, mid, total=100, prefix=''):
+  def __init__(self, 
+    mid: custom.Message, 
+    total: Union[int, float] = 100, 
+    prefix: str = '', 
+  ):
     self.mid = mid
     self.p = 0
     self.total = total
@@ -47,6 +83,7 @@ class Progress:
     
 class FFmpegProgress(Progress):
   async def run(self, command):
+    logger.warning('DeprecationWarning: Call to deprecated class util.progress.FFmpegProgress, and please use function util.ffmpeg instead')
     command.extend(['-hide_banner', '-loglevel', 'verbose'])
     input_path = command[command.index('-i') + 1]
     cmd = ['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', '-i', input_path]

@@ -3,6 +3,7 @@ import os
 import cv2
 import time 
 import numpy as np
+import asyncio
 
 import config
 from .log import logger
@@ -54,6 +55,81 @@ def resizePhoto(path, maxSize=2560, size=None, saveas=None) -> cv2.Mat:
   if saveas is not None:
     cv2.imwrite(saveas, img)
   return img
+
+
+async def ffmpeg(
+  command: list[str], 
+  progress_callback: callable = None
+):
+  '''Run a ffmpeg command
+  
+  Arguments
+    command (list[str]): a command 
+    progress_callback (callable, optional): a update function for progress
+    
+  Returns
+    returncode (int): command returncode
+    stdout (str): command stdout (decoded)
+    
+  Examples
+    bar = 
+    returncode, stdout = await ffmpeg(['ffmpeg', input, 'output.mp4', '-y'], bar.update)
+    if returncode != 0:
+      logger.warning(stdout)
+  '''
+  if 'ffmpeg' not in command:
+    raise ValueError('Not a ffmpeg command')
+  command = command.copy()
+  command.extend(['-hide_banner', '-loglevel', 'verbose'])
+  if progress_callback is None:
+    p = await asyncio.create_subprocess_exec(*command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT)
+    returncode = await p.wait()
+    return returncode, (await p.stdout.read()).decode()
+    
+  input_path = command[command.index('-i') + 1]
+  cmd = ['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', '-i', input_path]
+  p = await asyncio.create_subprocess_exec(*cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+  await p.wait()
+  full_time = round(float((await p.stdout.read()).decode().strip()), 2)
+  
+  def to_seconds(lis, s=0):
+    if len(lis) > 0:
+      return to_seconds(lis, s * 60 + round(float(lis.pop(0)), 2))
+    else:
+      return s
+      
+  proc = await asyncio.create_subprocess_exec(*command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+  stdout = []
+  while line := (await proc.stdout.read(100)).decode():
+    stdout.append(line.strip())
+    if 'time=' in line:
+      for i in line.strip('\n').split():
+        if 'time=' in i:
+          time = to_seconds(i[5:].split(':'))
+          break
+      t = progress_callback(time, full_time)
+      if inspect.isawaitable(t):
+        await t
+  return proc.returncode, '\n'.join(stdout)
+  
+
+async def video2mp4(path, progress_callback=None):
+  _path, _name = os.path.split(path)
+  _name, _ = os.path.splitext(path)
+  output = os.path.join(_path, _name + '_mp4.mp4')
+  command = [
+    'ffmpeg', '-i', path, 
+    '-c:v', 'h264',
+    '-c:a', 'copy',
+    '-pix_fmt', 'yuv420p', 
+    '-y', output,
+    '-hide_banner', '-loglevel', 'verbose'
+  ]
+  returncode, stdout = await ffmpeg(command, progress_callback=progress_callback)
+  if returncode != 0:
+    logger.warning(stdout)
+    return path
+  return output
   
   
 def message_media_to_media(message_media, spoiler: bool = False):
@@ -86,6 +162,27 @@ async def file_to_media(
   ttl=None, 
   nosound_video=True,
 ):
+  if os.path.splitext(path)[-1] == '.mp4':
+    video, duration, w, h, thumb = videoInfo(path)
+    media = types.InputMediaUploadedDocument(
+      file=await config.bot.upload_file(video),
+      mime_type='video/mp4',
+      attributes=[
+        types.DocumentAttributeVideo(
+          duration=duration,
+          w=int(w), h=int(h),
+          supports_streaming=supports_streaming,
+        ),
+        types.DocumentAttributeFilename(os.path.split(path)[-1])
+      ],
+      nosound_video=nosound_video,
+      spoiler=spoiler,
+      thumb=await config.bot.upload_file(thumb),
+      force_file=force_document,
+      ttl_seconds=ttl,
+    )
+    return media
+    
   input_file, media, as_image = await config.bot._file_to_media(
     path, 
     force_document=force_document, 

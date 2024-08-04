@@ -76,7 +76,6 @@ class Scope():
     '''
     给定 chat_id 的用户 (不管群聊私聊)
     '''
-    logger.info(list(MessageData.iter_chats()))
     return ScopeList(Scope.chat(chat_id), *(Scope.chats(i, chat_id) for i in MessageData.iter_chats() if i < 0))
   
   @staticmethod 
@@ -104,6 +103,9 @@ class Scope():
   
   @staticmethod
   def superadmin():
+    '''
+    所有superadmin (请在 .env 中配置 superadmin 项, 可以为一个数字或以半角逗号 "," 隔开的id列表)
+    '''
     return ScopeList([Scope.user(i) for i in config.superadmin])
 
 
@@ -129,7 +131,7 @@ class Command:
     *,
     pattern: Union[str, re.Pattern, callable] = None,
     info: str = "", # BotCommand 中的描述信息
-    scope: Scope =None, # BotCommand 显示的范围
+    scope: Union[ScopeList, Scope]= None, # BotCommand 显示的范围
     **kwargs,
   ):
     self.cmd = cmd
