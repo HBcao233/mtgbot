@@ -197,9 +197,35 @@ class Command:
     config.bot.add_event_handler(self.func, events.NewMessage(pattern=self.pattern, **self.kwargs))
     return self.func
     
-  
-handler = Command
 
+class InlineCommand:
+  def __init__(
+    self, 
+    pattern: Union[str, re.Pattern, callable] = None,
+    **kwargs,
+  ):
+    if not callable(pattern):
+      if isinstance(pattern, re.Pattern):
+        pattern = pattern.match
+      else:
+        pattern = re.compile(pattern).match
+    self.pattern = pattern
+    
+  def __str__(self):
+    return 'InlineCommand(' + ', '.join(f'{k}={v}' for k in ['pattern', 'func', 'kwargs']) + ')'
+    
+  def __repr__(self):
+    return self.__str__()
+  
+  def __call__(self, func):
+    config.inlines.append(self)
+    self.func = func
+    return self.func
+
+
+handler = Command
+inline_handler = InlineCommand
+  
   
 def load_plugin(name):
   try:
@@ -241,3 +267,4 @@ async def get_event_info(event):
       chatname += ' ' + t
     info = f'在群组 "{chatname}"({event.chat_id}) 中被 "{name}"({event.sender_id}) 触发'
   return info
+  

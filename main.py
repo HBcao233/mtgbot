@@ -59,17 +59,22 @@ async def _cancel(event):
 @bot.on(events.NewMessage)
 async def _(event):
   MessageData.add_message(utils.get_peer_id(event.message.peer_id), event.message.id, getattr(event.message, 'grouped_id', None))
-  
 
-'''
-types.BotCommandScopePeerUser, 
-types.BotCommandScopePeerAdmins,
-types.BotCommandScopePeer,
-types.BotCommandScopeChatAdmins,
-types.BotCommandScopeChats,
-types.BotCommandScopeUsers,
-types.BotCommandScopeDefault,
-'''
+
+@bot.on(events.InlineQuery)
+async def _(event):
+  res = []
+  for i in config.inlines:
+    if i.pattern is None or (match := i.pattern(event.text)):
+      if match:
+        event.pattern_match = match
+      r = await i.func(event)
+      if isinstance(r, list):
+        res.extend(r)
+  if res:
+    await event.answer(res)
+
+
 async def init():
   commands = {}
   for i in config.commands:
@@ -83,7 +88,7 @@ async def init():
     if not isinstance(k.type, types.BotCommandScopeDefault):
       commands[k].update(commands[Scope.all()])
   
-  logger.info(json.dumps({k: str([i[0] for i in v]) for k,v in commands.items()}, indent=2, ensure_ascii=False))
+  # logger.info(json.dumps({k: str([i[0] for i in v]) for k,v in commands.items()}, indent=2, ensure_ascii=False))
   for k, v in commands.items():
     await bot(functions.bots.SetBotCommandsRequest(
       scope=await k.to_command_scope(),

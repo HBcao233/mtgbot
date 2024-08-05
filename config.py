@@ -10,6 +10,7 @@ default_api_hash = '014b35b6184100b085b0d0572f9b5103'
 class Config:
   botRoot = workPath = os.path.dirname(os.path.realpath(__file__))
   commands = []
+  inlines = []
   def __init__(self):
     self.env = os.environ
     self.bot_home = x if (x := self.env.get('BOT_HOME', '')) != '.' else ''

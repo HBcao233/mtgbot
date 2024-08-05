@@ -152,6 +152,7 @@ async def getImg(
           ) as client:
             async with client.stream(
               'GET', url=url, headers=headers,
+              **kwargs
             ) as r:
               with open(path, "wb") as f:
                 async for chunk in r.aiter_raw():
