@@ -3,6 +3,7 @@ import asyncio
 import inspect
 import functools
 import itertools
+import traceback
 from datetime import datetime, timedelta
 
 import config
@@ -27,14 +28,14 @@ class Bot(TelegramClient):
     else:
       self.me = me
     logger.info('当前登录账户信息: %s', self.me)
-    
-  async def _call_callback(self, request, res):
-    logger.debug(f'触发 __call__ request: {request.__class__.__name__}; result: {res.__class__.__name__}')
-    if (
-      isinstance(request, functions.messages.SendMessageRequest) or 
-      isinstance(request, functions.messages.SendMediaRequest) or 
-      isinstance(request, functions.messages.SendMultiMediaRequest)
-    ):
+  
+  async def request_callback(self, request, res):
+    logger.debug(f'触发 request: {request.__class__.__name__}; result: {res.__class__.__name__}')
+    if isinstance(request, (
+      functions.messages.SendMessageRequest,
+      functions.messages.SendMediaRequest,
+      functions.messages.SendMultiMediaRequest,
+    )):
       if isinstance(res, types.UpdateShortSentMessage):
         return MessageData.add_message(utils.get_peer_id(request.peer), res.id)
         
@@ -46,6 +47,14 @@ class Bot(TelegramClient):
         messages = [messages]
       for i in messages:
         MessageData.add_message(request.peer, i)
+        
+  async def __call__(self, request, *args, **kwargs):
+    res = await TelegramClient.__call__(self, request, *args, **kwargs)
+    try:
+      await self.request_callback(request, res)
+    except:
+      logger.warning(traceback.format_exc())
+    return res
         
   async def delete_messages(
     self,
