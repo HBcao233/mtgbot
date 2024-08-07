@@ -119,7 +119,7 @@ async def video2mp4(path, progress_callback=None):
   output = os.path.join(_path, _name + '_mp4.mp4')
   command = [
     'ffmpeg', '-i', path, 
-    '-c:v', 'h264',
+    '-c:v', 'copy',
     '-c:a', 'copy',
     '-pix_fmt', 'yuv420p', 
     '-y', output,

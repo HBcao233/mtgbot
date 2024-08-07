@@ -1,4 +1,4 @@
-from telethon import custom
+from telethon import custom, errors
 import math 
 import traceback
 import asyncio
@@ -70,6 +70,8 @@ class Progress:
     try:
       await self.mid.edit(self.prefix + text)
       self.p = p
+    except errors.MessageNotModifiedError:
+      logger.warning('MessageNotModifiedError: Content of the message was not modified')
     except:
       logger.warning(traceback.format_exc())
     
