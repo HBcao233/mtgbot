@@ -4,6 +4,7 @@ import cv2
 import time 
 import numpy as np
 import asyncio
+import inspect
 
 import config
 from .log import logger
@@ -88,7 +89,7 @@ async def ffmpeg(
     
   input_path = command[command.index('-i') + 1]
   cmd = ['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', '-i', input_path]
-  p = await asyncio.create_subprocess_exec(*cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+  p = await asyncio.create_subprocess_exec(*cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT)
   await p.wait()
   full_time = round(float((await p.stdout.read()).decode().strip()), 2)
   
@@ -98,7 +99,7 @@ async def ffmpeg(
     else:
       return s
       
-  proc = await asyncio.create_subprocess_exec(*command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+  proc = await asyncio.create_subprocess_exec(*command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT)
   stdout = []
   while line := (await proc.stdout.read(100)).decode():
     stdout.append(line.strip())
