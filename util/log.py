@@ -5,6 +5,7 @@ import config
 
 logging.getLogger("httpx").setLevel(logging.ERROR)
 logging.getLogger("telethon.network.mtprotosender").setLevel(logging.ERROR)
+logging.getLogger("telethon.extensions.messagepacker").setLevel(logging.ERROR)
 
 
 logging.basicConfig(
