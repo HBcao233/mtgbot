@@ -60,6 +60,8 @@ class Progress:
   async def update(self, p=0, total=None):
     if total is None:
       total = self.total
+    if p == self.p:
+      return
     x = math.floor(104 * p / total)
     text = '[' 
     text += self.bar[8] * (x // 8)
@@ -69,6 +71,7 @@ class Progress:
     text += f'] {precent}%' 
     try:
       await self.mid.edit(self.prefix + text)
+      await asyncio.sleep(0.1)
       self.p = p
     except errors.MessageNotModifiedError:
       logger.warning('MessageNotModifiedError: Content of the message was not modified')
@@ -100,7 +103,7 @@ class FFmpegProgress(Progress):
         
     proc = await asyncio.create_subprocess_exec(*command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     stdout = []
-    while line := (await proc.stdout.read(100)).decode():
+    while line := (await proc.stdout.read(200)).decode():
       stdout.append(line.strip())
       if 'time=' in line:
         for i in line.strip('\n').split():
