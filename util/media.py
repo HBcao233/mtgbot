@@ -73,7 +73,8 @@ async def ffmpeg(
     stdout (str): command stdout (decoded)
     
   Examples
-    bar = 
+    mid = event.reply('请等待...')
+    bar = Progress(mid)
     returncode, stdout = await ffmpeg(['ffmpeg', input, 'output.mp4', '-y'], bar.update)
     if returncode != 0:
       logger.warning(stdout)
