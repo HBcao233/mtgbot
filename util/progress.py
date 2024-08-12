@@ -9,6 +9,9 @@ import config
 from .log import logger
 
 
+update_interval = 1
+
+
 class Progress:
   '''进度条
   
@@ -71,10 +74,13 @@ class Progress:
     text += f'] {precent}%' 
     try:
       await self.mid.edit(self.prefix + text)
-      await asyncio.sleep(0.1)
+      await asyncio.sleep(update_interval)
       self.p = p
     except errors.MessageNotModifiedError:
       logger.warning('MessageNotModifiedError: Content of the message was not modified')
+    except errors.FloodWaitError as e:
+      logger.warning('遇到 FloodWaitError, 等待 %s秒', e.seconds)
+      await asyncio.sleep(e.seconds)
     except:
       logger.warning(traceback.format_exc())
     
