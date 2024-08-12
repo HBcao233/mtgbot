@@ -94,23 +94,38 @@ async def ffmpeg(
   full_time = round(float((await p.stdout.read()).decode().strip()), 2)
   
   def to_seconds(lis, s=0):
-    if len(lis) > 0:
-      return to_seconds(lis, s * 60 + round(float(lis.pop(0)), 2))
-    else:
+    if len(lis) == 0:
       return s
+    else:
+      t = lis.pop(0)
+      if t == '':
+        return s
+      return to_seconds(lis, s * 60 + round(float(t), 2))
       
   proc = await asyncio.create_subprocess_exec(*command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT)
   stdout = []
+  aline_before = ''
   while line := (await proc.stdout.read(100)).decode():
-    stdout.append(line.strip())
+    line = line.strip()
+    if '\n' not in line:
+      aline = aline_before + line
+      aline_before = ''
+    else:
+      arr = line.split('\n')
+      aline = aline_before + arr[0]
+      aline_before = arr[1]
+    if all(i not in aline for i in ['frame=', 'dropping frame']):
+      stdout.append(aline)
+    
     if 'time=' in line:
       for i in line.strip('\n').split():
         if 'time=' in i:
           time = to_seconds(i[5:].split(':'))
           break
-      t = progress_callback(time, full_time)
-      if inspect.isawaitable(t):
-        await t
+      if time != 0:
+        func = progress_callback(time, full_time)
+        if inspect.isawaitable(func):
+          await func
   return proc.returncode, '\n'.join(stdout)
   
 
