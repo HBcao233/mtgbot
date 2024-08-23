@@ -11,6 +11,12 @@ from .string import md5sum
 from .file import getCache
 
 
+def logless(t):
+  if len(t) > 40:
+    t = t[:20] + '{...}' + t[-20:]
+  return t
+
+
 async def request(
     method, url, *, params=None, data=None, proxy=False, headers=None, **kwargs
 ):
@@ -49,11 +55,12 @@ async def request(
       timeout=httpx.Timeout(connect=None, read=None, write=None, pool=None),
       **kwargs
     )
+  
   t = logger.info
   if r.status_code != 200:
     t = logger.warning
   if url != 'https://telegra.ph/upload':
-    t(f"{method} {url} code: {r.status_code}")
+    t(f"{method} {logless(url)} code: {r.status_code}")
   await client.aclose()
   return r
 
@@ -135,7 +142,7 @@ async def getImg(
         path = getCache(f + ex)
       
       if not os.path.isfile(path) or not cache:
-        logger.info(f"尝试获取图片 {url}, proxy: {proxy}, headers: {headers} , saveas {os.path.basename(path)}")
+        logger.info(f"尝试获取图片 {logless(url)}, saveas {os.path.basename(path)}")
         p = urllib.parse.urlparse(url)
         _headers = {
           "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1517.62",
