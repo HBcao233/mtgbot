@@ -21,7 +21,7 @@ class Progress:
     prefix (str): 进度条前显示的字符
     
   Attributes
-    bar (list[str]): 一个由全角空格及八分之一至完整方块共9个UTF-8字符组成的列表
+    chars (list[str]): 一个由全角空格及八分之一至完整方块共9个UTF-8字符组成的列表
     p (int): 当前进度
     
   Example
@@ -43,7 +43,7 @@ class Progress:
     command = ['ffmpeg', ...]
     returncode, stdout = util.ffmpeg(command, bar.update)
   '''
-  bar = ['\u3000', '\u258f', '\u258e', '\u258d', '\u258c', '\u258b', '\u258a', '\u2589', '\u2588']
+  chars = ['\u3000', '\u258f', '\u258e', '\u258d', '\u258c', '\u258b', '\u258a', '\u2589', '\u2588']
   
   def __init__(self, 
     mid: custom.Message, 
@@ -67,15 +67,14 @@ class Progress:
       return
     x = math.floor(104 * p / total)
     text = '[' 
-    text += self.bar[8] * (x // 8)
-    text += self.bar[x % 8]
-    text += self.bar[0] * (13 - x // 8)
+    text += self.chars[8] * (x // 8)
+    text += self.chars[x % 8]
+    text += self.chars[0] * (13 - x // 8)
     precent = f'{p / total * 100:.2f}'.rstrip("0").rstrip(".")
     text += f'] {precent}%' 
     try:
       await self.mid.edit(self.prefix + text)
       await asyncio.sleep(update_interval)
-      self.p = p
     except errors.MessageNotModifiedError:
       logger.warning('MessageNotModifiedError: Content of the message was not modified')
     except errors.FloodWaitError as e:
@@ -83,11 +82,11 @@ class Progress:
       await asyncio.sleep(e.seconds)
     except:
       logger.warning(traceback.format_exc())
-    
+    finally:
+      self.p = p
   async def add(self, p=1):
-    self.p += p
     try:
-      await self.update(self.p)
+      await self.update(self.p + p)
     except:
       logger.warning(traceback.format_exc())
     
