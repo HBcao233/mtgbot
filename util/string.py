@@ -113,22 +113,23 @@ def md5sum(
     return ""
     
     
-def get_width(o: int) -> int:
-    """Return the screen column width for unicode ordinal o."""
-    global widths
-    if o == 0xe or o == 0xf:
-        return 0
-    for num, wid in widths:
-        if o <= num:
-            return wid
-    return 1
+def char_width(o: int) -> int:
+  """Return the screen column width for unicode ordinal o."""
+  global widths
+  if o == 0xe or o == 0xf:
+    return 0
+  for num, wid in widths:
+    if o <= num:
+      return wid
+  return 1
     
     
-def width(s: str) -> int:
+def str_width(s: str) -> int:
   res = 0
   for i in s:
-    res += get_width(ord(i))
+    res += char_width(ord(i))
   return res
+
 
 class Options():
   def __init__(self, text: str, **args: Mapping[str, Union[str, Sequence[str]]]):
