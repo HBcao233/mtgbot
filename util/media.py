@@ -179,7 +179,8 @@ async def file_to_media(
   ttl=None, 
   nosound_video=True,
 ):
-  if os.path.splitext(path)[-1] == '.mp4':
+  _ext = os.path.splitext(path)[-1].lower()
+  if _ext == '.mp4':
     video, duration, w, h, thumb = videoInfo(path)
     media = types.InputMediaUploadedDocument(
       file=await config.bot.upload_file(video),

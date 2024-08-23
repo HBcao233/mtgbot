@@ -16,7 +16,13 @@ if len(config.token) < 36 or ':' not in config.token:
 if not config.api_id or not config.api_hash:
   raise ValueError('请提供正确的 api_id 和 api_hash')
 logger.info(f'当前 bot_token={config.token.split(":")[0]+"*"*35}, api_id={config.api_id}')
-bot = config.bot = Bot(util.getFile('bot.session'), config.api_id, config.api_hash).start(bot_token=config.token)
+
+bot = config.bot = Bot(
+  util.getFile('bot.session'), 
+  config.api_id, 
+  config.api_hash,
+  proxy=config.proxy,
+).start(bot_token=config.token)
 
 
 @handler('start')
