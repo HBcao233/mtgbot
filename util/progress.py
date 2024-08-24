@@ -1,6 +1,6 @@
 from telethon import custom, errors
 import math 
-import traceback
+import time 
 import asyncio
 import subprocess
 from typing import Union 
@@ -49,46 +49,60 @@ class Progress:
     mid: custom.Message, 
     total: Union[int, float] = 100, 
     prefix: str = '', 
+    percent=True,
   ):
     self.mid = mid
     self.p = 0
-    self.total = total
+    self.set_total(total)
     self.set_prefix(prefix if prefix else mid.message)
+    self.percent = percent
+    self.timestamp = 0
+    self.need_wait = update_interval
     
   def set_prefix(self, prefix=''):
     if not prefix.endswith('\n'):
       prefix += '\n'
     self.prefix = prefix
+  
+  def set_total(self, total=100):
+    self.total = total
     
   async def update(self, p=0, total=None):
     if total is None:
       total = self.total
     if p == self.p:
       return
+    if time.time() - self.timestamp < self.need_wait:
+      return
+    self.p = p
+    self.timestamp = time.time()
+    
     x = math.floor(104 * p / total)
     text = '[' 
     text += self.chars[8] * (x // 8)
     text += self.chars[x % 8]
     text += self.chars[0] * (13 - x // 8)
-    precent = f'{p / total * 100:.2f}'.rstrip("0").rstrip(".")
-    text += f'] {precent}%' 
+    
+    if self.percent:
+      precent = f'{p / total * 100:.2f}'.rstrip("0").rstrip(".") + '%'
+    else:
+      precent = f'{p} / {total}'
+    
+    text += f'] {precent}' 
     try:
       await self.mid.edit(self.prefix + text)
-      await asyncio.sleep(update_interval)
     except errors.MessageNotModifiedError:
       logger.warning('MessageNotModifiedError: Content of the message was not modified')
     except errors.FloodWaitError as e:
       logger.warning('遇到 FloodWaitError, 等待 %s秒', e.seconds)
-      await asyncio.sleep(e.seconds)
+      self.need_wait = e.seconds
     except:
-      logger.warning(traceback.format_exc())
-    finally:
-      self.p = p
-  async def add(self, p=1):
-    try:
-      await self.update(self.p + p)
-    except:
-      logger.warning(traceback.format_exc())
+      logger.warning(exc_info=1)
+    else:
+      self.need_wait = update_interval
+  
+  async def add(self, p=1, total=None):
+    await self.update(self.p + p, total)
     
     
 class FFmpegProgress(Progress):
@@ -117,4 +131,3 @@ class FFmpegProgress(Progress):
             break
         await self.update(int(time / full_time *100))
     return proc.returncode, '\n'.join(stdout)
-        
