@@ -24,6 +24,11 @@ def setData(file: str, data: dict):
     
     
 class Data(object):
+  def __new__(cls, *args, **kwargs):
+    if not hasattr(cls, '__instance'):
+      cls.__instance = super().__new__(cls)
+    return cls.__instance
+  
   def __init__(self, file: str):
     self.file = file
     self.data = getData(file)
@@ -126,7 +131,6 @@ class Documents(Data):
     if not isinstance(v, types.Document):
       raise ValueError('value not a document')
     return utils.pack_bot_file_id(v)
-    # return dict(id=v.id, access_hash=v.access_hash, dc_id=v.dc_id)
     
   @staticmethod
   def value_de_json(v):
