@@ -1,6 +1,4 @@
 from telethon import events, Button
-
-import config
 from plugin import handler
 
 

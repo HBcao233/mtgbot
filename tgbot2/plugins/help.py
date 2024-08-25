@@ -1,7 +1,6 @@
 from telethon import events, types, utils
 from telethon.custom import Button 
 
-import config
 import util
 from plugin import handler
 
@@ -9,7 +8,7 @@ from plugin import handler
 @handler('help', info='介绍与帮助')
 async def help(event):
   peer_id = utils.get_peer_id(event.message.peer_id)
-  chat = await config.bot.get_entity(event.message.peer_id)
+  chat = await bot.get_entity(event.message.peer_id)
   name = getattr(chat, 'first_name', None) or getattr(chat, 'title', None)
   if t := getattr(chat, 'last_name', None):
     name += ' ' + t

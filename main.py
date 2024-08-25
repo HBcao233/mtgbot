@@ -17,7 +17,7 @@ if not config.api_id or not config.api_hash:
   raise ValueError('请提供正确的 api_id 和 api_hash')
 logger.info(f'当前 bot_token={config.token.split(":")[0]+"*"*35}, api_id={config.api_id}')
 
-bot = config.bot = Bot(
+__builtins__.bot = config.bot = Bot(
   util.getFile('bot.session'), 
   config.api_id, 
   config.api_hash,
@@ -28,7 +28,7 @@ bot = config.bot = Bot(
 @handler('start')
 async def start(event, text):
   if text == '':
-    for i in config.bot.list_event_handlers():
+    for i in bot.list_event_handlers():
       if getattr(i[1], 'pattern', None):
         p = i[1].pattern.__self__.pattern
         if (p.startswith('^/help') or p.startswith('/help')):
@@ -42,7 +42,7 @@ async def _cancel(event):
   import traceback
   f = True
     
-  for i in config.bot._event_handler_tasks:
+  for i in bot._event_handler_tasks:
     _locals = inspect.getargvalues(i.get_coro().cr_frame).locals
     
     c = _locals.get('callback', None)
