@@ -6,10 +6,12 @@ import inspect
 import functools
 import asyncio 
 from typing import Union
+import logging
 
 import config
 from util.data import MessageData
-from util.log import logger
+
+logger = logging.getLogger("mtgbot.plugin")
 
 
 class Scope():
@@ -42,10 +44,10 @@ class Scope():
     if self.chat_id is None:
       return self.type()
     if self._chat_id is None:
-      self._chat_id = await config.bot.get_input_entity(self.chat_id)
+      self._chat_id = await bot.get_input_entity(self.chat_id)
     if self.user_id is not None:
       if self._user_id is None:
-        self._user_id = await config.bot.get_input_entity(self.user_id)
+        self._user_id = await bot.get_input_entity(self.user_id)
       return self.type(self._chat_id, self._user_id)
     return self.type(self._chat_id)
   
@@ -171,7 +173,7 @@ class Command:
         if not text and getattr(event, 'message', None) and getattr(event.message, 'message', None):
           text = event.message.message
         if text:
-          text = re.sub(r'^/(%s|start)(@%s)?' % (self.cmd, config.bot.me.username), '', text).strip()
+          text = re.sub(r'^/(%s|start)(@%s)?' % (self.cmd, bot.me.username), '', text).strip()
         args = [text] + list(args)
       
       info = await get_event_info(event)
@@ -194,7 +196,7 @@ class Command:
       return res
     
     self.func = _func
-    config.bot.add_event_handler(self.func, events.NewMessage(pattern=self.pattern, **self.kwargs))
+    bot.add_event_handler(self.func, events.NewMessage(pattern=self.pattern, **self.kwargs))
     return self.func
     
 
