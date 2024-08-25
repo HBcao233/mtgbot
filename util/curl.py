@@ -6,7 +6,7 @@ from typing import Union
 import config
 from .string import randStr
 from .string import md5sum
-from .file import getCache
+from .file import getCache, _getFile
 
 
 logger = logging.getLogger('mtgbot.curl')
@@ -17,6 +17,33 @@ def logless(t):
     t = t[:20] + '{...}' + t[-20:]
   return t
 
+urlext_pattern = re.compile(r'(\.[a-zA-Z0-9]+)(?:(?!.*\.)|[#&\?:].*)').search
+def getPath(url=None, ext=None, saveas=None):
+  _path = ''
+  if saveas and '/' in saveas:
+    _path, saveas = os.path.split(saveas)
+  _name = ''
+  _ext = ''
+  if ext is True and url is not None and '.' in url:
+    _ext = urlext_pattern(url).group(1)
+  elif type(ext) == str:
+    _ext = ext if ext.startswith('.') else '.' + ext
+  
+  if saveas:
+    arr = os.path.splitext(saveas)
+    _name = arr[0]
+    if not _ext:
+      _ext = '.' + arr[1]
+      
+  if not _name:
+    _name = md5sum(url)
+  
+  if _path and _ext:
+    path = _getFile(_path, _name + _ext)
+  else:
+    path = getCache(_name + _ext)
+  return path
+  
 
 class Client(httpx.AsyncClient):
   def __init__(self, 
@@ -27,6 +54,13 @@ class Client(httpx.AsyncClient):
     timeout=None,
     **kwargs
   ):
+    """
+    Args:
+      proxy: 是否使用代理
+      headers: 指定headers，如 p站图片需要{"Referer": "https://www.pixiv.net"}
+      follow_redirects: 是否跟踪重定向, 默认为 True
+      timeout: 默认为无限制
+    """
     if headers is None:
       headers = {}
     if timeout is None:
@@ -44,7 +78,8 @@ class Client(httpx.AsyncClient):
     )
     
   def build_request(self,
-    method, url, *, 
+    method, url, 
+    *, 
     headers=None, 
     **kwargs
   ):
@@ -59,6 +94,52 @@ class Client(httpx.AsyncClient):
       },
       **kwargs
     )
+  
+  async def getImg(self,
+    url: str, 
+    *, 
+    ext: Union[bool, str] = False, 
+    saveas: str = None, 
+    nocache: bool = False, 
+    rand: bool = False, 
+    **kwargs
+  ) -> str:
+    """
+    流式GET 请求下载文件, 返回下载文件路径
+  
+    Args:
+      url: 文件url
+      ext: (优先级大于saveas)
+        为True时: 自动从url中获取文件后缀名
+        为str时: 指定后缀
+      saveas: 指定下载文件名或路径
+      nocache: 是否不使用缓存, 默认为 False
+      rand: 是否在文件结尾加入随机字符串bytes
+  
+    Returns:
+      str: 文件路径
+    """
+    if url is None or url == '': 
+      return ''
+    path = getPath(url, ext, saveas)
+    if nocache or not os.path.isfile(path):
+      try:
+        async with self.stream(
+          'GET', url=url, 
+          **kwargs
+        ) as r:
+          with open(path, "wb") as f:
+            async for chunk in r.aiter_raw():
+              f.write(chunk)
+      except:
+        os.remove(path)
+        raise
+  
+      if rand:
+        with open(path, "ab") as f:
+          f.write(randStr().encode())
+    
+    return path
 
   
 async def request(
@@ -77,6 +158,7 @@ async def request(
       log(f"{method} {logless(url)} code: {r.status_code}")
     return r
 
+
 async def get(url, **kwargs):
   return await request("GET", url, **kwargs)
 
@@ -88,92 +170,17 @@ async def post(url, **kwargs):
   
 
 async def getImg(
-  url, *, cache=True, path=None, headers=None, rand=False, ext: Union[bool, str]=False, saveas=None, proxy=True, follow_redirects=True, timeout=None,  **kwargs
+  url, *, 
+  ext: Union[bool, str] = False, 
+  saveas: str = None, 
+  nocache: bool = True, 
+  rand: bool = False, 
+  
+  proxy=False, 
+  follow_redirects=True, 
+  timeout=None,
+  **kwargs
 ) -> str:
-  """
-  获取下载广义上的图片，可以为任意文件
-
-  Args:
-      url: 图片url，或图片bytes
-      proxy: 是否使用代理
-      path: 保存路径 
-      headers: 指定headers，如 p站图片需要{"Referer": "https://www.pixiv.net"}
-      rand: 是否在文件结尾加入随机字符串bytes
-      ext: 自动从url中获取文件后缀名
-      saveas: 重命名
-
-  Returns:
-      str: 图片路径
-  """
-  if url is None or url == '': 
-    return ''
-  b = isinstance(url, bytes)
-  
-  if not b and url.find("file://") >= 0:
-    if path is None:
-      path = url[7:]
-    if rand:
-      with open(path, "ab") as f:
-        f.write(randStr().encode())
-    return path
-
-  if b:
-    if path is None:
-      md5 = md5sum(byte=url)
-      path = getCache(md5)
-    with open(path, "wb") as f:
-        f.write(url)
-
-    if rand:
-      with open(path, "ab") as f:
-        f.write(randStr().encode())
-
-    logger.info(f"bytes转图片成功: {path}")
-    return path
-  
-  f = ''
-  ex = ''
-  if ext is True and '.' in url:
-    ex = url.split(".")[-1]
-    ex = re.sub(r"(\?.*)?(#.*)?(:.*)?", "", ex)
-    ex = '.' + ex
-  elif type(ext) == str:
-    ex = ext if ext.startswith('.') else '.' +  ext
-  
-  if not saveas:
-    f = md5sum(url)
-  else:
-    arr = os.path.splitext(saveas)
-    f = arr[0]
-    if not ex:
-      ex = '.' + arr[1]
-    
-  if path is None:
-    path = getCache(f + ex)
-  
-  if not os.path.isfile(path) or not cache:
-    logger.info(f"尝试获取图片 {logless(url)}, saveas {os.path.basename(path)}")
-    try:
-      async with Client(
-        proxy=proxy,
-        http2=True,
-        follow_redirects=follow_redirects,
-        timeout=timeout,
-      ) as client:
-        async with client.stream(
-          'GET', url=url, headers=headers,
-          **kwargs
-        ) as r:
-          with open(path, "wb") as f:
-            async for chunk in r.aiter_raw():
-              f.write(chunk)
-    except:
-      os.remove(path)
-      raise
-
-    if rand:
-      with open(path, "ab") as f:
-        f.write(randStr().encode())
-
-  logger.info(f"获取图片成功: {path}")
-  return path
+  async with Client(proxy=proxy, follow_redirects=follow_redirects, timeout=timeout) as client:
+    logger.info(f"尝试下载文件 {logless(url)}, saveas {os.path.basename(path)}")
+    return await client.getImg(url, ext=ext, saveas=saveas, nocache=nocache, rand=rand, **kwargs)
