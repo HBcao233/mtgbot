@@ -9,9 +9,6 @@ import config
 from .log import logger
 
 
-update_interval = 1
-
-
 class Progress:
   '''进度条
   
@@ -56,8 +53,7 @@ class Progress:
     self.set_total(total)
     self.set_prefix(prefix if prefix else mid.message)
     self.percent = percent
-    self.timestamp = 0
-    self.need_wait = update_interval
+    self.task = None
     
   def set_prefix(self, prefix=''):
     if not prefix.endswith('\n'):
@@ -70,10 +66,9 @@ class Progress:
   async def update(self, p=0, total=None):
     if total is None:
       total = self.total
-    if p == self.p:
-      return
-    if time.time() - self.timestamp < self.need_wait:
-      return
+    if self.task is not None:
+      self.task.cancel()
+      self.task = None
     self.p = p
     self.timestamp = time.time()
     
@@ -90,7 +85,7 @@ class Progress:
     
     text += f'] {precent}' 
     try:
-      await self.mid.edit(self.prefix + text)
+      self.task = asyncio.create_task(self.mid.edit(self.prefix + text))
     except errors.MessageNotModifiedError:
       logger.warning('MessageNotModifiedError: Content of the message was not modified')
     except errors.FloodWaitError as e:
@@ -98,11 +93,10 @@ class Progress:
       self.need_wait = e.seconds
     except:
       logger.warning(exc_info=1)
-    else:
-      self.need_wait = update_interval
   
   async def add(self, p=1, total=None):
-    await self.update(self.p + p, total)
+    self.p += p
+    await self.update(self.p, total)
     
     
 class FFmpegProgress(Progress):
