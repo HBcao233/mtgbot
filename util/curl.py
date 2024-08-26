@@ -182,5 +182,4 @@ async def getImg(
   **kwargs
 ) -> str:
   async with Client(proxy=proxy, follow_redirects=follow_redirects, timeout=timeout) as client:
-    logger.info(f"尝试下载文件 {logless(url)}, saveas {os.path.basename(path)}")
     return await client.getImg(url, ext=ext, saveas=saveas, nocache=nocache, rand=rand, **kwargs)
