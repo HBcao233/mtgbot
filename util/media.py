@@ -14,6 +14,8 @@ from .file import getCache
 def videoInfo(path):
   cap = cv2.VideoCapture(path)
   rate = cap.get(5)
+  if rate == 0:
+    raise ValueError('Input path not a video file.')
   frame_count = cap.get(7)
   duration = round(frame_count / rate, 2)
   width = cap.get(3)
