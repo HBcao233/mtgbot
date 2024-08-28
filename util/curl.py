@@ -1,7 +1,8 @@
 import urllib.parse
 import httpx
-import re, os, logging
+import re, os, logging, time
 from typing import Union
+from stat import ST_MTIME
 
 import config
 from .string import randStr
@@ -10,7 +11,8 @@ from .file import getCache, _getFile
 
 
 logger = logging.getLogger('mtgbot.curl')
-
+# 文件过期时间
+outdated_time = 3600 * 24 * 3
 
 def logless(t):
   if len(t) > 40:
@@ -65,14 +67,15 @@ class Client(httpx.AsyncClient):
       headers = {}
     if timeout is None:
       timeout = httpx.Timeout(connect=None, read=None, write=None, pool=None)
+    _headers = httpx.Headers({
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1517.62",
+    })
+    _headers.update(headers)
     super().__init__(
       proxies=config.proxies if proxy else None, 
       verify=False, 
       follow_redirects=follow_redirects,
-      headers={
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1517.62",
-        **headers,
-      },
+      headers=_headers,
       timeout=timeout,
       **kwargs
     )
@@ -86,12 +89,14 @@ class Client(httpx.AsyncClient):
     p = urllib.parse.urlparse(url)
     if headers is None:
       headers = {}
+    _headers = httpx.Headers({
+     'referer': url,
+     'host': p.netloc,
+     'origin': p.scheme + '://' + p.netloc,
+    })
+    _headers.update(headers)
     return super().build_request(
-      method, url, headers={
-       'Referer': p.scheme + '://' + p.netloc + '/',
-       'host': p.netloc,
-       **headers,
-      },
+      method, url, headers=_headers,
       **kwargs
     )
   
@@ -139,6 +144,11 @@ class Client(httpx.AsyncClient):
         with open(path, "ab") as f:
           f.write(randStr().encode())
     
+    for i in os.listdir(getCache('.')):
+      f = getCache(i)
+      if os.path.isfile(f) and time.time() - os.stat(f)[ST_MTIME] > outdated_time:
+        logger.info(f'清理过期缓存文件 {i}')
+        os.remove(f)
     return path
 
   
