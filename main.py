@@ -15,14 +15,17 @@ if len(config.token) < 36 or ':' not in config.token:
   raise ValueError('请提供正确的 bot token')
 if not config.api_id or not config.api_hash:
   raise ValueError('请提供正确的 api_id 和 api_hash')
-logger.info(f'当前 bot_token={config.token.split(":")[0]+"*"*35}, api_id={config.api_id}')
+logger.info(f'当前 bot_token={config.token.split(":")[0]+"*"*35}, api_id={config.api_id}, proxy={config.proxy}')
 
-__builtins__.bot = config.bot = Bot(
-  util.getFile('bot.session'), 
-  config.api_id, 
-  config.api_hash,
-  proxy=config.proxy,
-).start(bot_token=config.token)
+try:
+  __builtins__.bot = config.bot = Bot(
+    util.getFile('bot.session'), 
+    config.api_id, 
+    config.api_hash,
+    proxy=config.proxy,
+  ).start(bot_token=config.token)
+except ConnectionError:
+  logger.critical('连接错误', exc_info=1)
 
 
 @handler('start')
@@ -108,6 +111,8 @@ if __name__ == '__main__':
   bot.loop.create_task(init())
   try:
     bot.run_until_disconnected()
+  except ConnectionError:
+    logger.critical('连接错误', exc_info=1)
   except asyncio.exceptions.CancelledError:
     pass
   except KeyboardInterrupt:
