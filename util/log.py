@@ -39,21 +39,28 @@ logging.getLogger("telethon.network.mtprotosender").setLevel(logging.ERROR)
 logging.getLogger("telethon.extensions.messagepacker").setLevel(logging.ERROR)
 
 
+main_level = logging.INFO if not config.debug else logging.DEBUG
 logging.basicConfig(
   format="[%(asctime)s %(name)s] %(levelname)s: %(message)s", 
-  level=logging.INFO if not config.debug else logging.DEBUG
+  level=main_level
 )
 
 logger = logging.getLogger("mtgbot")
+logger.setLevel(main_level)
 logger.propagate = False
+
 default_handler = logging.StreamHandler(sys.stdout)
 default_handler.setFormatter(
   logging.Formatter("[%(asctime)s %(name)s] %(levelname)s: %(message)s")
 )
+default_handler.setLevel(main_level)
+
 file_handler = TimedHandler()
 file_handler.setFormatter(
   logging.Formatter("[%(asctime)s %(name)s] %(levelname)s: %(message)s")
 )
+file_handler.setLevel(main_level)
+
 if not logger.handlers:
   # 输出日志到命令行/docker logs
   logger.addHandler(default_handler)
