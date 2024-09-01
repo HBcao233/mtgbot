@@ -14,10 +14,20 @@ logger = logging.getLogger('mtgbot.curl')
 # 文件过期时间
 outdated_time = 3600 * 24 * 3
 
+
 def logless(t):
   if len(t) > 40:
-    t = t[:20] + '{...}' + t[-20:]
+    t = t[:20] + '....' + t[-20:]
   return t
+
+
+def clean_outdated_file():
+  for i in os.listdir(getCache('.')):
+    f = getCache(i)
+    if os.path.isfile(f) and time.time() - os.stat(f)[ST_MTIME] > outdated_time:
+      logger.info(f'清理过期缓存文件 {i}')
+      os.remove(f)
+
 
 urlext_pattern = re.compile(r'(\.[a-zA-Z0-9]+)(?:(?!.*\.)|[#&\?:].*)').search
 def getPath(url=None, ext=None, saveas=None):
@@ -144,11 +154,7 @@ class Client(httpx.AsyncClient):
         with open(path, "ab") as f:
           f.write(randStr().encode())
     
-    for i in os.listdir(getCache('.')):
-      f = getCache(i)
-      if os.path.isfile(f) and time.time() - os.stat(f)[ST_MTIME] > outdated_time:
-        logger.info(f'清理过期缓存文件 {i}')
-        os.remove(f)
+    clean_outdated_file()
     return path
 
   
