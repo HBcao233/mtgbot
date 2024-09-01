@@ -2,6 +2,8 @@ from telethon import types, utils
 import ujson as json
 import os.path
 import sqlite3
+from typing import Union
+from collections import namedtuple
 
 from .file import getDataFile
 from .log import logger
@@ -155,11 +157,32 @@ class Videos(Documents):
 class Animations(Documents):
   def __init__(self):
     super().__init__('animations')
-  
+
+
+
+def namedtuple_factory(cursor, row):
+  fields = [column[0] for column in cursor.description]
+  cls = namedtuple("Row", fields, rename=True)
+  cls.__repr__ = lambda self: 'Row(' + (', '.join([
+    f'{repr(_k) if k.startswith("_") else k}={getattr(self, k)}'
+    for k, _k in zip(self._fields, fields)
+  ])) + ')'
+  return cls._make(row)
+
 
 class MessageData():
   _conn = sqlite3.connect(getDataFile('messages.db'))
+  _conn.row_factory = namedtuple_factory
   inited = False
+  
+  def __new__(cls):
+    if not hasattr(cls, '__instance'):
+      cls.__instance = super().__new__(cls)
+    return cls.__instance
+
+  def __init__(self):
+    self.init()
+
   @classmethod
   def init(cls):
     if cls.inited: return
@@ -172,7 +195,10 @@ class MessageData():
     cls.inited = True
   
   @classmethod
-  def add_message(cls, chat_id, message_id, grouped_id=None):
+  def add_message(cls, chat_id, message_id, grouped_id=None) -> int:
+    """
+    记录 chat_id, message_id 并返回记录id
+    """
     chat_id = utils.get_peer_id(chat_id)
     if isinstance(message_id, types.Message):
       grouped_id = getattr(message_id, 'grouped_id', None)
@@ -182,28 +208,26 @@ class MessageData():
       return
     logger.debug(f'add_message chat_id: {chat_id}, message_id: {message_id}, grouped_id: {grouped_id}')
     
-    r = cls._conn.execute(f"insert into messages(chat_id, message_id, grouped_id) values(?,?,?)", (chat_id, message_id, grouped_id))
+    cursor = cls._conn.cursor()
+    cursor.execute(f"insert into messages(chat_id, message_id, grouped_id) values(?,?,?)", (chat_id, message_id, grouped_id))
     cls._conn.commit()
-    return r.fetchone()
-  
-  @classmethod
-  def get_chat(cls, chat_id):
-    chat_id = utils.get_peer_id(chat_id)
-    cls.init()
-   
-    r = cls._conn.execute(f"SELECT id FROM messages WHERE chat_id='{chat_id}'")
-    if (res := r.fetchone()):
-      return res[0]
-    return None
-  
+    return cursor.lastrowid
+
   @classmethod
   def has_chat(cls, chat_id):
     chat_id = utils.get_peer_id(chat_id)
     cls.init()
-    return cls.get_chat(chat_id) is not None
-  
+    r = cls._conn.execute(f"SELECT id FROM messages WHERE chat_id='{chat_id}'")
+    if (res := r.fetchone()):
+      return True
+    return False
+
   @classmethod
-  def get_message(cls, chat_id, message_id=None):
+  def get_message(cls, chat_id: Union[int, types.Message], message_id: int = None):
+    """
+    MessageData.get_message(message: types.Message)
+    MessageData.get_message(chat_id: int, message_id: int)
+    """
     cls.init()
     if isinstance(chat_id, types.Message):
       if message_id is None:
@@ -214,69 +238,93 @@ class MessageData():
       message_id = message_id.id
     if message_id is None:
       raise ValueError('message_id is not offered')
-    r = cls._conn.execute(f"SELECT id FROM messages WHERE chat_id='{chat_id}' and message_id='{message_id}'")
+    
+    r = cls._conn.execute(f"SELECT * FROM messages WHERE chat_id='{chat_id}' and message_id='{message_id}'")
     if (res := r.fetchone()):
-      return res[0]
+      return res
     return None
-  
+
+  @classmethod
+  def get_message_by_rid(cls, rid):
+    """
+    通过记录id获取message
+    """
+    cls.init()
+    r = cls._conn.execute(f"SELECT * FROM messages WHERE id='{rid}'")
+    if (res := r.fetchone()):
+      return res
+    return None, None
+
   @classmethod
   def get_message_by_mid(cls, mid):
-    cls.init()
-    r = cls._conn.execute(f"SELECT chat_id, message_id FROM messages WHERE id='{mid}'")
-    if (res := r.fetchone()):
-      return res[0], res[1]
-    return None, None
-    
+    logger.warning('DeprecationWarning: Use MessageData.get_message_by_rid instead')
+    return cls.get_message_by_rid(mid)
+
   @classmethod
-  def has_message(cls, chat_id, message_id):
+  def has_message(cls, chat_id, message_id=None):
+    """
+    MessageData.has_message(message: types.Message)
+    MessageData.has_message(chat_id: int, message_id: int)
+    """
     cls.init()
+    if isinstance(chat_id, types.Message):
+      if message_id is None:
+        message_id = chat_id.id
+      chat_id = chat_id.peer_id
     chat_id = utils.get_peer_id(chat_id)
     if isinstance(message_id, types.Message):
       message_id = message_id.id
-    return cls.get_message(chat_id, message_id) is not None
-  
+    if message_id is None:
+      raise ValueError('message_id is not offered')
+
+    r = cls._conn.execute(f"SELECT id FROM messages WHERE chat_id='{chat_id}' and message_id='{message_id}'")
+    if (res := r.fetchone()):
+      return True
+    return False
+
   @classmethod
   def iter_chats(cls):
     cls.init()
-    _set = set()
-    _id = 0
+    offset = 0
     while True:
-      r = cls._conn.execute(f"SELECT chat_id, id FROM messages WHERE id > '{_id}' ORDER BY id ASC LIMIT 1")
-      if not (res := r.fetchone()):
+      r = cls._conn.execute(f"SELECT DISTINCT chat_id FROM messages LIMIT 100 OFFSET {offset}")
+      if not (res := r.fetchall()):
         break
-      chat_id, _id = res
-      if chat_id is None:
-        break
-      if chat_id not in _set:
-        yield chat_id
-      _set.add(chat_id)
-      
+      offset += len(res)
+      for i in res:
+        yield i.chat_id
+
+
   @classmethod
-  def iter_messages(cls, chat_id, *, offset_id=None, reverse=False):
+  def iter_messages(cls, 
+    chat_id: int, 
+    *, 
+    reverse: bool = False, 
+    min_id: int = None, 
+    max_id: int = None
+  ):
     chat_id = utils.get_peer_id(chat_id)
     cls.init()
-    _id = 0
+    _offset = 0
     while True:
-      offset = ''
       sort = 'ASC'
-      t = f"and id > '{_id}'"
-      if offset_id: offset = f"and message_id > '{offset_id}'"
-        
       if reverse:
         sort = 'DESC'
-        t = ''
-        if t != 0:
-          t = f"and id < '{_id}'"
-        if offset_id: offset = f"and message_id < '{offset_id}'"
+      wheres = [f"chat_id = '{chat_id}'"]
+      if min_id:
+        wheres.append(f"message_id >= '{min_id}'")
+      if max_id:
+        wheres.append(f"message_id <= '{max_id}'")
+      wheres = ' and '.join(wheres)
       
-      r = cls._conn.execute(f"SELECT message_id, id FROM messages WHERE chat_id = '{chat_id}' {t} {offset} ORDER BY id {sort} LIMIT 1")
-      if not (res := r.fetchone()):
+      r = cls._conn.execute(f"SELECT message_id FROM messages WHERE {wheres} ORDER BY id {sort} LIMIT 100 OFFSET {_offset}")
+      if not (res := r.fetchall()):
         break
-      message_id, _id = res
-      if message_id is None:
-        break
-      yield message_id
-  
+      offset += len(res)
+      for i in res:
+        yield i.message_id
+
+
   @classmethod
   def get_group(cls, grouped_id: int) -> list[int]:
     cls.init()
@@ -284,4 +332,3 @@ class MessageData():
     if (res := r.fetchall()):
       return [i[0] for i in res]
     return []
-    

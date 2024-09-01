@@ -14,7 +14,7 @@ from util.data import MessageData
 logger = logging.getLogger("mtgbot.plugin")
 
 
-class Scope():
+class Scope(object):
   def __init__(self, type=None, chat_id=None, user_id=None):
     '''
     一般情况下请用静态方法创建
@@ -52,6 +52,7 @@ class Scope():
     return self.type(self._chat_id)
   
   @staticmethod
+  @functools.cache
   def all():
     '''
     默认范围，全部
@@ -59,6 +60,7 @@ class Scope():
     return Scope(types.BotCommandScopeDefault)
   
   @staticmethod
+  @functools.cache
   def private():
     '''
     所有私聊
@@ -66,6 +68,7 @@ class Scope():
     return Scope(types.BotCommandScopeUsers)
   
   @staticmethod
+  @functools.cache
   def chat(chat_id):
     '''
     给定 chat_id 指代的群聊/频道
@@ -74,13 +77,15 @@ class Scope():
     return Scope(types.BotCommandScopePeer, chat_id)
     
   @staticmethod
+  @functools.cache
   def user(chat_id):
     '''
     给定 chat_id 的用户 (不管群聊私聊)
     '''
     return ScopeList(Scope.chat(chat_id), *(Scope.chats(i, chat_id) for i in MessageData.iter_chats() if i < 0))
   
-  @staticmethod 
+  @staticmethod
+  @functools.cache
   def chats(chat_id=None, user_id=None):
     '''
     所有群聊和频道;
@@ -94,6 +99,7 @@ class Scope():
     return Scope(types.BotCommandScopeChats)
   
   @staticmethod
+  @functools.cache
   def chat_admins(chat_id=None):
     '''
     所有群聊和频道的管理员;
@@ -104,6 +110,7 @@ class Scope():
     return Scope(types.BotCommandScopeChatAdmins)
   
   @staticmethod
+  @functools.cache
   def superadmin():
     '''
     所有superadmin (请在 .env 中配置 superadmin 项, 可以为一个数字或以半角逗号 "," 隔开的id列表)
@@ -116,15 +123,29 @@ class ScopeList(list):
     if utils.is_list_like(value):
       for i in value:
         self.append(i)
-      return 
+      return
     if not isinstance(value, Scope):
-      raise ValueError('ScopeList\'s values must be ALL a Scope')
+      raise ValueError('ScopeList\'s values must ALL be Scope or list[Scope]')
     super().append(value)
 
   def __init__(self, *args):
-    super().__init__([])
-    self.append(args)
+    def _append(value):
+      nonlocal items
+      if utils.is_list_like(value):
+        for i in value: _append(i)
+        return
+      if not isinstance(value, Scope):
+        raise ValueError('ScopeList\'s values must be ALL a Scope')
+      items.append(value)
     
+    items = []
+    for i in args:
+      _append(i)
+    super().__init__(items)
+  
+  def __repr__(self):
+    return 'ScopeList(' + super().__repr__() + ')'
+
 
 class Command:
   def __init__(
@@ -232,7 +253,7 @@ inline_handler = InlineCommand
 def load_plugin(name):
   try:
     __import__(name, fromlist=[])
-    logger.info('Success to load plugin "' + name + '"')
+    logger.info(f'Success to load plugin "{name}"')
   except Exception:
     logger.warning('Error to load plugin "' + name + '"')
     logger.warning(traceback.format_exc())
