@@ -246,17 +246,34 @@ class InlineCommand:
     return self.func
 
 
+async def get_event_info(event):
+  sender = await event.get_sender()
+  name = getattr(sender, 'first_name', None) or getattr(sender, 'title', None)
+  if t := getattr(sender, 'last_name', None):
+    name += ' ' + t
+  if event.chat_id == event.sender_id:
+    info = f'被 {name}({sender.id}) 私聊触发'
+  else:
+    chat = await event.get_chat()
+    chatname = getattr(chat, 'first_name', None) or getattr(chat, 'title', None)
+    if t := getattr(chat, 'last_name', None):
+      chatname += ' ' + t
+    info = f'在群组 "{chatname}"({event.chat_id}) 中被 "{name}"({event.sender_id}) 触发'
+  return info
+
+
 handler = Command
 inline_handler = InlineCommand
-  
-  
+load_logger = logging.getLogger("mtgbot.plugin.load")
+
+
 def load_plugin(name):
   try:
     __import__(name, fromlist=[])
-    logger.info(f'Success to load plugin "{name}"')
+    load_logger.info(f'Success to load plugin "{name}"')
   except Exception:
-    logger.warning('Error to load plugin "' + name + '"')
-    logger.warning(traceback.format_exc())
+    load_logger.warning('Error to load plugin "' + name + '"')
+    load_logger.warning(traceback.format_exc())
   
   
 def load_plugins():
@@ -274,20 +291,3 @@ def load_plugins():
     if not m:
       continue
     load_plugin(f'{config.bot_home+"." if config.bot_home else ""}plugins.{m.group(1)}')
-    
-    
-async def get_event_info(event):
-  sender = await event.get_sender()
-  name = getattr(sender, 'first_name', None) or getattr(sender, 'title', None)
-  if t := getattr(sender, 'last_name', None):
-    name += ' ' + t
-  if event.chat_id == event.sender_id:
-    info = f'被 {name}({sender.id}) 私聊触发'
-  else:
-    chat = await event.get_chat()
-    chatname = getattr(chat, 'first_name', None) or getattr(chat, 'title', None)
-    if t := getattr(chat, 'last_name', None):
-      chatname += ' ' + t
-    info = f'在群组 "{chatname}"({event.chat_id}) 中被 "{name}"({event.sender_id}) 触发'
-  return info
-  

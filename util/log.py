@@ -3,7 +3,7 @@ import sys, os, re, time
 import config
 from logging.handlers import TimedRotatingFileHandler
 
-__all__ = ["logger"]
+__all__ = ["logger", "default_handler", "file_handler"]
 
 logs_dir = os.path.join(config.botRoot, 'logs/')
 if not os.path.isdir(logs_dir):
@@ -55,11 +55,17 @@ default_handler.setFormatter(
 )
 default_handler.setLevel(main_level)
 
+
+def file_handler_filter(record):
+  if record.name == 'mtgbot.plugin.load' and record.levelno == 20:
+    return False
+  return True
 file_handler = TimedHandler()
 file_handler.setFormatter(
   logging.Formatter("[%(asctime)s %(name)s] %(levelname)s: %(message)s")
 )
 file_handler.setLevel(main_level)
+file_handler.addFilter(file_handler_filter)
 
 if not logger.handlers:
   # 输出日志到命令行/docker logs
