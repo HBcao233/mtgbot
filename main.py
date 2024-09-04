@@ -77,9 +77,13 @@ async def _(event):
     if i.pattern is None or (match := i.pattern(event.text)):
       if match:
         event.pattern_match = match
-      r = await i.func(event)
-      if isinstance(r, list):
-        res.extend(r)
+      try:
+        r = await i.func(event)
+      except:
+        logger.error(f'{i.func.__qualname__} InlineQuery 获取失败', exc_info=1)
+      else:
+        if isinstance(r, list):
+          res.extend(r)
   if res:
     await event.answer(res)
 
