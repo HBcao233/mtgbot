@@ -89,7 +89,8 @@ class Client(httpx.AsyncClient):
       timeout=timeout,
       **kwargs
     )
-    
+  
+  """
   def build_request(self,
     method, url, 
     *, 
@@ -100,7 +101,6 @@ class Client(httpx.AsyncClient):
     if headers is None:
       headers = {}
     _headers = httpx.Headers({
-     'referer': url,
      'host': p.netloc,
      'origin': p.scheme + '://' + p.netloc,
     })
@@ -109,6 +109,7 @@ class Client(httpx.AsyncClient):
       method, url, headers=_headers,
       **kwargs
     )
+  """
   
   async def getImg(self,
     url: str, 
@@ -143,6 +144,7 @@ class Client(httpx.AsyncClient):
           'GET', url=url, 
           **kwargs
         ) as r:
+          r.raise_for_status()
           with open(path, "wb") as f:
             async for chunk in r.aiter_raw():
               f.write(chunk)
