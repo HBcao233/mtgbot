@@ -218,7 +218,7 @@ class MessageData():
     chat_id = utils.get_peer_id(chat_id)
     cls.init()
     r = cls._conn.execute(f"SELECT id FROM messages WHERE chat_id='{chat_id}'")
-    if (res := r.fetchone()):
+    if r.fetchone():
       return True
     return False
 
@@ -323,7 +323,6 @@ class MessageData():
       offset += len(res)
       for i in res:
         yield i.message_id
-
 
   @classmethod
   def get_group(cls, grouped_id: int) -> list[int]:

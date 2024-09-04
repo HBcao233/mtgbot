@@ -85,6 +85,16 @@ async def _(event):
 
 
 async def init():
+  await bot(functions.bots.ResetBotCommandsRequest(
+    scope=types.BotCommandScopeDefault(),
+    lang_code='zh',
+  ))
+  for i in MessageData.iter_chats():
+    await bot(functions.bots.ResetBotCommandsRequest(
+      scope=types.BotCommandScopePeer(peer=await bot.get_input_entity(i)),
+      lang_code='zh',
+    ))
+
   commands = {}
   for i in config.commands:
     if i.info != '':
