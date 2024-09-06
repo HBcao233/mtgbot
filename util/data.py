@@ -15,85 +15,82 @@ def getData(file: str) -> dict:
     setData(file, dict())
   with open(path, 'r') as f:
     data = f.read()
-    if data == '': 
+    if data == '':
       return {}
     data = json.loads(data)
     return data
-    
+
+
 def setData(file: str, data: dict):
   with open(getDataFile(f'{file}.json'), 'w') as f:
     f.write(json.dumps(data, indent=4))
-    
-    
+
+
 class Data(object):
   def __new__(cls, *args, **kwargs):
     if not hasattr(cls, '__instance'):
       cls.__instance = super().__new__(cls)
     return cls.__instance
-  
+
   def __init__(self, file: str):
     self.file = file
     self.data = getData(file)
-    
-  def __str__(self):
-    return f'Data(file={self.file}, data={self.data})'
-    
+
   def __repr__(self):
-    return self.__repr__()
-  
+    return f'Data(file={self.file}, data={self.data})'
+
   def __contains__(self, key):
     return key in self.data
-  
+
   def __len__(self):
     return len(self.data)
-    
+
   @staticmethod
   def value_to_json(v):
     return v
-    
+
   @staticmethod
   def value_de_json(v):
     return v
-    
+
   def __getitem__(self, key, default=None):
     return self.value_de_json(self.data.get(str(key), default))
-    
+
   def __setitem__(self, key, value):
     self.data[str(key)] = self.value_to_json(value)
-  
+
   def __delitem__(self, key):
-    print(f'del data {key}')
     self.data.pop(key)
-    
+
   def get(self, key, default=None):
     return self.__getitem__(key, default)
-  
+
   def keys(self):
     return self.data.keys()
-    
+
   def items(self):
     return self.data.items()
-    
+
   def values(self):
     return self.data.values()
-    
+
   def save(self):
     setData(self.file, self.data)
-    
+
   def __enter__(self):
     return self
-    
+
   def __exit__(self, type, value, trace):
     self.save()
-    
+
   def __iter__(self):
     return iter(self.data)
-    
+
 
 class Photos(Data):
   def __init__(self):
     super().__init__('photos')
-  
+
   @staticmethod
   def value_to_json(v):
     if v is None:
@@ -113,17 +110,18 @@ class Photos(Data):
     return types.Photo(
       **v,
       date=None,
-      sizes=[], 
-      file_reference=b'', 
+      sizes=[],
+      file_reference=b'',
       thumbs=None,
       has_stickers=False,
       video_sizes=[],
     )
 
+
 class Documents(Data):
   def __init__(self, file='documents'):
     super().__init__(file)
-  
+
   @staticmethod
   def value_to_json(v):
     if v is None:
@@ -133,7 +131,7 @@ class Documents(Data):
     if not isinstance(v, types.Document):
       raise ValueError('value not a document')
     return utils.pack_bot_file_id(v)
-    
+
   @staticmethod
   def value_de_json(v):
     if v is None:
@@ -143,38 +141,67 @@ class Documents(Data):
     return types.Document(
       **v,
       date=None,
-      mime_type='', 
-      size=0, 
+      mime_type='',
+      size=0,
       attributes=[],
-      file_reference=b'', 
+      file_reference=b'',
       thumbs=None,
     )
+
 
 class Videos(Documents):
   def __init__(self):
     super().__init__('videos')
-    
+
+
 class Animations(Documents):
   def __init__(self):
     super().__init__('animations')
 
 
+class Settings(Data):
+  class Unset:
+    pass
+
+  unset = Unset()
+
+  def __init__(self):
+    super().__init__('settings')
+
+  def __getitem__(self, key, default=unset):
+    if isinstance(default, Settings.Unset):
+      return self.value_de_json(self.data.get(str(key)))
+    return self.value_de_json(self.data.get(str(key), default))
+
+  def get(self, key, default=unset):
+    if isinstance(default, Settings.Unset):
+      return self.__getitem__(key)
+    return self.__getitem__(key, default)
+
 
 def namedtuple_factory(cursor, row):
   fields = [column[0] for column in cursor.description]
-  cls = namedtuple("Row", fields, rename=True)
-  cls.__repr__ = lambda self: 'Row(' + (', '.join([
-    f'{repr(_k) if k.startswith("_") else k}={getattr(self, k)}'
-    for k, _k in zip(self._fields, fields)
-  ])) + ')'
+  cls = namedtuple('Row', fields, rename=True)
+  cls.__repr__ = (
+    lambda self: 'Row('
+    + (
+      ', '.join(
+        [
+          f'{repr(_k) if k.startswith("_") else k}={getattr(self, k)}'
+          for k, _k in zip(self._fields, fields)
+        ]
+      )
+    )
+    + ')'
+  )
   return cls._make(row)
 
 
-class MessageData():
+class MessageData:
   _conn = sqlite3.connect(getDataFile('messages.db'))
   _conn.row_factory = namedtuple_factory
   inited = False
-  
+
   def __new__(cls):
     if not hasattr(cls, '__instance'):
       cls.__instance = super().__new__(cls)
@@ -185,15 +212,24 @@ class MessageData():
 
   @classmethod
   def init(cls):
-    if cls.inited: return
-    cls._conn.execute(f"CREATE TABLE if not exists messages(id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER NOT NULL, message_id INTEGER NOT NULL)")
-    cls._conn.execute(f"CREATE UNIQUE INDEX if not exists id_index ON messages (id)")
-    r = cls._conn.execute(f"select count(name) from sqlite_master where type='table' and name='messages' and sql like '%grouped_id%'")
+    if cls.inited:
+      return
+    cls._conn.execute(
+      'CREATE TABLE if not exists messages(id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER NOT NULL, message_id INTEGER NOT NULL)'
+    )
+    cls._conn.execute('CREATE UNIQUE INDEX if not exists id_index ON messages (id)')
+
+    r = cls._conn.execute(
+      "select count(name) from sqlite_master where type='table' and name='messages' and sql like '%grouped_id%'"
+    )
     if not (res := r.fetchone()) or res[0] == 0:
-      cls._conn.execute(f"ALTER TABLE messages ADD COLUMN grouped_id INTEGER DEFAULT value NULL")
+      cls._conn.execute(
+        'ALTER TABLE messages ADD COLUMN grouped_id INTEGER DEFAULT value NULL'
+      )
+
     cls._conn.commit()
     cls.inited = True
-  
+
   @classmethod
   def add_message(cls, chat_id, message_id, grouped_id=None) -> int:
     """
@@ -206,10 +242,15 @@ class MessageData():
     cls.init()
     if cls.has_message(chat_id, message_id):
       return
-    logger.debug(f'add_message chat_id: {chat_id}, message_id: {message_id}, grouped_id: {grouped_id}')
-    
+    logger.debug(
+      f'add_message chat_id: {chat_id}, message_id: {message_id}, grouped_id: {grouped_id}'
+    )
+
     cursor = cls._conn.cursor()
-    cursor.execute(f"insert into messages(chat_id, message_id, grouped_id) values(?,?,?)", (chat_id, message_id, grouped_id))
+    cursor.execute(
+      'insert into messages(chat_id, message_id, grouped_id) values(?,?,?)',
+      (chat_id, message_id, grouped_id),
+    )
     cls._conn.commit()
     return cursor.lastrowid
 
@@ -238,9 +279,11 @@ class MessageData():
       message_id = message_id.id
     if message_id is None:
       raise ValueError('message_id is not offered')
-    
-    r = cls._conn.execute(f"SELECT * FROM messages WHERE chat_id='{chat_id}' and message_id='{message_id}'")
-    if (res := r.fetchone()):
+
+    r = cls._conn.execute(
+      f"SELECT * FROM messages WHERE chat_id='{chat_id}' and message_id='{message_id}'"
+    )
+    if res := r.fetchone():
       return res
     return None
 
@@ -251,7 +294,7 @@ class MessageData():
     """
     cls.init()
     r = cls._conn.execute(f"SELECT * FROM messages WHERE id='{rid}'")
-    if (res := r.fetchone()):
+    if res := r.fetchone():
       return res
     return None, None
 
@@ -277,8 +320,10 @@ class MessageData():
     if message_id is None:
       raise ValueError('message_id is not offered')
 
-    r = cls._conn.execute(f"SELECT id FROM messages WHERE chat_id='{chat_id}' and message_id='{message_id}'")
-    if (res := r.fetchone()):
+    r = cls._conn.execute(
+      f"SELECT id FROM messages WHERE chat_id='{chat_id}' and message_id='{message_id}'"
+    )
+    if r.fetchone():
       return True
     return False
 
@@ -287,21 +332,18 @@ class MessageData():
     cls.init()
     offset = 0
     while True:
-      r = cls._conn.execute(f"SELECT DISTINCT chat_id FROM messages LIMIT 100 OFFSET {offset}")
+      r = cls._conn.execute(
+        f'SELECT DISTINCT chat_id FROM messages LIMIT 100 OFFSET {offset}'
+      )
       if not (res := r.fetchall()):
         break
       offset += len(res)
       for i in res:
         yield i.chat_id
 
-
   @classmethod
-  def iter_messages(cls, 
-    chat_id: int, 
-    *, 
-    reverse: bool = False, 
-    min_id: int = None, 
-    max_id: int = None
+  def iter_messages(
+    cls, chat_id: int, *, reverse: bool = False, min_id: int = None, max_id: int = None
   ):
     chat_id = utils.get_peer_id(chat_id)
     cls.init()
@@ -316,18 +358,22 @@ class MessageData():
       if max_id:
         wheres.append(f"message_id <= '{max_id}'")
       wheres = ' and '.join(wheres)
-      
-      r = cls._conn.execute(f"SELECT message_id FROM messages WHERE {wheres} ORDER BY id {sort} LIMIT 100 OFFSET {_offset}")
+
+      r = cls._conn.execute(
+        f'SELECT message_id FROM messages WHERE {wheres} ORDER BY id {sort} LIMIT 100 OFFSET {_offset}'
+      )
       if not (res := r.fetchall()):
         break
-      offset += len(res)
+      _offset += len(res)
       for i in res:
         yield i.message_id
 
   @classmethod
   def get_group(cls, grouped_id: int) -> list[int]:
     cls.init()
-    r = cls._conn.execute(f"SELECT message_id FROM messages WHERE grouped_id='{grouped_id}'")
-    if (res := r.fetchall()):
+    r = cls._conn.execute(
+      f"SELECT message_id FROM messages WHERE grouped_id='{grouped_id}'"
+    )
+    if res := r.fetchall():
       return [i[0] for i in res]
     return []

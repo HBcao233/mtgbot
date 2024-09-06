@@ -4,21 +4,21 @@ import re
 import os.path
 import inspect
 import functools
-import asyncio 
-from typing import Union
+import asyncio
+from typing import Union, Any
 import logging
 
 import config
 from util.data import MessageData
 
-logger = logging.getLogger("mtgbot.plugin")
+logger = logging.getLogger('mtgbot.plugin')
 
 
 class Scope(object):
   def __init__(self, type=None, chat_id=None, user_id=None):
-    '''
+    """
     一般情况下请用静态方法创建
-    '''
+    """
     if type is None:
       type = types.BotCommandScopeDefault
     self.type = type
@@ -27,19 +27,19 @@ class Scope(object):
     # 缓存的 InputPeer
     self._chat_id = None
     self._user_id = None
-  
+
   def __hash__(self):
     return hash((hash(self.type), self.chat_id, self.user_id))
-    
+
   def __eq__(self, other):
     return hash(self) == hash(other)
-    
+
   def __str__(self):
     return f'Scope(type=types.{self.type.__name__}, chat_id={self.chat_id}, user_id={self.user_id})'
-    
+
   def __repr__(self):
     return self.__str__()
-  
+
   async def to_command_scope(self):
     if self.chat_id is None:
       return self.type()
@@ -50,71 +50,74 @@ class Scope(object):
         self._user_id = await bot.get_input_entity(self.user_id)
       return self.type(self._chat_id, self._user_id)
     return self.type(self._chat_id)
-  
+
   @staticmethod
   @functools.cache
   def all():
-    '''
+    """
     默认范围，全部
-    '''
+    """
     return Scope(types.BotCommandScopeDefault)
-  
+
   @staticmethod
   @functools.cache
   def private():
-    '''
+    """
     所有私聊
-    '''
+    """
     return Scope(types.BotCommandScopeUsers)
-  
+
   @staticmethod
   @functools.cache
   def chat(chat_id):
-    '''
+    """
     给定 chat_id 指代的群聊/频道
     或给定 chat_id 的用户私聊
-    '''
+    """
     return Scope(types.BotCommandScopePeer, chat_id)
-    
+
   @staticmethod
   @functools.cache
   def user(chat_id):
-    '''
+    """
     给定 chat_id 的用户 (不管群聊私聊)
-    '''
-    return ScopeList(Scope.chat(chat_id), *(Scope.chats(i, chat_id) for i in MessageData.iter_chats() if i < 0))
-  
+    """
+    return ScopeList(
+      Scope.chat(chat_id),
+      *(Scope.chats(i, chat_id) for i in MessageData.iter_chats() if i < 0),
+    )
+
   @staticmethod
   @functools.cache
   def chats(chat_id=None, user_id=None):
-    '''
+    """
     所有群聊和频道;
-    或给定 chat_id 指代的群聊/频道/用户; 
+    或给定 chat_id 指代的群聊/频道/用户;
     或给定 chat_id 指代的群聊/频道中特定的 user_id 指代的用户
-    '''
+    """
     if chat_id and user_id:
       return Scope(types.BotCommandScopePeerUser, chat_id, user_id)
     if chat_id:
       return Scope.chat(chat_id)
     return Scope(types.BotCommandScopeChats)
-  
+
   @staticmethod
   @functools.cache
   def chat_admins(chat_id=None):
-    '''
+    """
     所有群聊和频道的管理员;
     或给定 chat_id 指代的群聊/频道的管理员
-    '''
+    """
     if chat_id:
       return Scope(types.BotCommandScopePeerAdmins, chat_id)
     return Scope(types.BotCommandScopeChatAdmins)
-  
+
   @staticmethod
   @functools.cache
   def superadmin():
-    '''
+    """
     所有superadmin (请在 .env 中配置 superadmin 项, 可以为一个数字或以半角逗号 "," 隔开的id列表)
-    '''
+    """
     return ScopeList([Scope.user(i) for i in config.superadmin])
 
 
@@ -125,125 +128,27 @@ class ScopeList(list):
         self.append(i)
       return
     if not isinstance(value, Scope):
-      raise ValueError('ScopeList\'s values must ALL be Scope or list[Scope]')
+      raise ValueError("ScopeList's values must ALL be Scope or list[Scope]")
     super().append(value)
 
   def __init__(self, *args):
     def _append(value):
       nonlocal items
       if utils.is_list_like(value):
-        for i in value: _append(i)
+        for i in value:
+          _append(i)
         return
       if not isinstance(value, Scope):
-        raise ValueError('ScopeList\'s values must be ALL a Scope')
+        raise ValueError("ScopeList's values must be ALL a Scope")
       items.append(value)
-    
+
     items = []
     for i in args:
       _append(i)
     super().__init__(items)
-  
+
   def __repr__(self):
     return 'ScopeList(' + super().__repr__() + ')'
-
-
-class Command:
-  def __init__(
-    self, 
-    cmd: str = '', 
-    *,
-    pattern: Union[str, re.Pattern, callable] = None,
-    info: str = "", # BotCommand 中的描述信息
-    scope: Union[ScopeList, Scope]= None, # BotCommand 显示的范围
-    **kwargs,
-  ):
-    self.cmd = cmd
-    if pattern is None and self.cmd:
-      pattern = r'^/' + self.cmd + '.*'
-    self.pattern = pattern
-    self.info = info
-    
-    if scope is None:
-      scope = ScopeList(Scope())
-    elif isinstance(scope, Scope):
-      scope = ScopeList(scope)
-    elif not isinstance(scope, ScopeList):
-      raise ValueError('The parameter "scope" must be a plugin.Scope or a plugin.ScopeList')
-    self.scope = scope
-    
-    self.kwargs = {k:v for k, v in kwargs.items() if k in ['incoming', 'outgoing', 'from_users', 'forwards', 'chats', 'blacklist_chats', 'func']}
-    
-  def __str__(self):
-    return 'Command(' + ', '.join(f'{k}={v}' for k in ['cmd', 'func', 'pattern', 'info', 'desc', 'scope', 'kwargs'] if (v := getattr(self, cmd, None)) is not None) + ')'
-    
-  def __repr__(self):
-    return self.__str__()
-  
-  def __call__(self, func):
-    config.commands.append(self)
-    
-    @functools.wraps(func)
-    async def _func(event, *args, **kwargs):
-      event.cmd = self
-      _args = inspect.signature(func).parameters
-      if 'text' in _args:
-        text = ''
-        if len(args) > 0:
-          args = list(args)
-          text = args.pop(0)
-        if not text and getattr(event, 'message', None) and getattr(event.message, 'message', None):
-          text = event.message.message
-        if text:
-          text = re.sub(r'^/(%s|start)(@%s)?' % (self.cmd, bot.me.username), '', text).strip()
-        args = [text] + list(args)
-      
-      info = await get_event_info(event)
-      if self.cmd: logger.info(f'命令 "{self.cmd}" ' + info)
-      res = None
-      sp = None
-      try:
-        res = await func(event, *args, **kwargs)
-      except asyncio.CancelledError as e:
-        if self.cmd: logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 被取消')
-        raise e
-      except events.StopPropagation as e:
-        sp = e
-      except Exception as e:
-        if self.cmd: logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 异常结束')
-        raise e
-      if self.cmd: logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 运行结束')
-      if sp is not None:
-        raise sp
-      return res
-    
-    self.func = _func
-    bot.add_event_handler(self.func, events.NewMessage(pattern=self.pattern, **self.kwargs))
-    return self.func
-    
-
-class InlineCommand:
-  def __init__(
-    self, 
-    pattern: Union[str, re.Pattern, callable] = None,
-    **kwargs,
-  ):
-    if not callable(pattern):
-      if isinstance(pattern, re.Pattern):
-        pattern = pattern.match
-      else:
-        pattern = re.compile(pattern).match
-    self.pattern = pattern
-    
-  def __str__(self):
-    return 'InlineCommand(' + ', '.join(f'{k}={v}' for k in ['pattern', 'func', 'kwargs']) + ')'
-    
-  def __repr__(self):
-    return self.__str__()
-  
-  def __call__(self, func):
-    config.inlines.append(self)
-    self.func = func
-    return self.func
 
 
 async def get_event_info(event):
@@ -262,9 +167,172 @@ async def get_event_info(event):
   return info
 
 
+class Command:
+  def __init__(
+    self,
+    cmd: str = '',
+    *,
+    pattern: Union[str, re.Pattern, callable] = None,
+    info: str = '',  # BotCommand 中的描述信息
+    scope: Union[ScopeList, Scope] = None,  # BotCommand 显示的范围
+    show_info: Union[callable, Any] = True,
+    **kwargs,
+  ):
+    self.cmd = cmd
+    if pattern is None and self.cmd:
+      pattern = r'^/' + self.cmd + '.*'
+    self.pattern = pattern
+    self.info = info
+    if show_info is None:
+      show_info = True
+    elif not callable(show_info):
+      show_info = bool(show_info)
+    self.show_info = show_info
+
+    if scope is None:
+      scope = ScopeList(Scope())
+    elif isinstance(scope, Scope):
+      scope = ScopeList(scope)
+    elif not isinstance(scope, ScopeList):
+      raise ValueError(
+        'The parameter "scope" must be a plugin.Scope or a plugin.ScopeList'
+      )
+    self.scope = scope
+
+    self.kwargs = {
+      k: v
+      for k, v in kwargs.items()
+      if k
+      in [
+        'incoming',
+        'outgoing',
+        'from_users',
+        'forwards',
+        'chats',
+        'blacklist_chats',
+        'func',
+      ]
+    }
+
+  def __str__(self):
+    return (
+      'Command('
+      + ', '.join(
+        f'{k}={v}'
+        for k in ['cmd', 'func', 'pattern', 'info', 'desc', 'scope', 'kwargs']
+        if (v := getattr(self, k, None)) is not None
+      )
+      + ')'
+    )
+
+  def __repr__(self):
+    return self.__str__()
+
+  def __call__(self, func):
+    config.commands.append(self)
+
+    @functools.wraps(func)
+    async def _func(event, *args, **kwargs):
+      event.cmd = self
+      _args = inspect.signature(func).parameters
+      if 'text' in _args:
+        text = ''
+        if len(args) > 0:
+          args = list(args)
+          text = args.pop(0)
+        if (
+          not text
+          and getattr(event, 'message', None)
+          and getattr(event.message, 'message', None)
+        ):
+          text = event.message.message
+        if text:
+          text = re.sub(
+            r'^/(%s|start)(@%s)?' % (self.cmd, bot.me.username), '', text
+          ).strip()
+        args = [text] + list(args)
+
+      info = await get_event_info(event)
+      if self.cmd:
+        logger.info(f'命令 "{self.cmd}" ' + info)
+      res = None
+      sp = None
+      try:
+        res = await func(event, *args, **kwargs)
+      except asyncio.CancelledError as e:
+        if self.cmd:
+          logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 被取消')
+        raise e
+      except events.StopPropagation as e:
+        sp = e
+      except Exception as e:
+        if self.cmd:
+          logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 异常结束')
+        raise e
+      if self.cmd:
+        logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 运行结束')
+      if sp is not None:
+        raise sp
+      return res
+
+    self.func = _func
+    config.bot.add_event_handler(
+      self.func, events.NewMessage(pattern=self.pattern, **self.kwargs)
+    )
+    return self.func
+
+
+class InlineCommand:
+  def __init__(
+    self,
+    pattern: Union[str, re.Pattern, callable] = None,
+  ):
+    if not callable(pattern):
+      if isinstance(pattern, re.Pattern):
+        pattern = pattern.match
+      else:
+        pattern = re.compile(pattern).match
+    self.pattern = pattern
+
+  def __repr__(self):
+    return (
+      'InlineCommand('
+      + ', '.join(
+        f'{k}={v}' for k in ['pattern', 'func'] if (v := getattr(self, k, None))
+      )
+      + ')'
+    )
+
+  def __call__(self, func):
+    config.inlines.append(self)
+    self.func = func
+    return self.func
+
+
 handler = Command
 inline_handler = InlineCommand
-load_logger = logging.getLogger("mtgbot.plugin.load")
+
+
+class Setting:
+  def __init__(
+    self,
+    text: str,
+  ):
+    self.text = text
+    self.data = b'setting_' + text.encode()
+    self.pattern = re.compile(b'^' + self.data + b'$').match
+
+  def __repr__(self):
+    return f'Setting(func={self.func})'
+
+  def __call__(self, func):
+    config.settings.append(self)
+    self.func = func
+    config.bot.add_event_handler(self.func, events.CallbackQuery(pattern=self.pattern))
+    return self.func
+
+
+load_logger = logging.getLogger('mtgbot.plugin.load')
 
 
 def load_plugin(name):
@@ -274,18 +342,17 @@ def load_plugin(name):
   except Exception:
     load_logger.warning('Error to load plugin "' + name + '"')
     load_logger.warning(traceback.format_exc())
-  
-  
+
+
 def load_plugins():
   dirpath = os.path.join(config.botRoot, 'plugins')
   for name in os.listdir(dirpath):
     path = os.path.join(dirpath, name)
-    if os.path.isfile(path) and \
-       (name.startswith('_') or not name.endswith('.py')):
+    if os.path.isfile(path) and (name.startswith('_') or not name.endswith('.py')):
       continue
-    if os.path.isdir(path) and \
-       (name.startswith('_') or 
-        not os.path.exists(os.path.join(path, '__init__.py'))):
+    if os.path.isdir(path) and (
+      name.startswith('_') or not os.path.exists(os.path.join(path, '__init__.py'))
+    ):
       continue
     m = re.match(r'([_A-Z0-9a-z]+)(.py)?', name)
     if not m:
