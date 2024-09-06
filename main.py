@@ -86,6 +86,20 @@ async def _settings(event):
   )
 
 
+@bot.on(events.CallbackQuery(pattern=rb'delete(?:~([\x00-\xff]{6,6}))?$'))
+async def _delete_button(event):
+  chat_id = event.chat_id
+  match = event.pattern_match
+  sender_id = None
+  if t := match.group(1):
+    sender_id = int.from_bytes(t, 'big')
+  if sender_id and event.sender_id and sender_id != event.sender_id:
+    participant = await bot.get_permissions(chat_id, event.sender_id)
+    if not participant.delete_messages:
+      return await event.answer('只有消息发送者可以修改', alert=True)
+  await event.delete()
+
+
 @bot.on(events.NewMessage)
 async def _(event):
   MessageData.add_message(
