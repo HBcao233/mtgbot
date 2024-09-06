@@ -1,4 +1,3 @@
-from telethon import types, utils
 import os
 
 
@@ -8,6 +7,7 @@ default_api_hash = '014b35b6184100b085b0d0572f9b5103'
 botRoot = workPath = os.path.dirname(os.path.realpath(__file__))
 commands = []
 inlines = []
+settings = []
 
 
 env = os.environ
@@ -37,15 +37,14 @@ if (proxy_port := env.get('proxy_port', '')) != '':
   if env.get('proxy_host', '') != '':
     proxy_host = env.get('proxy_host')
   proxy_url = f'{proxy_type}://{proxy_host}:{proxy_port}/'
-  
+
   proxy_username = env.get('proxy_username', '')
   proxy_password = env.get('proxy_password', '')
   if proxy_username and proxy_password:
-    proxy_url = f'{proxy_type}://{proxy_username}:{proxy_password}@{proxy_host}:{proxy_port}'
+    proxy_url = (
+      f'{proxy_type}://{proxy_username}:{proxy_password}@{proxy_host}:{proxy_port}'
+    )
 
 if proxy_url is not None:
-  proxies.update({
-    "http://": proxy_url,
-    "https://": proxy_url
-  })
+  proxies.update({'http://': proxy_url, 'https://': proxy_url})
   proxy = (proxy_type, proxy_host, proxy_port, True, proxy_username, proxy_password)

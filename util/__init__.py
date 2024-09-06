@@ -31,21 +31,37 @@ from .data import (
   MessageData,
 )
 
-from .curl import (
-  request, get, post, getImg
-)
+from .curl import request, get, post, getImg
 
 __all__ = [
   'logger',
-  'string', 'file', 'media', 'data', 'curl', 'telegraph',
-  
-  'randStr', 'md5sum',
-  
-  'getFile', 'getResource', 'getDataFile', 'getCache', 'getWorkFile',
-  
-  'videoInfo', 'resizePhoto', 'getPhotoThumbnail',
-  
-  'getData', 'setData', 'Data', 'Photos', 'Videos', 'Documents', 'Animations', 'MessageData',
-  
-  'request', 'get', 'post', 'getImg',
+  'string',
+  'file',
+  'media',
+  'data',
+  'curl',
+  'telegraph',
+  'randStr',
+  'md5sum',
+  'getFile',
+  'getResource',
+  'getDataFile',
+  'getCache',
+  'getWorkFile',
+  'videoInfo',
+  'resizePhoto',
+  'img2bytes',
+  'getPhotoThumbnail',
+  'getData',
+  'setData',
+  'Data',
+  'Photos',
+  'Videos',
+  'Documents',
+  'Animations',
+  'MessageData',
+  'request',
+  'get',
+  'post',
+  'getImg',
 ]
