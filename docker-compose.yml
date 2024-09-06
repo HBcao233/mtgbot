@@ -3,8 +3,6 @@ version: '3'
 services:
   mtgbot:
     container_name: mtgbot
-    build: .
-    stop_signal: SIGINT
     volumes:
       - .:/tgbot
     env_file:
@@ -12,11 +10,12 @@ services:
     environment:
       BOT_HOME: mtgbot
       TZ: Asia/Shanghai
+
+    build: .
+    stop_signal: SIGINT
       
   tgbot2:
     container_name: tgbot2
-    build: .
-    stop_signal: SIGINT
     volumes:
       - .:/tgbot
     env_file:
@@ -24,4 +23,6 @@ services:
     environment:
       BOT_HOME: tgbot2
       TZ: Asia/Shanghai
-      
+    
+    build: .
+    stop_signal: SIGINT
