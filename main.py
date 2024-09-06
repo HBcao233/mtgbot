@@ -81,7 +81,7 @@ async def _settings(event):
 
   buttons.append([Button.inline('关闭面板', data=b'delete')])
   await event.reply(
-    '调教小派魔的运行参数\u2661',
+    t if (t := config.env.get('settings_caption', '')) else '设置小派魔的运行参数',
     buttons=buttons,
   )
 
