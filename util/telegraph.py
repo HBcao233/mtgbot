@@ -41,7 +41,7 @@ async def createPage(title, content):
         if str(chat_id) in data['telegraph']['author_name']:
           _author_name = data['telegraph']['author_name'][str(chat_id)]
         if str(chat_id) in data['telegraph']['author_url']:
-          _author_name = data['telegraph']['author_url'][str(chat_id)]
+          _author_url = data['telegraph']['author_url'][str(chat_id)]
 
   if not isinstance(content, str):
     content = json.dumps(content)
