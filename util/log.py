@@ -49,9 +49,14 @@ logging.getLogger('telethon.network.mtprotosender').setLevel(logging.ERROR)
 logging.getLogger('telethon.extensions.messagepacker').setLevel(logging.ERROR)
 
 
+main_format = (
+  '[%(asctime)s <%(module)s:%(lineno)d>] %(name)s %(levelname)s: %(message)s'
+)
+main_formater = logging.Formatter(main_format)
 main_level = logging.INFO if not config.debug else logging.DEBUG
 logging.basicConfig(
-  format='[%(asctime)s %(name)s] %(levelname)s: %(message)s', level=main_level
+  format=main_format,
+  level=main_level,
 )
 
 logger = logging.getLogger('mtgbot')
@@ -59,9 +64,7 @@ logger.setLevel(main_level)
 logger.propagate = False
 
 default_handler = logging.StreamHandler(sys.stdout)
-default_handler.setFormatter(
-  logging.Formatter('[%(asctime)s %(name)s] %(levelname)s: %(message)s')
-)
+default_handler.setFormatter(main_formater)
 default_handler.setLevel(main_level)
 
 
@@ -72,9 +75,7 @@ def file_handler_filter(record):
 
 
 file_handler = TimedHandler()
-file_handler.setFormatter(
-  logging.Formatter('[%(asctime)s %(name)s] %(levelname)s: %(message)s')
-)
+file_handler.setFormatter(main_formater)
 file_handler.setLevel(main_level)
 file_handler.addFilter(file_handler_filter)
 
