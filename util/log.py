@@ -79,8 +79,12 @@ file_handler.setFormatter(main_formater)
 file_handler.setLevel(main_level)
 file_handler.addFilter(file_handler_filter)
 
+root_logger = logging.getLogger('root')
 if not logger.handlers:
   # 输出日志到命令行/docker logs
+  root_logger.handlers = []
+  root_logger.addHandler(default_handler)
   logger.addHandler(default_handler)
   # 输出至 logs 文件夹
+  root_logger.addHandler(file_handler)
   logger.addHandler(file_handler)
