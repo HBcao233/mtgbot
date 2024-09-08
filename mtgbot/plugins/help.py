@@ -12,7 +12,9 @@ async def help(event):
     '/bill <url/aid/bvid>: 获取b站视频 (类似 @bilifeedbot\n'
     '/eid <url>: e站爬取\n'
     '/kid <url>: kemono爬取\n'
-    '/roll [min=0][ -~/][max=9]: 返回一个min~max的随机数（默认0-9）\n',
+    '/roll [min=0][ -~/][max=9]: 返回一个min~max的随机数（默认0-9）\n'
+    '/settings: 参数设置\n'
+    '收到图片后选择合并图片按钮, 可合并多张图片或创建Telegraph (建议先 /settings 设置 Telegraph 作者)',
     buttons=Button.url('源代码', 'https://github.com/HBcao233/mtgbot'),
   )
   raise events.StopPropagation
