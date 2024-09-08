@@ -93,17 +93,20 @@ class Progress:
       precent = f'{p / total * 100:.2f}'.rstrip('0').rstrip('.') + '%'
     else:
       precent = f'{p} / {total}'
-
     text += f'] {precent}'
-    try:
-      self.task = asyncio.create_task(self.mid.edit(self.prefix + text))
-    except errors.MessageNotModifiedError:
-      logger.warning('MessageNotModifiedError: Content of the message was not modified')
-    except errors.FloodWaitError as e:
-      logger.warning('遇到 FloodWaitError, 等待 %s秒', e.seconds)
-      self.need_wait = e.seconds
-    except Exception:
-      logger.warning(exc_info=1)
+
+    async def func():
+      try:
+        await self.mid.edit(self.prefix + text)
+      except (errors.MessageNotModifiedError, errors.MessageIdInvalidError):
+        pass
+      except errors.FloodWaitError as e:
+        logger.warning('遇到 FloodWaitError, 等待 %s秒', e.seconds)
+        self.need_wait = e.seconds
+      except Exception:
+        logger.warning(exc_info=1)
+
+    self.task = bot.loop.create_task(func())
 
   async def add(self, p=1, total=None):
     self.p += p
