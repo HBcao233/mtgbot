@@ -5,7 +5,7 @@ import os.path
 import inspect
 import functools
 import asyncio
-from typing import Union, Any
+from typing import Union, Any, Callable
 import logging
 
 import config
@@ -173,9 +173,11 @@ class Command:
     cmd: str = '',
     *,
     pattern: Union[str, re.Pattern, callable] = None,
+    enable: Union[Callable[[], bool], Any] = True,
     info: str = '',  # BotCommand 中的描述信息
     scope: Union[ScopeList, Scope] = None,  # BotCommand 显示的范围
-    show_info: Union[callable, Any] = True,
+    show_info: Union[bool, callable, Any] = True,
+    filter: Any = None,
     **kwargs,
   ):
     self.cmd = cmd
@@ -183,11 +185,12 @@ class Command:
       pattern = r'^/' + self.cmd + '.*'
     self.pattern = pattern
     self.info = info
-    if show_info is None:
-      show_info = True
-    elif not callable(show_info):
-      show_info = bool(show_info)
     self.show_info = show_info
+    self.enable = enable
+    if hasattr(filter, 'filter'):
+      filter = filter.filter
+    self.filter = filter
+    kwargs['func'] = self.filter
 
     if scope is None:
       scope = ScopeList(Scope())
@@ -198,21 +201,7 @@ class Command:
         'The parameter "scope" must be a plugin.Scope or a plugin.ScopeList'
       )
     self.scope = scope
-
-    self.kwargs = {
-      k: v
-      for k, v in kwargs.items()
-      if k
-      in [
-        'incoming',
-        'outgoing',
-        'from_users',
-        'forwards',
-        'chats',
-        'blacklist_chats',
-        'func',
-      ]
-    }
+    self.kwargs = kwargs
 
   def __str__(self):
     return (
@@ -265,10 +254,11 @@ class Command:
         raise e
       except events.StopPropagation as e:
         sp = e
-      except Exception as e:
+      except Exception:
         if self.cmd:
-          logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 异常结束')
-        raise e
+          logger.error(
+            f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 异常结束', exc_info=1
+          )
       if self.cmd:
         logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 运行结束')
       if sp is not None:
@@ -276,9 +266,6 @@ class Command:
       return res
 
     self.func = _func
-    config.bot.add_event_handler(
-      self.func, events.NewMessage(pattern=self.pattern, **self.kwargs)
-    )
     return self.func
 
 

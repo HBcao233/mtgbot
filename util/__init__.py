@@ -64,4 +64,11 @@ __all__ = [
   'get',
   'post',
   'getImg',
+  'bool_or_callable',
 ]
+
+
+def bool_or_callable(obj) -> bool:
+  if callable(obj):
+    return bool(obj())
+  return bool(obj)

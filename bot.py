@@ -4,7 +4,6 @@ import asyncio
 import inspect
 import functools
 import itertools
-import traceback
 import typing
 
 import config
@@ -59,7 +58,7 @@ class Bot(TelegramClient):
     try:
       await self.request_callback(request, res)
     except Exception:
-      logger.warning(traceback.format_exc())
+      logger.error(exc_info=1)
     return res
 
   async def delete_messages(

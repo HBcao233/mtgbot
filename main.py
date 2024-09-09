@@ -1,6 +1,7 @@
 from telethon import events, types, functions, utils, Button
 import asyncio
 import inspect
+import ast
 
 import config
 import util
@@ -8,6 +9,7 @@ from plugin import load_plugins, handler, Scope
 from util.log import logger
 from util.data import MessageData
 from bot import Bot
+import filters
 
 
 if len(config.token) < 36 or ':' not in config.token:
@@ -66,10 +68,14 @@ async def _cancel(event):
   await event.respond('已取消所有进行中的任务')
 
 
-@handler('settings', info='设置', show_info=(lambda: len(config.settings) > 0))
+@handler(
+  'settings',
+  enable=(lambda: len(config.settings) > 0),
+  info='设置',
+  scope=Scope.private(),
+  filter=filters.PRIVATE,
+)
 async def _settings(event):
-  if not event.is_private:
-    return
   buttons = []
   index = 0
   for i in config.settings:
@@ -80,8 +86,13 @@ async def _settings(event):
       index += 1
 
   buttons.append([Button.inline('关闭面板', data=b'delete')])
+  caption = config.env.get('settings_caption', '')
+  if caption:
+    caption = ast.parse(r'"""' + caption + '"""').body[0].value.value
+  else:
+    caption = '设置小派魔的运行参数'
   await event.reply(
-    t if (t := config.env.get('settings_caption', '')) else '设置小派魔的运行参数',
+    caption,
     buttons=buttons,
   )
 
@@ -128,9 +139,18 @@ async def _(event):
 
 
 async def init():
+  """
+  初始化
+  """
   await bot(
     functions.bots.ResetBotCommandsRequest(
       scope=types.BotCommandScopeDefault(),
+      lang_code='zh',
+    )
+  )
+  await bot(
+    functions.bots.ResetBotCommandsRequest(
+      scope=types.BotCommandScopeUsers(),
       lang_code='zh',
     )
   )
@@ -142,21 +162,30 @@ async def init():
       )
     )
 
-  commands = {}
-  for i in config.commands:
-    _show_info = i.show_info
-    if callable(_show_info):
-      _show_info = _show_info()
-    if i.info != '' and _show_info:
-      for s in i.scope:
-        if s not in commands:
-          commands[s] = set()
-        commands[s].add((i.cmd, i.info))
+  try:
+    commands = {}
+    for i in config.commands:
+      if not util.bool_or_callable(i.enable):
+        continue
+      bot.add_event_handler(i.func, events.NewMessage(pattern=i.pattern, **i.kwargs))
+      if i.info != '' and util.bool_or_callable(i.show_info):
+        for s in i.scope:
+          if s not in commands:
+            commands[s] = set()
+          commands[s].add((i.cmd, i.info))
+  except Exception:
+    logger.critical(f'{i.func.__module__}.{i} 初始化失败', exc_info=1)
+    exit(1)
+
   for k in commands:
-    if not isinstance(k.type, types.BotCommandScopeDefault):
+    if k.type != types.BotCommandScopeDefault:
       commands[k].update(commands[Scope.all()])
 
-  # logger.info(json.dumps({k: str([i[0] for i in v]) for k,v in commands.items()}, indent=2, ensure_ascii=False))
+  logger.debug(
+    '{\n'
+    + ('\n'.join([f'  {k}: {str([i[0] for i in v])},' for k, v in commands.items()]))
+    + '\n}'
+  )
   for k, v in commands.items():
     await bot(
       functions.bots.SetBotCommandsRequest(
