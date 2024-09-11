@@ -15,7 +15,7 @@ if not os.path.isdir(logs_dir):
 
 class TimedHandler(TimedRotatingFileHandler):
   def __init__(self, name='', backupCount=30, encoding=None, delay=False, errors=None):
-    if name == '':
+    if not name:
       name = '.log'
     else:
       name = '.' + name + '.log'
@@ -34,7 +34,7 @@ class TimedHandler(TimedRotatingFileHandler):
       atTime=None,
       errors=errors,
     )
-    self.suffix = suffix
+    self.suffix = suffix + name
     self.extMatch = re.compile(
       r'(?<=\.)\d{4}-\d{2}-\d{2}' + re.escape(name) + r'$', re.ASCII
     )
