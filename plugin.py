@@ -7,6 +7,7 @@ import functools
 import asyncio
 from typing import Union, Any, Callable
 import logging
+import time
 
 import config
 from util.data import MessageData
@@ -183,6 +184,10 @@ class Command:
     self.cmd = cmd
     if pattern is None and self.cmd:
       pattern = r'^/' + self.cmd + '.*'
+    if isinstance(pattern, str):
+      pattern = re.compile(pattern).match
+    elif isinstance(pattern, re.Pattern):
+      pattern = pattern.match
     self.pattern = pattern
     self.info = info
     self.show_info = show_info
@@ -204,6 +209,9 @@ class Command:
     self.kwargs = kwargs
 
   def __str__(self):
+    return self.__repr__()
+
+  def __repr__(self):
     return (
       'Command('
       + ', '.join(
@@ -214,10 +222,9 @@ class Command:
       + ')'
     )
 
-  def __repr__(self):
-    return self.__str__()
-
   def __call__(self, func):
+    if self.cmd == '':
+      self.cmd = f'pattern_cmd<{func.__module__}:{func.__qualname__}>'
     config.commands.append(self)
 
     @functools.wraps(func)
@@ -242,25 +249,21 @@ class Command:
         args = [text] + list(args)
 
       info = await get_event_info(event)
-      if self.cmd:
-        logger.info(f'命令 "{self.cmd}" ' + info)
+      logger.info(f'命令 "{self.cmd}" ' + info)
       res = None
       sp = None
       try:
         res = await func(event, *args, **kwargs)
       except asyncio.CancelledError as e:
-        if self.cmd:
-          logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 被取消')
+        logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 被取消')
         raise e
       except events.StopPropagation as e:
         sp = e
       except Exception:
-        if self.cmd:
-          logger.error(
-            f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 异常结束', exc_info=1
-          )
-      if self.cmd:
-        logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 运行结束')
+        logger.error(
+          f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 异常结束', exc_info=1
+        )
+      logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 运行结束')
       if sp is not None:
         raise sp
       return res
