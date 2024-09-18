@@ -1,8 +1,6 @@
 from telethon import custom, errors
 import math
 import time
-import asyncio
-import subprocess
 from typing import Union
 
 from .log import logger
@@ -41,7 +39,7 @@ class Progress:
   """
 
   chars = [
-    '\u3000',
+    '\u3000',  # 全角空格
     '\u258f',
     '\u258e',
     '\u258d',
@@ -64,7 +62,7 @@ class Progress:
     self.set_total(total)
     self.set_prefix(prefix if prefix else mid.message)
     self.percent = percent
-    self.task = None
+    self.wait_until = 0
 
   def set_prefix(self, prefix=''):
     if not prefix.endswith('\n'):
@@ -77,11 +75,10 @@ class Progress:
   async def update(self, p=0, total=None):
     if total is None:
       total = self.total
-    if self.task is not None:
-      self.task.cancel()
-      self.task = None
+    if time.time() - self.wait_until <= 1:
+      return
+
     self.p = p
-    self.timestamp = time.time()
 
     x = math.floor(104 * p / total)
     text = '['
@@ -95,61 +92,17 @@ class Progress:
       precent = f'{p} / {total}'
     text += f'] {precent}'
 
-    async def func():
-      try:
-        await self.mid.edit(self.prefix + text)
-      except (errors.MessageNotModifiedError, errors.MessageIdInvalidError):
-        pass
-      except errors.FloodWaitError as e:
-        logger.warning('遇到 FloodWaitError, 等待 %s秒', e.seconds)
-        self.need_wait = e.seconds
-      except Exception:
-        logger.warning(exc_info=1)
-
-    self.task = bot.loop.create_task(func())
+    try:
+      await self.mid.edit(self.prefix + text)
+    except (errors.MessageNotModifiedError, errors.MessageIdInvalidError):
+      pass
+    except errors.FloodWaitError as e:
+      logger.warning('遇到 FloodWaitError, 等待 %s 秒', e.seconds)
+      self.wait_until = time.time() + e.seconds
+    except Exception:
+      logger.error(exc_info=1)
+    self.wait_until = time.time()
 
   async def add(self, p=1, total=None):
     self.p += p
     await self.update(self.p, total)
-
-
-class FFmpegProgress(Progress):
-  async def run(self, command):
-    logger.warning(
-      'DeprecationWarning: Call to deprecated class util.progress.FFmpegProgress, and please use function util.ffmpeg instead'
-    )
-    command.extend(['-hide_banner', '-loglevel', 'verbose'])
-    input_path = command[command.index('-i') + 1]
-    cmd = [
-      'ffprobe',
-      '-v',
-      'error',
-      '-show_entries',
-      'format=duration',
-      '-of',
-      'default=noprint_wrappers=1:nokey=1',
-      '-i',
-      input_path,
-    ]
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    full_time = round(float(p.stdout.read().strip()), 2)
-
-    def to_seconds(lis, s=0):
-      if len(lis) > 0:
-        return to_seconds(lis, s * 60 + round(float(lis.pop(0)), 2))
-      else:
-        return s
-
-    proc = await asyncio.create_subprocess_exec(
-      *command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-    )
-    stdout = []
-    while line := (await proc.stdout.read(200)).decode():
-      stdout.append(line.strip())
-      if 'time=' in line:
-        for i in line.strip('\n').split():
-          if 'time=' in i:
-            time = to_seconds(i[5:].split(':'))
-            break
-        await self.update(int(time / full_time * 100))
-    return proc.returncode, '\n'.join(stdout)
