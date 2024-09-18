@@ -12,50 +12,16 @@ logs_dir = os.path.join(config.botRoot, 'logs/')
 if not os.path.isdir(logs_dir):
   os.mkdir(logs_dir)
 
-
-class TimedHandler(TimedRotatingFileHandler):
-  def __init__(self, name='', backupCount=30, encoding=None, delay=False, errors=None):
-    if not name:
-      name = '.log'
-    else:
-      name = '.' + name + '.log'
-    suffix = '%Y-%m-%d'
-    t = int(time.time())
-    timeTuple = time.localtime(t)
-    filename = time.strftime(suffix, timeTuple) + name
-    super().__init__(
-      os.path.join(logs_dir, filename),
-      'MIDNIGHT',
-      1,
-      backupCount,
-      encoding=encoding,
-      delay=delay,
-      utc=False,
-      atTime=None,
-      errors=errors,
-    )
-    self.suffix = suffix + name
-    self.extMatch = re.compile(
-      r'(?<=\.)\d{4}-\d{2}-\d{2}' + re.escape(name) + r'$', re.ASCII
-    )
-
-  def namer(self, name):
-    _path, _name = os.path.split(name)
-    if name.count('.') <= 1:
-      return name
-    _name = _name[_name.index('.log.') + 5 :]
-    return os.path.join(_path, _name)
-
-
 logging.getLogger('httpx').setLevel(logging.ERROR)
 logging.getLogger('httpcore').setLevel(logging.ERROR)
+logging.getLogger('telethon.client.users').setLevel(logging.ERROR)
 logging.getLogger('telethon.client.updates').setLevel(logging.ERROR)
 logging.getLogger('telethon.network.mtprotosender').setLevel(logging.ERROR)
 logging.getLogger('telethon.extensions.messagepacker').setLevel(logging.ERROR)
 
 
 main_format = (
-  '[%(asctime)s <%(module)s:%(lineno)d>] %(name)s %(levelname)s: %(message)s'
+  '[%(asctime)s][%(name)s<%(module)s:%(lineno)d>][%(levelname)s]: %(message)s'
 )
 main_formater = logging.Formatter(main_format)
 main_level = logging.INFO if not config.debug else logging.DEBUG
@@ -83,6 +49,31 @@ def debug_handler_filter(record):
   if record.levelno == 10:
     return True
   return False
+
+
+class TimedHandler(TimedRotatingFileHandler):
+  def __init__(self, name='', backupCount=30, encoding=None, delay=False, errors=None):
+    if not name:
+      name = '.log'
+    else:
+      name = '.' + name + '.log'
+    suffix = '%Y-%m-%d'
+    t = int(time.time())
+    timeTuple = time.localtime(t)
+    filename = time.strftime(suffix, timeTuple) + name
+    super().__init__(
+      os.path.join(logs_dir, filename),
+      'MIDNIGHT',
+      1,
+      backupCount,
+      encoding=encoding,
+      delay=delay,
+      utc=False,
+      atTime=None,
+      errors=errors,
+    )
+    self.suffix = suffix + name
+    self.extMatch = re.compile(r'^\d{4}-\d{2}-\d{2}' + re.escape(name) + r'$', re.ASCII)
 
 
 default_handler = logging.StreamHandler(sys.stdout)
