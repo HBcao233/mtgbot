@@ -54,13 +54,14 @@ def debug_handler_filter(record):
 class TimedHandler(TimedRotatingFileHandler):
   def __init__(self, name='', backupCount=30, encoding=None, delay=False, errors=None):
     if not name:
-      name = '.log'
+      self.base_name = '.log'
     else:
-      name = '.' + name + '.log'
-    suffix = '%Y-%m-%d'
-    t = int(time.time())
-    timeTuple = time.localtime(t)
-    filename = time.strftime(suffix, timeTuple) + name
+      self.base_name = '.' + name + '.log'
+    suffix = '%Y-%m-%d'  # 不能含有 .
+
+    currentTime = int(time.time())
+    timeTuple = time.localtime(currentTime)
+    filename = time.strftime(suffix, timeTuple) + self.base_name
     super().__init__(
       os.path.join(logs_dir, filename),
       'MIDNIGHT',
@@ -72,8 +73,16 @@ class TimedHandler(TimedRotatingFileHandler):
       atTime=None,
       errors=errors,
     )
-    self.suffix = suffix + name
-    self.extMatch = re.compile(r'^\d{4}-\d{2}-\d{2}' + re.escape(name) + r'$', re.ASCII)
+    self.suffix = suffix
+    self.extMatch = re.compile(
+      r'^\d{4}-\d{2}-\d{2}' + re.escape(self.base_name) + r'$', re.ASCII
+    )
+
+  def namer(
+    self, default_name
+  ):  # default_name = self.baseFilename + "." + time.strftime(self.suffix, timeTuple)
+    path, filename = os.path.split(default_name)
+    return os.path.join(path, filename.split('.')[-1] + self.base_name)
 
 
 default_handler = logging.StreamHandler(sys.stdout)
@@ -86,10 +95,11 @@ file_handler.setFormatter(main_formater)
 file_handler.setLevel(main_level)
 file_handler.addFilter(file_handler_filter)
 
-debug_handler = TimedHandler('debug')
-debug_handler.setFormatter(main_formater)
-debug_handler.setLevel(main_level)
-debug_handler.addFilter(debug_handler_filter)
+if config.debug:
+  debug_handler = TimedHandler('debug')
+  debug_handler.setFormatter(main_formater)
+  debug_handler.setLevel(main_level)
+  debug_handler.addFilter(debug_handler_filter)
 
 
 logger = logging.getLogger('mtgbot')
@@ -99,6 +109,8 @@ if not logger.handlers:
   # 输出日志到命令行/docker logs
   root_logger.handlers = []
   root_logger.addHandler(default_handler)
+
   # 输出至 logs 文件夹
   root_logger.addHandler(file_handler)
-  root_logger.addHandler(debug_handler)
+  if config.debug:
+    root_logger.addHandler(debug_handler)

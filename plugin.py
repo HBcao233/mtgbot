@@ -7,10 +7,10 @@ import functools
 import asyncio
 from typing import Union, Any, Callable
 import logging
-import time
 
 import config
 from util.data import MessageData
+
 
 logger = logging.getLogger('mtgbot.plugin')
 
