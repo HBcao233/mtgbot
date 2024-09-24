@@ -260,10 +260,12 @@ class Command:
 
       try:
         res = await func(event, *args, **kwargs)
-      except asyncio.CancelledError as e:
+      except asyncio.CancelledError:
         logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 被取消')
-        raise e
+        raise
       except events.StopPropagation:
+        if not self.pattern_cmd:
+          logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 运行结束')
         raise
       except Exception:
         logger.error(
@@ -271,6 +273,7 @@ class Command:
           + (f' ({info})' if self.pattern_cmd else ''),
           exc_info=1,
         )
+        return
       else:
         if not self.pattern_cmd:
           logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 运行结束')
