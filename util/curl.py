@@ -17,6 +17,27 @@ logger = logging.getLogger('mtgbot.curl')
 # 文件过期时间
 outdated_time = 3600 * 24 * 3
 
+mimetypes.add_type('image/png', '.png')
+mimetypes.add_type('image/jpeg', '.jpeg')
+mimetypes.add_type('image/webp', '.webp')
+mimetypes.add_type('image/gif', '.gif')
+mimetypes.add_type('image/bmp', '.bmp')
+mimetypes.add_type('image/x-tga', '.tga')
+mimetypes.add_type('image/tiff', '.tiff')
+mimetypes.add_type('image/vnd.adobe.photoshop', '.psd')
+
+mimetypes.add_type('video/mp4', '.mp4')
+mimetypes.add_type('video/quicktime', '.mov')
+mimetypes.add_type('video/avi', '.avi')
+
+mimetypes.add_type('audio/mpeg', '.mp3')
+mimetypes.add_type('audio/m4a', '.m4a')
+mimetypes.add_type('audio/aac', '.aac')
+mimetypes.add_type('audio/ogg', '.ogg')
+mimetypes.add_type('audio/flac', '.flac')
+
+mimetypes.add_type('application/x-tgsticker', '.tgs')
+
 
 def logless(t):
   if len(t) > 40:
