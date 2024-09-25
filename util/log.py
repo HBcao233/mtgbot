@@ -52,7 +52,7 @@ def debug_handler_filter(record):
 
 
 class TimedHandler(TimedRotatingFileHandler):
-  def __init__(self, name='', backupCount=30, encoding=None, delay=False, errors=None):
+  def __init__(self, name='', backupCount=30, encoding=None, errors=None):
     if not name:
       self.base_name = '.log'
     else:
@@ -68,7 +68,7 @@ class TimedHandler(TimedRotatingFileHandler):
       1,
       backupCount,
       encoding=encoding,
-      delay=delay,
+      delay=False,
       utc=False,
       atTime=None,
       errors=errors,
@@ -83,6 +83,9 @@ class TimedHandler(TimedRotatingFileHandler):
   ):  # default_name = self.baseFilename + "." + time.strftime(self.suffix, timeTuple)
     path, filename = os.path.split(default_name)
     return os.path.join(path, filename.split('.')[-1] + self.base_name)
+
+  def rotator(self, source, dest):
+    self.baseFilename = os.path.abspath(os.fspath(dest))
 
 
 default_handler = logging.StreamHandler(sys.stdout)
