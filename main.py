@@ -1,4 +1,4 @@
-from telethon import events, types, functions, utils, Button
+from telethon import events, types, functions, utils, errors, Button
 import asyncio
 import inspect
 import ast
@@ -155,12 +155,15 @@ async def init():
     )
   )
   for i in MessageData.iter_chats():
-    await bot(
-      functions.bots.ResetBotCommandsRequest(
-        scope=types.BotCommandScopePeer(peer=await bot.get_input_entity(i)),
-        lang_code='zh',
+    try:
+      await bot(
+        functions.bots.ResetBotCommandsRequest(
+          scope=types.BotCommandScopePeer(peer=await bot.get_input_entity(i)),
+          lang_code='zh',
+        )
       )
-    )
+    except errors.ChannelPrivateError:
+      pass
 
   try:
     commands = {}
