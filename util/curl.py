@@ -5,6 +5,7 @@ import logging
 import time
 from typing import Union
 from stat import ST_MTIME
+import mimetypes
 
 import config
 from .string import randStr
@@ -31,17 +32,18 @@ def clean_outdated_file():
       os.remove(f)
 
 
-urlext_pattern = re.compile(r'(\.[a-zA-Z0-9]+)(?:(?!.*\.)|[#&\?:].*)').search
-
-
-def getPath(url=None, ext=None, saveas=None):
+def getPath(url=None, ext=None, saveas=None, mime_type=None):
   _path = ''
   if saveas and '/' in saveas:
     _path, saveas = os.path.split(saveas)
   _name = ''
   _ext = ''
-  if ext is True and url is not None and '.' in url:
-    _ext = urlext_pattern(url).group(1)
+  if ext is True:
+    if mime_type is not None:
+      _ext = mimetypes.guess_extension(mime_type)
+    elif url is not None:
+      mime_type = mimetypes.guess_type(url)[0]
+      _ext = mimetypes.guess_extension(mime_type)
   elif isinstance(ext, str):
     _ext = ext if ext.startswith('.') else '.' + ext
 
@@ -139,21 +141,22 @@ class Client(httpx.AsyncClient):
     """
     if url is None or url == '':
       return ''
-    path = getPath(url, ext, saveas)
-    if nocache or not os.path.isfile(path):
-      try:
-        async with self.stream('GET', url=url, **kwargs) as r:
-          r.raise_for_status()
+
+    try:
+      async with self.stream('GET', url=url, **kwargs) as r:
+        r.raise_for_status()
+        path = getPath(url, ext, saveas, r.headers['content-type'])
+        if nocache or not os.path.isfile(path):
           with open(path, 'wb') as f:
             async for chunk in r.aiter_raw():
               f.write(chunk)
-      except:
-        os.remove(path)
-        raise
+    except Exception:
+      os.remove(path)
+      raise
 
-      if rand:
-        with open(path, 'ab') as f:
-          f.write(randStr().encode())
+    if rand:
+      with open(path, 'ab') as f:
+        f.write(randStr().encode())
 
     clean_outdated_file()
     return path
