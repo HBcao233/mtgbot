@@ -24,13 +24,19 @@ class Filter:
     return Filter(lambda event: not self.filter(event))
 
 
+def Command(cmd='') -> Filter:
+  return Filter(lambda event: event.message.message.startswith('/' + cmd)) & (~MEDIA)
+
+
 PRIVATE = Filter(lambda event: event.is_private)
 CHANNEL = Filter(lambda event: event.is_channel)
 GROUP = Filter(lambda event: event.is_group)
 
 TEXT = Filter(lambda event: event.message.message)
 MEDIA = Filter(lambda event: event.message.media)
-COMMAND = Filter(lambda event: event.message.message.startswith('/')) & (~MEDIA)
+ONLYTEXT = TEXT & (~MEDIA)
+COMMAND = Command()
+
 PHOTO = Filter(lambda event: event.message.photo)
 DOCUMENT = Filter(lambda event: event.message.document)
 WEB_PREVIEW = Filter(lambda event: event.message.web_preview)
