@@ -55,7 +55,6 @@ async def createPage(title, content):
       'author_url': _author_url,
     },
   )
-  logger.info(r.text)
   if r.status_code != 200:
     return False
   res = r.json()
