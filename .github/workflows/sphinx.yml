@@ -14,7 +14,6 @@ jobs:
         cache: 'pip'
 
     - name: Build HTML
-      uses: ammaraskar/sphinx-action@0.4
       run: |
         cd docs
         python -m pip install -r requirement.txt
