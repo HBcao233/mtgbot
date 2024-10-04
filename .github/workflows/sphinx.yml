@@ -12,11 +12,18 @@ jobs:
       with:
         docs-folder: "docs/"
         build-command: "sphinx-build -D language='en' -b html source build/en && sphinx-build -D language='zh' -b html source build/zh"
+    
     - name: Upload artifacts
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
         name: html-docs
         path: docs/build/en/
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: html-docs
+        path: docs/build/zh/
+
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main'
