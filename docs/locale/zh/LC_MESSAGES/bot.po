@@ -1,0 +1,129 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2024, HBcao233
+# This file is distributed under the same license as the mtgbot package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: mtgbot \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-04 18:03+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: ../../source/bot.rst:9
+msgid "modules"
+msgstr "模块"
+
+#: ../../source/bot.rst:2
+msgid "bot module"
+msgstr ""
+
+#: bot.Bot:1 of
+msgid "基类：:py:class:`~telethon.client.telegramclient.TelegramClient`"
+msgstr ""
+
+#: bot.Bot.connect:1 of
+msgid "Connects to Telegram."
+msgstr ""
+
+#: bot.Bot.connect:5 of
+msgid ""
+"Connect means connect and nothing else, and only one low-level request is"
+" made to notify Telegram about which layer we will be using."
+msgstr ""
+
+#: bot.Bot.connect:9 of
+msgid ""
+"Before Telegram sends you updates, you need to make a high-level request,"
+" like `client.get_me() <telethon.client.users.UserMethods.get_me>`, as "
+"described in https://core.telegram.org/api/updates."
+msgstr ""
+
+#: bot.Bot.connect:18 bot.Bot.delete_messages:41 of
+msgid "Example"
+msgstr ""
+
+#: bot.Bot.delete_messages:1 of
+msgid "Deletes the given messages, optionally \"for everyone\"."
+msgstr ""
+
+#: bot.Bot.delete_messages:3 of
+msgid "See also `Message.delete() <telethon.tl.custom.message.Message.delete>`."
+msgstr ""
+
+#: bot.Bot.delete_messages:7 of
+msgid ""
+"This method does **not** validate that the message IDs belong to the chat"
+" that you passed! It's possible for the method to delete messages from "
+"different private chats and small group chats at once, so make sure to "
+"pass the right IDs."
+msgstr ""
+
+#: bot.Bot.delete_messages:33 of
+msgid "Arguments"
+msgstr ""
+
+#: bot.Bot.delete_messages:16 of
+msgid "entity (`entity`):"
+msgstr ""
+
+#: bot.Bot.delete_messages:14 of
+msgid ""
+"From who the message will be deleted. This can actually be `None` for "
+"normal chats, but **must** be present for channels and megagroups."
+msgstr ""
+
+#: bot.Bot.delete_messages:19 of
+msgid ""
+"message_ids (`list` | `int` | `Message "
+"<telethon.tl.custom.message.Message>`):"
+msgstr ""
+
+#: bot.Bot.delete_messages:19 of
+msgid "The IDs (or ID) or messages to be deleted."
+msgstr ""
+
+#: bot.Bot.delete_messages:33 of
+msgid "revoke (`bool`, optional):"
+msgstr ""
+
+#: bot.Bot.delete_messages:22 of
+msgid ""
+"Whether the message should be deleted for everyone or not. By default it "
+"has the opposite behaviour of official clients, and it will delete the "
+"message for everyone."
+msgstr ""
+
+#: bot.Bot.delete_messages:26 of
+msgid ""
+"`Since 24 March 2019 <https://telegram.org/blog/unsend-privacy-emoji>`_, "
+"you can also revoke messages of any age (i.e. messages sent long in the "
+"past) the *other* person sent in private conversations (and of course "
+"your messages too)."
+msgstr ""
+
+#: bot.Bot.delete_messages:32 of
+msgid ""
+"Disabling this has no effect on channels or megagroups, since it will "
+"unconditionally delete the message for everyone."
+msgstr ""
+
+#: bot.Bot.delete_messages:37 of
+msgid "Returns"
+msgstr ""
+
+#: bot.Bot.delete_messages:36 of
+msgid ""
+"A list of :tl:`AffectedMessages`, each item being the result for the "
+"delete calls of the messages in chunks of 100 each."
+msgstr ""
+

@@ -12,24 +12,25 @@ from bot import Bot
 import filters
 
 
-if len(config.token) < 36 or ':' not in config.token:
-  raise ValueError('请提供正确的 bot token')
-if not config.api_id or not config.api_hash:
-  raise ValueError('请提供正确的 api_id 和 api_hash')
-logger.info(
-  f'当前 bot_token={config.token.split(":")[0]+"*"*35}, api_id={config.api_id}, proxy={config.proxy}'
-)
+if __name__ == '__main__':
+  if len(config.token) < 36 or ':' not in config.token:
+    raise ValueError('请提供正确的 bot token')
+  if not config.api_id or not config.api_hash:
+    raise ValueError('请提供正确的 api_id 和 api_hash')
+  logger.info(
+    f'当前 bot_token={config.token.split(":")[0]+"*"*35}, api_id={config.api_id}, proxy={config.proxy}'
+  )
 
-try:
-  __builtins__.bot = config.bot = Bot(
-    util.getFile('bot.session'),
-    config.api_id,
-    config.api_hash,
-    proxy=config.proxy,
-  ).start(bot_token=config.token)
-except ConnectionError:
-  logger.critical('连接错误', exc_info=1)
-  exit(1)
+  try:
+    __builtins__.bot = config.bot = Bot(
+      util.getFile('bot.session'),
+      config.api_id,
+      config.api_hash,
+      proxy=config.proxy,
+    ).start(bot_token=config.token)
+  except ConnectionError:
+    logger.critical('连接错误', exc_info=1)
+    exit(1)
 
 
 @handler('start')
@@ -97,7 +98,6 @@ async def _settings(event):
   )
 
 
-@bot.on(events.CallbackQuery(pattern=rb'delete(?:~([\x00-\xff]{6,6}))?$'))
 async def _delete_button(event):
   chat_id = event.chat_id
   match = event.pattern_match
@@ -111,8 +111,10 @@ async def _delete_button(event):
   await event.delete()
 
 
-@bot.on(events.NewMessage)
-async def _(event):
+async def _add_message(event):
+  """
+  添加消息, util.data.MessageData 数据来源
+  """
   MessageData.add_message(
     utils.get_peer_id(event.message.peer_id),
     event.message.id,
@@ -120,8 +122,10 @@ async def _(event):
   )
 
 
-@bot.on(events.InlineQuery)
-async def _(event):
+async def _global_inline_query(event):
+  """
+  plugin.InlineCommand 处理
+  """
   res = []
   for i in config.inlines:
     if i.pattern is None or (match := i.pattern(event.text)):
@@ -138,7 +142,7 @@ async def _(event):
     await event.answer(res)
 
 
-async def init():
+async def _init():
   """
   初始化
   """
@@ -200,6 +204,11 @@ async def init():
 
 
 if __name__ == '__main__':
+  bot.add_event_handler(
+    _delete_button, events.CallbackQuery(pattern=rb'delete(?:~([\x00-\xff]{6,6}))?$')
+  )
+  bot.add_event_handler(_add_message, events.NewMessage)
+  bot.add_event_handler(_global_inline_query, events.InlineQuery)
   load_plugins()
   bot.loop.create_task(init())
   try:

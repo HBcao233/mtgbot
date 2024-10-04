@@ -1,4 +1,6 @@
 class Filter:
+  """过滤器"""
+
   def __init__(self, value, /):
     if hasattr(value, 'filter'):
       self.value = value.filter

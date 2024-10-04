@@ -198,8 +198,6 @@ def namedtuple_factory(cursor, row):
 
 
 class MessageData:
-  _conn = sqlite3.connect(getDataFile('messages.db'))
-  _conn.row_factory = namedtuple_factory
   inited = False
 
   def __new__(cls):
@@ -208,6 +206,8 @@ class MessageData:
     return cls.__instance
 
   def __init__(self):
+    _conn = sqlite3.connect(getDataFile('messages.db'))
+    _conn.row_factory = namedtuple_factory
     self.init()
 
   @classmethod

@@ -1,10 +1,9 @@
 telethon==1.36.0
 cryptg
 httpx[http2]
-ujson
-python-dateutil
-bs4
 opencv-python
+ujson
+bs4
 pillow
 rlottie-python
 moviepy

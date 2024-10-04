@@ -15,7 +15,7 @@ bot_home = x if (x := env.get('BOT_HOME', '')) != '.' else ''
 if bot_home:
   botRoot = os.path.join(workPath, bot_home)
 
-token = env.get('token')
+token = env.get('token') or ''
 api_id = env.get('api_id', '') or env.get('app_id', '') or default_api_id
 api_hash = env.get('api_hash', '') or env.get('app_hash', '') or default_api_hash
 debug = False
