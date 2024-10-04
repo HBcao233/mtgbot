@@ -18,6 +18,7 @@ jobs:
 
     - name: Build HTML
       run: |
+        pwd
         python -m pip install -r requirement.txt
         cd docs
         python -m pip install -r requirement.txt
