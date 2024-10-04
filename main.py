@@ -210,7 +210,7 @@ if __name__ == '__main__':
   bot.add_event_handler(_add_message, events.NewMessage)
   bot.add_event_handler(_global_inline_query, events.InlineQuery)
   load_plugins()
-  bot.loop.create_task(init())
+  bot.loop.create_task(_init())
   try:
     bot.run_until_disconnected()
   except asyncio.exceptions.CancelledError:
