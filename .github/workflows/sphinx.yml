@@ -18,8 +18,7 @@ jobs:
 
     - name: Build HTML
       run: |
-        cd ~
-        pwd
+        cd /home/runner/work/mtgbot
         ls
         python -m pip install -r requirement.txt
         cd docs
