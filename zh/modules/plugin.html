@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plugin 模块 &mdash; mtgbot 0.1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=74157ad4"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="filters 模块" href="filters.html" />
+    <link rel="prev" title="config 模块" href="config.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            mtgbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Mtgbot 文档</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">模块</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="config.html">config 模块</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">plugin 模块</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#plugin.Command"><code class="docutils literal notranslate"><span class="pre">Command</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin.InlineCommand"><code class="docutils literal notranslate"><span class="pre">InlineCommand</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin.Scope"><code class="docutils literal notranslate"><span class="pre">Scope</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#plugin.Scope.all"><code class="docutils literal notranslate"><span class="pre">Scope.all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plugin.Scope.chat"><code class="docutils literal notranslate"><span class="pre">Scope.chat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plugin.Scope.chat_admins"><code class="docutils literal notranslate"><span class="pre">Scope.chat_admins()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plugin.Scope.chats"><code class="docutils literal notranslate"><span class="pre">Scope.chats()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plugin.Scope.private"><code class="docutils literal notranslate"><span class="pre">Scope.private()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plugin.Scope.superadmin"><code class="docutils literal notranslate"><span class="pre">Scope.superadmin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plugin.Scope.to_command_scope"><code class="docutils literal notranslate"><span class="pre">Scope.to_command_scope()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plugin.Scope.user"><code class="docutils literal notranslate"><span class="pre">Scope.user()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin.ScopeList"><code class="docutils literal notranslate"><span class="pre">ScopeList</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#plugin.ScopeList.append"><code class="docutils literal notranslate"><span class="pre">ScopeList.append()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin.Setting"><code class="docutils literal notranslate"><span class="pre">Setting</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin.get_event_info"><code class="docutils literal notranslate"><span class="pre">get_event_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin.handler"><code class="docutils literal notranslate"><span class="pre">handler</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin.inline_handler"><code class="docutils literal notranslate"><span class="pre">inline_handler</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin.load_plugin"><code class="docutils literal notranslate"><span class="pre">load_plugin()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin.load_plugins"><code class="docutils literal notranslate"><span class="pre">load_plugins()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="filters.html">filters 模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">util 包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main 模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bot.html">bot 模块</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">mtgbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">plugin 模块</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/plugin.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-plugin">
+<span id="plugin"></span><h1>plugin 模块<a class="headerlink" href="#module-plugin" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="plugin.Command">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plugin.</span></span><span class="sig-name descname"><span class="pre">Command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Pattern</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#plugin.ScopeList" title="plugin.ScopeList"><span class="pre">ScopeList</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#plugin.Scope" title="plugin.Scope"><span class="pre">Scope</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.Command" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plugin.InlineCommand">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plugin.</span></span><span class="sig-name descname"><span class="pre">InlineCommand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Pattern</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.InlineCommand" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plugin.Scope">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plugin.</span></span><span class="sig-name descname"><span class="pre">Scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chat_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.Scope" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="plugin.Scope.all">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugin.Scope.all" title="Link to this definition"></a></dt>
+<dd><p>默认范围，全部</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plugin.Scope.chat">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.Scope.chat" title="Link to this definition"></a></dt>
+<dd><p>给定 chat_id 指代的群聊/频道
+或给定 chat_id 的用户私聊</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plugin.Scope.chat_admins">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chat_admins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.Scope.chat_admins" title="Link to this definition"></a></dt>
+<dd><p>所有群聊和频道的管理员;
+或给定 chat_id 指代的群聊/频道的管理员</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plugin.Scope.chats">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.Scope.chats" title="Link to this definition"></a></dt>
+<dd><p>所有群聊和频道;
+或给定 chat_id 指代的群聊/频道/用户;
+或给定 chat_id 指代的群聊/频道中特定的 user_id 指代的用户</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plugin.Scope.private">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">private</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugin.Scope.private" title="Link to this definition"></a></dt>
+<dd><p>所有私聊</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plugin.Scope.superadmin">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">superadmin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugin.Scope.superadmin" title="Link to this definition"></a></dt>
+<dd><p>所有superadmin (请在 .env 中配置 superadmin 项, 可以为一个数字或以半角逗号 &quot;,&quot; 隔开的id列表)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plugin.Scope.to_command_scope">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_command_scope</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugin.Scope.to_command_scope" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plugin.Scope.user">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.Scope.user" title="Link to this definition"></a></dt>
+<dd><p>给定 chat_id 的用户 (不管群聊私聊)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plugin.ScopeList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plugin.</span></span><span class="sig-name descname"><span class="pre">ScopeList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.ScopeList" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="plugin.ScopeList.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.ScopeList.append" title="Link to this definition"></a></dt>
+<dd><p>Append object to the end of the list.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plugin.Setting">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plugin.</span></span><span class="sig-name descname"><span class="pre">Setting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.Setting" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plugin.get_event_info">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plugin.</span></span><span class="sig-name descname"><span class="pre">get_event_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.get_event_info" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plugin.handler">
+<span class="sig-prename descclassname"><span class="pre">plugin.</span></span><span class="sig-name descname"><span class="pre">handler</span></span><a class="headerlink" href="#plugin.handler" title="Link to this definition"></a></dt>
+<dd><p><a class="reference internal" href="#plugin.Command" title="plugin.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">Command</span></code></a> 的别名</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plugin.inline_handler">
+<span class="sig-prename descclassname"><span class="pre">plugin.</span></span><span class="sig-name descname"><span class="pre">inline_handler</span></span><a class="headerlink" href="#plugin.inline_handler" title="Link to this definition"></a></dt>
+<dd><p><a class="reference internal" href="#plugin.InlineCommand" title="plugin.InlineCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">InlineCommand</span></code></a> 的别名</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plugin.load_plugin">
+<span class="sig-prename descclassname"><span class="pre">plugin.</span></span><span class="sig-name descname"><span class="pre">load_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plugin.load_plugin" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="plugin.load_plugins">
+<span class="sig-prename descclassname"><span class="pre">plugin.</span></span><span class="sig-name descname"><span class="pre">load_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugin.load_plugins" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="config.html" class="btn btn-neutral float-left" title="config 模块" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="filters.html" class="btn btn-neutral float-right" title="filters 模块" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, HBcao233。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
