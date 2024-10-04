@@ -14,12 +14,12 @@ jobs:
         build-command: "sphinx-build -D language='en' -b html source build/en && sphinx-build -D language='zh' -b html source build/zh"
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: html-docs
         path: docs/build/en/
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: html-docs
         path: docs/build/zh/
