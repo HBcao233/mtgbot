@@ -1,10 +1,10 @@
-util package
+util 包
 ============
 
-Submodules
+子模块
 ----------
 
-util.curl module
+util.curl 模块
 ----------------
 
 .. automodule:: util.curl
@@ -12,7 +12,7 @@ util.curl module
    :undoc-members:
    :show-inheritance:
 
-util.data module
+util.data 模块
 ----------------
 
 .. automodule:: util.data
@@ -20,7 +20,7 @@ util.data module
    :undoc-members:
    :show-inheritance:
 
-util.file module
+util.file 模块
 ----------------
 
 .. automodule:: util.file
@@ -28,7 +28,7 @@ util.file module
    :undoc-members:
    :show-inheritance:
 
-util.log module
+util.log 模块
 ---------------
 
 .. automodule:: util.log
@@ -36,7 +36,7 @@ util.log module
    :undoc-members:
    :show-inheritance:
 
-util.media module
+util.media 模块
 -----------------
 
 .. automodule:: util.media
@@ -44,7 +44,7 @@ util.media module
    :undoc-members:
    :show-inheritance:
 
-util.progress module
+util.progress 模块
 --------------------
 
 .. automodule:: util.progress
@@ -52,7 +52,7 @@ util.progress module
    :undoc-members:
    :show-inheritance:
 
-util.string module
+util.string 模块
 ------------------
 
 .. automodule:: util.string
@@ -60,7 +60,7 @@ util.string module
    :undoc-members:
    :show-inheritance:
 
-util.telegraph module
+util.telegraph 模块
 ---------------------
 
 .. automodule:: util.telegraph
@@ -75,7 +75,3 @@ Module contents
    :members:
    :undoc-members:
    :show-inheritance:
-
-.. toctree::
-   :maxdepth: 4
-   :caption: modules

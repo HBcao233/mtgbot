@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mtgbot \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 18:48+0800\n"
+"POT-Creation-Date: 2024-10-04 19:28+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -19,11 +19,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: ../../source/catalogue.rst:1
-msgid "index"
+#: ../../source/index.rst:22
+msgid "快速上手"
 msgstr ""
 
 #: ../../source/modules.rst:1
-msgid "modules"
+msgid "模块"
+msgstr ""
+
+#: ../../source/index.rst:7
+msgid "Mtgbot 文档"
 msgstr ""
 

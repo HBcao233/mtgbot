@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-mtgbot documentation
+Mtgbot 文档
 ====================
 
 .. code-block:: python
@@ -19,4 +19,11 @@ mtgbot documentation
       await event.reply('pong!')
 
 
-.. include:: catalogue.rst
+.. toctree::
+   :maxdepth: 4
+   :caption: 快速上手
+   :hidden:
+   
+   self
+
+.. include:: modules.rst

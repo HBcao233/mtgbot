@@ -1,11 +1,7 @@
-plugin module
+plugin 模块
 =============
 
 .. automodule:: plugin
    :members:
    :undoc-members:
    :show-inheritance:
-
-.. toctree::
-   :maxdepth: 4
-   :caption: modules

@@ -1,6 +1,6 @@
 .. toctree::
    :maxdepth: 4
-   :caption: modules
+   :caption: 模块
    :hidden:
 
    modules/config

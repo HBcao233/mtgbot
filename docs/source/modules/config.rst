@@ -1,11 +1,7 @@
-config module
+config 模块
 =============
 
 .. automodule:: config
    :members:
    :undoc-members:
    :show-inheritance:
-
-.. toctree::
-   :maxdepth: 4
-   :caption: modules

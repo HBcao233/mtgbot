@@ -1,11 +1,7 @@
-bot module
+bot 模块
 ==========
 
 .. automodule:: bot
    :members:
    :undoc-members:
    :show-inheritance:
-
-.. toctree::
-   :maxdepth: 4
-   :caption: modules

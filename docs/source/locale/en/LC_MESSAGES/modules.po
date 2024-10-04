@@ -1,0 +1,391 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2024, HBcao233
+# This file is distributed under the same license as the mtgbot package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: mtgbot \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-04 19:34+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: ../../source/modules.rst:1
+msgid "模块"
+msgstr "Modules"
+
+#: ../../source/modules/bot.rst:2
+msgid "bot 模块"
+msgstr "bot module"
+
+#: bot.Bot:1 of
+msgid "基类：:py:class:`~telethon.client.telegramclient.TelegramClient`"
+msgstr ""
+
+#: bot.Bot.connect:1 of
+msgid "Connects to Telegram."
+msgstr ""
+
+#: bot.Bot.connect:5 of
+msgid ""
+"Connect means connect and nothing else, and only one low-level request is"
+" made to notify Telegram about which layer we will be using."
+msgstr ""
+
+#: bot.Bot.connect:9 of
+msgid ""
+"Before Telegram sends you updates, you need to make a high-level request,"
+" like `client.get_me() <telethon.client.users.UserMethods.get_me>`, as "
+"described in https://core.telegram.org/api/updates."
+msgstr ""
+
+#: bot.Bot.connect:18 bot.Bot.delete_messages:41 of util.progress.Progress:30
+msgid "Example"
+msgstr ""
+
+#: bot.Bot.delete_messages:1 of
+msgid "Deletes the given messages, optionally \"for everyone\"."
+msgstr ""
+
+#: bot.Bot.delete_messages:3 of
+msgid "See also `Message.delete() <telethon.tl.custom.message.Message.delete>`."
+msgstr ""
+
+#: bot.Bot.delete_messages:7 of
+msgid ""
+"This method does **not** validate that the message IDs belong to the chat"
+" that you passed! It's possible for the method to delete messages from "
+"different private chats and small group chats at once, so make sure to "
+"pass the right IDs."
+msgstr ""
+
+#: bot.Bot.delete_messages:33 of util.media.ffmpeg:5 util.progress.Progress:6
+msgid "Arguments"
+msgstr ""
+
+#: bot.Bot.delete_messages:16 of
+msgid "entity (`entity`):"
+msgstr ""
+
+#: bot.Bot.delete_messages:14 of
+msgid ""
+"From who the message will be deleted. This can actually be `None` for "
+"normal chats, but **must** be present for channels and megagroups."
+msgstr ""
+
+#: bot.Bot.delete_messages:19 of
+msgid ""
+"message_ids (`list` | `int` | `Message "
+"<telethon.tl.custom.message.Message>`):"
+msgstr ""
+
+#: bot.Bot.delete_messages:19 of
+msgid "The IDs (or ID) or messages to be deleted."
+msgstr ""
+
+#: bot.Bot.delete_messages:33 of
+msgid "revoke (`bool`, optional):"
+msgstr ""
+
+#: bot.Bot.delete_messages:22 of
+msgid ""
+"Whether the message should be deleted for everyone or not. By default it "
+"has the opposite behaviour of official clients, and it will delete the "
+"message for everyone."
+msgstr ""
+
+#: bot.Bot.delete_messages:26 of
+msgid ""
+"`Since 24 March 2019 <https://telegram.org/blog/unsend-privacy-emoji>`_, "
+"you can also revoke messages of any age (i.e. messages sent long in the "
+"past) the *other* person sent in private conversations (and of course "
+"your messages too)."
+msgstr ""
+
+#: bot.Bot.delete_messages:32 of
+msgid ""
+"Disabling this has no effect on channels or megagroups, since it will "
+"unconditionally delete the message for everyone."
+msgstr ""
+
+#: bot.Bot.delete_messages:37 of util.media.ffmpeg:9
+msgid "Returns"
+msgstr ""
+
+#: bot.Bot.delete_messages:36 of
+msgid ""
+"A list of :tl:`AffectedMessages`, each item being the result for the "
+"delete calls of the messages in chunks of 100 each."
+msgstr ""
+
+#: ../../source/modules/config.rst:2
+msgid "config 模块"
+msgstr "config module"
+
+#: ../../source/modules/filters.rst:2
+msgid "filters 模块"
+msgstr "filters module"
+
+#: filters.Filter:1 of plugin.Command:1 plugin.InlineCommand:1 plugin.Scope:1
+#: plugin.Setting:1 util.data.Data:1 util.data.MessageData:1
+#: util.data.Settings.Unset:1 util.progress.Progress:1 util.string.Options:1
+msgid "基类：:py:class:`object`"
+msgstr ""
+
+#: filters.Filter:1 of
+msgid "过滤器"
+msgstr ""
+
+#: ../../source/modules/main.rst:2
+msgid "main 模块"
+msgstr "main module"
+
+#: ../../source/modules/plugin.rst:2
+msgid "plugin 模块"
+msgstr "plugin module"
+
+#: of plugin.Scope.all:1
+msgid "默认范围，全部"
+msgstr ""
+
+#: of plugin.Scope.chat:1
+msgid "给定 chat_id 指代的群聊/频道 或给定 chat_id 的用户私聊"
+msgstr ""
+
+#: of plugin.Scope.chat_admins:1
+msgid "所有群聊和频道的管理员; 或给定 chat_id 指代的群聊/频道的管理员"
+msgstr ""
+
+#: of plugin.Scope.chats:1
+msgid "所有群聊和频道; 或给定 chat_id 指代的群聊/频道/用户; 或给定 chat_id 指代的群聊/频道中特定的 user_id 指代的用户"
+msgstr ""
+
+#: of plugin.Scope.private:1
+msgid "所有私聊"
+msgstr ""
+
+#: of plugin.Scope.superadmin:1
+msgid "所有superadmin (请在 .env 中配置 superadmin 项, 可以为一个数字或以半角逗号 \",\" 隔开的id列表)"
+msgstr ""
+
+#: of plugin.Scope.user:1
+msgid "给定 chat_id 的用户 (不管群聊私聊)"
+msgstr ""
+
+#: of plugin.ScopeList:1
+msgid "基类：:py:class:`list`"
+msgstr ""
+
+#: of plugin.ScopeList.append:1
+msgid "Append object to the end of the list."
+msgstr ""
+
+#: ../../source/modules/util.rst:2
+msgid "util 包"
+msgstr "util package"
+
+#: ../../source/modules/util.rst:5
+msgid "子模块"
+msgstr "Submodules"
+
+#: ../../source/modules/util.rst:8
+msgid "util.curl 模块"
+msgstr "util.curl module"
+
+#: of util.curl.Client:1
+msgid "基类：:py:class:`~httpx.AsyncClient`"
+msgstr ""
+
+#: of util.curl.Client.getImg:1
+msgid "流式GET 请求下载文件, 返回下载文件路径"
+msgstr ""
+
+#: of util.curl.Client.getImg:10 util.string.md5sum:6 util.string.randStr:4
+msgid "Args:"
+msgstr ""
+
+#: of util.curl.Client.getImg:4
+msgid "url: 文件url ext: (优先级大于saveas)"
+msgstr ""
+
+#: of util.curl.Client.getImg:6
+msgid "为True时: 自动从url中获取文件后缀名 为str时: 指定后缀"
+msgstr ""
+
+#: of util.curl.Client.getImg:8
+msgid "saveas: 指定下载文件名或路径 nocache: 是否不使用缓存, 默认为 False rand: 是否在文件结尾加入随机字符串bytes"
+msgstr ""
+
+#: of util.curl.Client.getImg:12 util.string.md5sum:8 util.string.randStr:6
+msgid "Returns:"
+msgstr ""
+
+#: of util.curl.Client.getImg:13
+msgid "str: 文件路径"
+msgstr ""
+
+#: ../../source/modules/util.rst:16
+msgid "util.data 模块"
+msgstr "util.data module"
+
+#: of util.data.Animations:1 util.data.Videos:1
+msgid "基类：:py:class:`~util.data.Documents`"
+msgstr ""
+
+#: of util.data.Documents:1 util.data.Photos:1 util.data.Settings:1
+msgid "基类：:py:class:`~util.data.Data`"
+msgstr ""
+
+#: of util.data.MessageData.add_message:1
+msgid "记录 chat_id, message_id 并返回记录id"
+msgstr ""
+
+#: of util.data.MessageData.get_message_by_rid:1
+msgid "通过记录id获取message"
+msgstr ""
+
+#: ../../source/modules/util.rst:24
+msgid "util.file 模块"
+msgstr "util.file module"
+
+#: ../../source/modules/util.rst:32
+msgid "util.log 模块"
+msgstr "util.log module"
+
+#: ../../source/modules/util.rst:40
+msgid "util.media 模块"
+msgstr "util.media module"
+
+#: of util.media.ffmpeg:1
+msgid "Run a ffmpeg command"
+msgstr ""
+
+#: of util.media.ffmpeg:4
+msgid ""
+"command (list[str]): a command progress_callback (callable, optional): a "
+"update function for progress"
+msgstr ""
+
+#: of util.media.ffmpeg:8
+msgid ""
+"returncode (int): command returncode stdout (str): command stdout "
+"(decoded)"
+msgstr ""
+
+#: of util.media.ffmpeg:15
+msgid "Examples"
+msgstr ""
+
+#: of util.media.ffmpeg:12
+msgid ""
+"mid = event.reply('请等待...') bar = Progress(mid) returncode, stdout = "
+"await ffmpeg(['ffmpeg', input, 'output.mp4', '-y'], bar.update) if "
+"returncode != 0:"
+msgstr ""
+
+#: of util.media.ffmpeg:16
+msgid "logger.warning(stdout)"
+msgstr ""
+
+#: ../../source/modules/util.rst:48
+msgid "util.progress 模块"
+msgstr "util.progress module"
+
+#: of util.progress.Progress:1
+msgid "进度条"
+msgstr ""
+
+#: of util.progress.Progress:4
+msgid ""
+"mid (Message <telethon.tl.custom.message.Message>): 用于进度条显示的 Message "
+"total (int | float): 总数，将会以 p/total 计算当前进度百分比 prefix (str): 进度条前显示的字符"
+msgstr ""
+
+#: of util.progress.Progress:10
+msgid "Attributes"
+msgstr ""
+
+#: of util.progress.Progress:9
+msgid "chars (list[str]): 一个由全角空格及八分之一至完整方块共9个UTF-8字符组成的列表 p (int): 当前进度"
+msgstr ""
+
+#: of util.progress.Progress:13
+msgid "mid = event.reply('请等待...') bar = Progress(mid) for i in range(100)"
+msgstr ""
+
+#: of util.progress.Progress:16
+msgid "bar.update(i+1) await asyncio.sleep(1)"
+msgstr ""
+
+#: of util.progress.Progress:19
+msgid "bar.set_prefix('发送中...') async with bot.action(event.chat_id, 'video'):"
+msgstr ""
+
+#: of util.progress.Progress:24
+msgid "await bot.send_file("
+msgstr ""
+
+#: of util.progress.Progress:22
+msgid ""
+"event.chat_id, media, reply_to=event.message, "
+"progress_callback=bar.update,"
+msgstr ""
+
+#: of util.progress.Progress:26
+msgid ")"
+msgstr ""
+
+#: of util.progress.Progress:28
+msgid ""
+"command = ['ffmpeg', ...] returncode, stdout = util.ffmpeg(command, "
+"bar.update)"
+msgstr ""
+
+#: ../../source/modules/util.rst:56
+msgid "util.string 模块"
+msgstr "util.string module"
+
+#: of util.string.char_width:1
+msgid "Return the screen column width for unicode ordinal o."
+msgstr ""
+
+#: of util.string.md5sum:1
+msgid "计算字符串或文件的 md5 值"
+msgstr ""
+
+#: of util.string.md5sum:4
+msgid "string: 字符串（三选一） byte: bytes（三选一） file_path: 文件路径（三选一）"
+msgstr ""
+
+#: of util.string.md5sum:9
+msgid "str: md5"
+msgstr ""
+
+#: of util.string.randStr:1
+msgid "随机字符串"
+msgstr ""
+
+#: of util.string.randStr:4
+msgid "length: 字符串长度, 默认为 8"
+msgstr ""
+
+#: of util.string.randStr:7
+msgid "str: 字符串"
+msgstr ""
+
+#: ../../source/modules/util.rst:64
+msgid "util.telegraph 模块"
+msgstr "util.telegraph module"
+
+#: ../../source/modules/util.rst:72
+msgid "Module contents"
+msgstr ""

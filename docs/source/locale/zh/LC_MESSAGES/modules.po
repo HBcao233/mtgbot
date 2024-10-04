@@ -8,26 +8,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mtgbot \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 18:48+0800\n"
+"POT-Creation-Date: 2024-10-04 19:34+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
-"Language-Team: zh_CN <LL@li.org>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: ../../source/modules.rst:1 ../../source/modules/bot.rst:9
-#: ../../source/modules/config.rst:9 ../../source/modules/filters.rst:9
-#: ../../source/modules/main.rst:9 ../../source/modules/plugin.rst:9
-#: ../../source/modules/util.rst:79
-msgid "modules"
+#: ../../source/modules.rst:1
+msgid "模块"
 msgstr ""
 
 #: ../../source/modules/bot.rst:2
-msgid "bot module"
+msgid "bot 模块"
 msgstr ""
 
 #: bot.Bot:1 of
@@ -131,11 +128,11 @@ msgid ""
 msgstr ""
 
 #: ../../source/modules/config.rst:2
-msgid "config module"
+msgid "config 模块"
 msgstr ""
 
 #: ../../source/modules/filters.rst:2
-msgid "filters module"
+msgid "filters 模块"
 msgstr ""
 
 #: filters.Filter:1 of plugin.Command:1 plugin.InlineCommand:1 plugin.Scope:1
@@ -149,11 +146,11 @@ msgid "过滤器"
 msgstr ""
 
 #: ../../source/modules/main.rst:2
-msgid "main module"
+msgid "main 模块"
 msgstr ""
 
 #: ../../source/modules/plugin.rst:2
-msgid "plugin module"
+msgid "plugin 模块"
 msgstr ""
 
 #: of plugin.Scope.all:1
@@ -193,15 +190,15 @@ msgid "Append object to the end of the list."
 msgstr ""
 
 #: ../../source/modules/util.rst:2
-msgid "util package"
+msgid "util 包"
 msgstr ""
 
 #: ../../source/modules/util.rst:5
-msgid "Submodules"
+msgid "子模块"
 msgstr ""
 
 #: ../../source/modules/util.rst:8
-msgid "util.curl module"
+msgid "util.curl 模块"
 msgstr ""
 
 #: of util.curl.Client:1
@@ -237,7 +234,7 @@ msgid "str: 文件路径"
 msgstr ""
 
 #: ../../source/modules/util.rst:16
-msgid "util.data module"
+msgid "util.data 模块"
 msgstr ""
 
 #: of util.data.Animations:1 util.data.Videos:1
@@ -257,15 +254,15 @@ msgid "通过记录id获取message"
 msgstr ""
 
 #: ../../source/modules/util.rst:24
-msgid "util.file module"
+msgid "util.file 模块"
 msgstr ""
 
 #: ../../source/modules/util.rst:32
-msgid "util.log module"
+msgid "util.log 模块"
 msgstr ""
 
 #: ../../source/modules/util.rst:40
-msgid "util.media module"
+msgid "util.media 模块"
 msgstr ""
 
 #: of util.media.ffmpeg:1
@@ -300,7 +297,7 @@ msgid "logger.warning(stdout)"
 msgstr ""
 
 #: ../../source/modules/util.rst:48
-msgid "util.progress module"
+msgid "util.progress 模块"
 msgstr ""
 
 #: of util.progress.Progress:1
@@ -354,7 +351,7 @@ msgid ""
 msgstr ""
 
 #: ../../source/modules/util.rst:56
-msgid "util.string module"
+msgid "util.string 模块"
 msgstr ""
 
 #: of util.string.char_width:1
@@ -386,13 +383,10 @@ msgid "str: 字符串"
 msgstr ""
 
 #: ../../source/modules/util.rst:64
-msgid "util.telegraph module"
+msgid "util.telegraph 模块"
 msgstr ""
 
 #: ../../source/modules/util.rst:72
 msgid "Module contents"
 msgstr ""
-
-#~ msgid "mtgbot"
-#~ msgstr ""
 
