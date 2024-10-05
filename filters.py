@@ -27,7 +27,7 @@ class Filter:
 
 
 def Command(cmd='') -> Filter:
-  return Filter(lambda event: event.message.message.startswith('/' + cmd)) & (~MEDIA)
+  return Filter(lambda event: event.message.message.startswith('/' + cmd)) & (~FILE)
 
 
 PRIVATE = Filter(lambda event: event.is_private)
@@ -36,11 +36,16 @@ GROUP = Filter(lambda event: event.is_group)
 
 TEXT = Filter(lambda event: event.message.message)
 MEDIA = Filter(lambda event: event.message.media)
-ONLYTEXT = TEXT & (~MEDIA)
-COMMAND = Command()
 
 PHOTO = Filter(lambda event: event.message.photo)
 DOCUMENT = Filter(lambda event: event.message.document)
+# property Message.file: Returns a File wrapping the photo or document in this message. If the media type is different (polls, games, none, etc.), this property will be None.
+# the FILE filter and the (PHOTO | DOCUMENT) filter have the same effect mostly
+FILE = Filter(lambda event: event.message.file)
+
+ONLYTEXT = TEXT & (~FILE)
+COMMAND = Command()
+
 WEB_PREVIEW = Filter(lambda event: event.message.web_preview)
 AUDIO = Filter(lambda event: event.message.audio)
 VOICE = Filter(lambda event: event.message.voice)
