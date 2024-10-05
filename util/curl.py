@@ -227,6 +227,13 @@ async def getImg(
 
 
 postimg_pattern = re.compile(r'<input id="code_direct".*?value="(.*?)"')
+postimg_data = {
+  'gallery': '',
+  'optsize': 0,
+  'expire': 0,
+  'numfiles': 1,
+  'upload_session': str(time.time()),
+}
 
 
 async def postimg_upload(
@@ -245,15 +252,43 @@ async def postimg_upload(
     r = await client.post(
       'https://postimages.org/json/rr',
       files={'file': file},
-      data={
-        'gallery': '',
-        'optsize': 0,
-        'expire': 0,
-        'numfiles': 1,
-        'upload_session': str(time.time()),
-      },
+      data=postimg_data,
       headers={
         'referer': 'https://postimages.org/',
+        'origin': 'https://postimages.org',
+      },
+    )
+    r.raise_for_status()
+    res = r.json()
+    r = await client.get(res['url'])
+    match = postimg_pattern.search(r.text)
+    return match.group(1)
+  finally:
+    if flag:
+      await client.aclose()
+
+
+async def postimg_upload_from_url(
+  url,
+  client=None,
+  *,
+  proxy=False,
+  follow_redirects=True,
+  timeout=None,
+):
+  flag = False
+  if client is None:
+    flag = True
+    client = Client(proxy=proxy, follow_redirects=follow_redirects, timeout=timeout)
+  try:
+    r = await client.post(
+      'https://postimages.org/json/rr',
+      data={
+        **postimg_data,
+        'url': url,
+      },
+      headers={
+        'referer': 'https://postimages.org/web',
         'origin': 'https://postimages.org',
       },
     )
