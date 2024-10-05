@@ -230,7 +230,7 @@ postimg_pattern = re.compile(r'<input id="code_direct".*?value="(.*?)"')
 
 
 async def postimg_upload(
-  file,
+  file,  # file param is a bytes or a readable object (such as the open function's returns)
   client=None,
   *,
   proxy=False,
