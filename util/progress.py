@@ -100,7 +100,7 @@ class Progress:
       logger.warning('遇到 FloodWaitError, 等待 %s 秒', e.seconds)
       self.wait_until = time.time() + e.seconds
     except Exception:
-      logger.error(exc_info=1)
+      logger.error('', exc_info=1)
     self.wait_until = time.time()
 
   async def add(self, p=1, total=None):

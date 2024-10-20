@@ -78,7 +78,7 @@ class Bot(TelegramClient):
     schedule: 'hints.DateLike' = None,
   ) -> 'types.Message':
     # 自动去除 buttons 中的空列表
-    if buttons is not None:
+    if isinstance(buttons, typing.Sequence):
       for i, ai in enumerate(reversed(buttons)):
         if isinstance(ai, typing.Sequence) and len(ai) == 0:
           buttons.pop(i)
