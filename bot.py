@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 import asyncio
 import inspect
 import functools
-import itertools
 import typing
 
 import config
@@ -61,41 +60,44 @@ class Bot(TelegramClient):
       logger.error(exc_info=1)
     return res
 
-  async def delete_messages(
-    self,
-    entity: 'hints.EntityLike',
-    message_ids: 'typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]',
+  async def edit_message(
+    self: 'TelegramClient',
+    entity: 'typing.Union[hints.EntityLike, types.Message]',
+    message: 'hints.MessageLike' = None,
+    text: str = None,
     *,
-    revoke: bool = True,
-    check_permission: bool = True,
-  ) -> 'typing.Sequence[types.messages.AffectedMessages]':
-    has_permission = True
-    if revoke and check_permission:
-      peer = utils.get_peer(entity)
-      if not isinstance(peer, types.PeerUser):
-        permissions = await self.get_permissions(entity, 'me')
-        has_permission = bool(permissions.delete_messages)
-    if has_permission:
-      return await super().delete_messages(entity, message_ids, revoke=revoke)
-
-    if not utils.is_list_like(message_ids):
-      message_ids = (message_ids,)
-
-    gets = await self.get_messages(
-      entity, ids=[m for m in message_ids if isinstance(m, int)]
-    )
-    messages = [
-      m
-      for m in itertools.chain(message_ids, gets)
-      if isinstance(m, (types.Message, types.MessageService, types.MessageEmpty))
-    ]
-    if any(i.sender_id != self.me.id for i in messages):
-      t = [i.id for i in messages if i.sender_id != self.me.id]
-      logger.warning(
-        f'No permission to delete messages{t} in Channel {utils.get_peer_id(entity)}'
-      )
-    return await super().delete_messages(
-      entity, [i.id for i in messages if i.sender_id == self.me.id], revoke=revoke
+    parse_mode: str = (),
+    attributes: 'typing.Sequence[types.TypeDocumentAttribute]' = None,
+    formatting_entities: typing.Optional[typing.List[types.TypeMessageEntity]] = None,
+    link_preview: bool = True,
+    file: 'hints.FileLike' = None,
+    thumb: 'hints.FileLike' = None,
+    force_document: bool = False,
+    buttons: typing.Optional['hints.MarkupLike'] = None,
+    supports_streaming: bool = False,
+    schedule: 'hints.DateLike' = None,
+  ) -> 'types.Message':
+    # 自动去除 buttons 中的空列表
+    if buttons is not None:
+      for i, ai in enumerate(reversed(buttons)):
+        if isinstance(ai, typing.Sequence) and len(ai) == 0:
+          buttons.pop(i)
+      if len(buttons) == 0:
+        buttons = None
+    return await super().edit_message(
+      entity,
+      message,
+      text,
+      parse_mode=parse_mode,
+      attributes=attributes,
+      formatting_entities=formatting_entities,
+      link_preview=link_preview,
+      file=file,
+      thumb=thumb,
+      force_document=force_document,
+      buttons=buttons,
+      supports_streaming=supports_streaming,
+      schedule=schedule,
     )
 
   @staticmethod
