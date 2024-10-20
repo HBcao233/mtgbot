@@ -359,3 +359,9 @@ def load_plugins():
     if not m:
       continue
     load_plugin(f'{config.bot_home+"." if config.bot_home else ""}plugins.{m.group(1)}')
+
+
+def import_plugin(name):
+  return __import__(
+    f'{config.bot_home+"." if config.bot_home else ""}plugins.{name}', fromlist=[name]
+  )
