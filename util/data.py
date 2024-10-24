@@ -206,14 +206,14 @@ class MessageData:
     return cls.__instance
 
   def __init__(self):
-    _conn = sqlite3.connect(getDataFile('messages.db'))
-    _conn.row_factory = namedtuple_factory
     self.init()
 
   @classmethod
   def init(cls):
     if cls.inited:
       return
+    cls._conn = sqlite3.connect(getDataFile('messages.db'))
+    cls._conn.row_factory = namedtuple_factory
     cls._conn.execute(
       'CREATE TABLE if not exists messages(id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER NOT NULL, message_id INTEGER NOT NULL)'
     )
