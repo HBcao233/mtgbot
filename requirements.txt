@@ -1,9 +1,12 @@
-telethon==1.36.0
+telethon
 cryptg
 httpx[http2]
 opencv-python
 ujson
-bs4
-pillow
-rlottie-python
-moviepy
+# bs4
+# pillow
+# rlottie-python
+# moviepy
+
+# 使用proxy需要
+# python-socks[asyncio]

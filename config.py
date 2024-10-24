@@ -33,10 +33,17 @@ proxy_url = proxy = None
 proxies = {}
 proxy_type = env.get('proxy_type', '') or 'http'
 if (proxy_port := env.get('proxy_port', '')) != '':
+  proxy_port = int(proxy_port)
   proxy_host = 'localhost'
   if env.get('proxy_host', '') != '':
     proxy_host = env.get('proxy_host')
   proxy_url = f'{proxy_type}://{proxy_host}:{proxy_port}/'
+  proxy = {
+    'proxy_type': proxy_type,  # (mandatory) protocol to use (see above)
+    'addr': proxy_host,  # (mandatory) proxy IP address
+    'port': proxy_port,  # (mandatory) proxy port number
+    'rdns': False,  # (optional) whether to use remote or local resolve
+  }
 
   proxy_username = env.get('proxy_username', '')
   proxy_password = env.get('proxy_password', '')
@@ -44,7 +51,12 @@ if (proxy_port := env.get('proxy_port', '')) != '':
     proxy_url = (
       f'{proxy_type}://{proxy_username}:{proxy_password}@{proxy_host}:{proxy_port}'
     )
+    proxy.update(
+      {
+        'username': proxy_username,
+        'password': proxy_password,
+      }
+    )
 
 if proxy_url is not None:
   proxies.update({'http://': proxy_url, 'https://': proxy_url})
-  proxy = (proxy_type, proxy_host, proxy_port, True, proxy_username, proxy_password)
