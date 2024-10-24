@@ -1,6 +1,7 @@
-chcp 65001
+# chcp 65001
 if ([string]::IsNullOrWhiteSpace($args[0])){
     echo "请输入BOT_HOME"
+    exit
 }
 Set-Content env:BOT_HOME $args[0]
 $env_path = "$env:BOT_HOME/.env"
@@ -13,5 +14,4 @@ Get-Content $env_path -Encoding utf8 | foreach {
         [Environment]::SetEnvironmentVariable($name.trim(), $value.trim())
     }
 }
-python ".\main.py"
-pause
+Start-Process -FilePath "python.exe" -ArgumentList ".\main.py" -WindowStyle Hidden -PassThru | Format-List
