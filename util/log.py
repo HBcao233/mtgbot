@@ -52,7 +52,7 @@ def debug_handler_filter(record):
 
 
 class TimedHandler(TimedRotatingFileHandler):
-  def __init__(self, name='', backupCount=30, encoding=None, errors=None):
+  def __init__(self, name='', backupCount=30, encoding='utf-8', errors=None):
     if not name:
       self.base_name = '.log'
     else:
