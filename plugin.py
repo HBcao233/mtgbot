@@ -1,5 +1,4 @@
 from telethon import events, utils, types
-import traceback
 import re
 import os.path
 import inspect
@@ -341,8 +340,7 @@ def load_plugin(name):
     __import__(name, fromlist=[])
     load_logger.info(f'Success to load plugin "{name}"')
   except Exception:
-    load_logger.warning('Error to load plugin "' + name + '"')
-    load_logger.warning(traceback.format_exc())
+    load_logger.warning('Error to load plugin "' + name + '"', exc_info=1)
 
 
 def load_plugins():
@@ -362,6 +360,9 @@ def load_plugins():
 
 
 def import_plugin(name):
-  return __import__(
-    f'{config.bot_home+"." if config.bot_home else ""}plugins.{name}', fromlist=[name]
-  )
+  try:
+    return __import__(
+      f'{config.bot_home+"." if config.bot_home else ""}plugins.{name}', fromlist=[name]
+    )
+  except Exception:
+    load_logger.warning('Error to import plugin "' + name + '"', exc_info=1)

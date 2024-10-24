@@ -1,4 +1,4 @@
-# chcp 65001
+chcp 65001
 if ([string]::IsNullOrWhiteSpace($args[0])){
     echo "请输入BOT_HOME"
     exit
@@ -14,4 +14,9 @@ Get-Content $env_path -Encoding utf8 | foreach {
         [Environment]::SetEnvironmentVariable($name.trim(), $value.trim())
     }
 }
-Start-Process -FilePath "python.exe" -ArgumentList ".\main.py" -WindowStyle Hidden -PassThru | Format-List
+
+if (Test-Path '.venv/') {
+    Start-Process -FilePath ".venv/Scripts/python.exe" -ArgumentList ".\main.py" -WindowStyle Hidden -PassThru -RedirectStandardOutput $env:BOT_HOME/bot.log | Format-List Name,Id,Path
+} else {
+    Start-Process -FilePath "python.exe" -ArgumentList ".\main.py" -WindowStyle Hidden -PassThru -RedirectStandardOutput $env:BOT_HOME/bot.log | Format-List Name,Id,Path
+}
