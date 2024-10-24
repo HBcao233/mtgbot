@@ -8,7 +8,7 @@ from logging.handlers import TimedRotatingFileHandler
 
 __all__ = ['logger', 'default_handler', 'file_handler']
 
-logs_dir = os.path.join(config.botRoot, 'logs/')
+logs_dir = os.path.join(config.botHome, 'logs/')
 if not os.path.isdir(logs_dir):
   os.mkdir(logs_dir)
 

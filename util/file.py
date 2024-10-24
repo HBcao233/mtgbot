@@ -20,7 +20,7 @@ def _getFile(path='', name=''):
 
 def getFile(dir_name='', name=''):
   name = str(name)
-  path = os.path.join(config.botRoot, dir_name)
+  path = os.path.join(config.botHome, dir_name)
   if '/' in name:
     p, name = os.path.split(name)
     path = os.path.join(path, p)
@@ -45,7 +45,3 @@ def getCache(name=''):
   if not os.path.isdir(path):
     os.mkdir(path)
   return getDataFile(os.path.join('cache/', str(name)))
-
-
-def getWorkFile(name=''):
-  return _getFile(config.workPath, name)

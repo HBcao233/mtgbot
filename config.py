@@ -4,7 +4,7 @@ import os
 default_api_id = '4'
 default_api_hash = '014b35b6184100b085b0d0572f9b5103'
 
-botRoot = workPath = os.path.dirname(os.path.realpath(__file__))
+botRoot = botHome = os.path.dirname(os.path.realpath(__file__))
 commands = []
 inlines = []
 settings = []
@@ -13,7 +13,7 @@ settings = []
 env = os.environ
 bot_home = x if (x := env.get('BOT_HOME', '')) != '.' else ''
 if bot_home:
-  botRoot = os.path.join(workPath, bot_home)
+  botHome = os.path.join(botRoot, bot_home)
 
 token = env.get('token') or ''
 api_id = env.get('api_id', '') or env.get('app_id', '') or default_api_id

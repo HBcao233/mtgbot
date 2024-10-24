@@ -346,7 +346,7 @@ def load_plugin(name):
 
 
 def load_plugins():
-  dirpath = os.path.join(config.botRoot, 'plugins')
+  dirpath = os.path.join(config.botHome, 'plugins')
   for name in os.listdir(dirpath):
     path = os.path.join(dirpath, name)
     if os.path.isfile(path) and (name.startswith('_') or not name.endswith('.py')):

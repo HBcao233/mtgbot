@@ -1,18 +1,21 @@
 version: '3'
 
 services:
-  mtgbot:
-    container_name: mtgbot
+  tgbot:
+    container_name: tgbot
     volumes:
       - .:/tgbot
+      - /www/wwwroot/i.xxx.xxx:/tgbot/hosting
     env_file:
-      - mtgbot/.env
+      - tgbot/.env
     environment:
-      BOT_HOME: mtgbot
+      BOT_HOME: tgbot
       TZ: Asia/Shanghai
 
     build: .
     stop_signal: SIGINT
+    depends_on:
+      - tgbot
       
   tgbot2:
     container_name: tgbot2
@@ -26,3 +29,5 @@ services:
     
     build: .
     stop_signal: SIGINT
+    depends_on:
+      - tgbot

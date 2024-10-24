@@ -10,7 +10,6 @@ from .file import (
   getResource,
   getDataFile,
   getCache,
-  getWorkFile,
 )
 
 from .media import (
@@ -47,7 +46,6 @@ __all__ = [
   'getResource',
   'getDataFile',
   'getCache',
-  'getWorkFile',
   'videoInfo',
   'resizePhoto',
   'img2bytes',
