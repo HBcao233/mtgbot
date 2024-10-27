@@ -1,6 +1,7 @@
 telethon
 cryptg
 httpx[http2]
+httpx[socks]
 opencv-python
 ujson
 # bs4
