@@ -33,6 +33,11 @@ async def help(event):
   raise events.StopPropagation
 
 
+@handler('ping', info='查看小派魔是否存活')
+async def ping(event):
+  await event.reply('小派魔存活中')
+
+
 donate_config_keys = [
   'donate_patreon_url',
   'donate_afdian_url',

@@ -22,3 +22,8 @@ async def help(event):
     buttons=Button.url('源代码', 'https://github.com/HBcao233/mtgbot'),
   )
   raise events.StopPropagation
+
+
+@handler('ping', info='查看小派魔是否存活')
+async def ping(event):
+  await event.reply('小派魔存活中')
