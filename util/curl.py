@@ -162,6 +162,7 @@ class Client(httpx.AsyncClient):
     if url is None or url == '':
       return ''
 
+    path = None
     try:
       async with self.stream('GET', url=url, **kwargs) as r:
         r.raise_for_status()
@@ -171,7 +172,8 @@ class Client(httpx.AsyncClient):
             async for chunk in r.aiter_raw():
               f.write(chunk)
     except Exception:
-      os.remove(path)
+      if path:
+        os.remove(path)
       raise
 
     if rand:
