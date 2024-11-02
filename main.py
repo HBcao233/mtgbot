@@ -2,6 +2,7 @@ from telethon import events, types, functions, utils, errors, Button
 import asyncio
 import inspect
 import ast
+import time
 
 import config
 import util
@@ -146,6 +147,7 @@ async def _init():
   """
   初始化
   """
+  start_time = time.perf_counter()
   await bot(
     functions.bots.ResetBotCommandsRequest(
       scope=types.BotCommandScopeDefault(),
@@ -158,25 +160,15 @@ async def _init():
       lang_code='zh',
     )
   )
-  for i in MessageData.iter_chats():
-    try:
-      await bot(
-        functions.bots.ResetBotCommandsRequest(
-          scope=types.BotCommandScopePeer(peer=await bot.get_input_entity(i)),
-          lang_code='zh',
-        )
-      )
-    except errors.ChannelPrivateError:
-      pass
 
   try:
-    commands = {}
+    commands: dict[Scope, set[tuple[str, str]]] = {}
     for i in config.commands:
       if not util.bool_or_callable(i.enable):
         continue
       bot.add_event_handler(i.func, events.NewMessage(pattern=i.pattern, **i.kwargs))
       if i.info != '' and util.bool_or_callable(i.show_info):
-        for s in i.scope:
+        for s in i.scope:  # 遍历 ScopeList 中的 Scope
           if s not in commands:
             commands[s] = set()
           commands[s].add((i.cmd, i.info))
@@ -193,6 +185,49 @@ async def _init():
     + ('\n'.join([f'  {k}: {str([i[0] for i in v])},' for k, v in commands.items()]))
     + '\n}'
   )
+
+  data = util.data.Settings()
+  old_peer = data.get('scope_peer', {})
+  new_peer = {}
+  for scope, v in commands.items():
+    if scope.type == types.BotCommandScopePeer:
+      new_peer[str(scope.chat_id)] = [i[0] for i in v]
+
+  logger.debug(f'old_peer: {old_peer}')
+  logger.debug(f'new_peer: {new_peer}')
+  for k, v in old_peer.items():
+    need_reset = False
+    if k not in new_peer.keys():
+      need_reset = True
+    else:
+      for i in v:
+        if i not in new_peer[k]:
+          need_reset = True
+    if need_reset:
+      logger.info(f'重置 ScopePeer({k}) ')
+      try:
+        await bot(
+          functions.bots.ResetBotCommandsRequest(
+            scope=types.BotCommandScopePeer(peer=await bot.get_input_entity(int(k))),
+            lang_code='zh',
+          )
+        )
+        for i in MessageData.iter_chats():
+          if i < 0:
+            await bot(
+              functions.bots.ResetBotCommandsRequest(
+                scope=types.BotCommandScopePeerUser(
+                  await bot.get_input_entity(i), await bot.get_input_entity(int(k))
+                ),
+                lang_code='zh',
+              )
+            )
+      except errors.ChannelPrivateError:
+        pass
+
+  with data:
+    data['scope_peer'] = new_peer
+
   for k, v in commands.items():
     await bot(
       functions.bots.SetBotCommandsRequest(
@@ -202,6 +237,8 @@ async def _init():
       )
     )
 
+  logger.info(f'初始化完成, 用时: {time.perf_counter() - start_time}s')
+
 
 if __name__ == '__main__':
   bot.add_event_handler(
@@ -209,7 +246,10 @@ if __name__ == '__main__':
   )
   bot.add_event_handler(_add_message, events.NewMessage)
   bot.add_event_handler(_global_inline_query, events.InlineQuery)
+
+  start_time = time.perf_counter()
   load_plugins()
+  logger.info(f'插件载入完成, 用时: {time.perf_counter() - start_time}s')
   bot.loop.create_task(_init())
   try:
     bot.run_until_disconnected()
