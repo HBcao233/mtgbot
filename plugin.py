@@ -182,24 +182,24 @@ class Command:
     **kwargs,
   ):
     if cmd == '':
-      self.pattern_cmd = True
+      self.pattern_cmd: bool = True
     else:
-      self.pattern_cmd = False
+      self.pattern_cmd: bool = False
 
-    self.cmd = cmd
+    self.cmd: str = cmd
     if pattern is None and self.cmd:
       pattern = r'^/' + self.cmd + '.*'
     if isinstance(pattern, str):
       pattern = re.compile(pattern).match
     elif isinstance(pattern, re.Pattern):
       pattern = pattern.match
-    self.pattern = pattern
-    self.info = info
-    self.show_info = show_info
-    self.enable = enable
+    self.pattern: callable = pattern
+    self.info: str = info
+    self.show_info: Any = show_info
+    self.enable: Any = enable
     if hasattr(filter, 'filter'):
       filter = filter.filter
-    self.filter = filter
+    self.filter: Any = filter
     kwargs['func'] = self.filter
 
     if scope is None:
@@ -210,7 +210,7 @@ class Command:
       raise ValueError(
         'The parameter "scope" must be a plugin.Scope instance or a plugin.ScopeList instance'
       )
-    self.scope = scope
+    self.scope: ScopeList = scope
     self.kwargs = kwargs
 
   def __str__(self):
