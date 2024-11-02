@@ -1,13 +1,17 @@
 import os
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+  from plugin import Command, InlineCommand, Setting
 
 
 default_api_id = '4'
 default_api_hash = '014b35b6184100b085b0d0572f9b5103'
 
 botRoot = botHome = os.path.dirname(os.path.realpath(__file__))
-commands = []
-inlines = []
-settings = []
+commands: list['Command'] = []
+inlines: list['InlineCommand'] = []
+settings: list['Setting'] = []
 
 
 env = os.environ
