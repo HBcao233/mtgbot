@@ -21,6 +21,7 @@ from ..tl.types import (
   MessageEntityUnderline,
   MessageEntityStrike,
   MessageEntityBlockquote,
+  MessageEntityCustomEmoji,
   TypeMessageEntity,
 )
 
@@ -88,6 +89,12 @@ class HTMLToTelegramParser(HTMLParser):
           url = None
       self._open_tags_meta.popleft()
       self._open_tags_meta.appendleft(url)
+    elif tag == 'tg-emoji':
+      EntityType = MessageEntityCustomEmoji
+      try:
+        args['document_id'] = int(attrs['emoji-id'])
+      except (KeyError, ValueError):
+        return
 
     if EntityType and tag not in self._building_entities:
       self._building_entities[tag] = EntityType(
