@@ -23,7 +23,7 @@ def getData(file: str) -> dict:
 
 def setData(file: str, data: dict):
   with open(getDataFile(f'{file}.json'), 'w') as f:
-    f.write(json.dumps(data, indent=4))
+    f.write(json.dumps(data, indent=2))
 
 
 class Data(object):
