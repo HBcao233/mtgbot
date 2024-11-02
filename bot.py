@@ -4,6 +4,7 @@ import asyncio
 import inspect
 import functools
 import typing
+import time
 
 import config
 from util.log import logger
@@ -12,6 +13,8 @@ from util.data import MessageData
 
 class Bot(TelegramClient):
   async def connect(self):
+    start_time = time.perf_counter()
+    logger.info('登录中')
     await super().connect()
     me = await self.get_me()
     if me is None:
@@ -26,6 +29,7 @@ class Bot(TelegramClient):
       self.me = await self.get_me()
     else:
       self.me = me
+    logger.info(f'登录完成, 用时: {time.perf_counter() - start_time}s')
     logger.info('当前登录账户信息: %s', self.me)
 
   async def request_callback(self, request, res):
