@@ -34,7 +34,6 @@ telegraph_author_url = env.get('telegraph_author_url', '')
 telegraph_access_token = env.get('telegraph_access_token', '')
 
 proxy_url = proxy = None
-proxies = {}
 proxy_type = env.get('proxy_type', '') or 'http'
 if (proxy_port := env.get('proxy_port', '')) != '':
   proxy_port = int(proxy_port)
@@ -61,6 +60,3 @@ if (proxy_port := env.get('proxy_port', '')) != '':
         'password': proxy_password,
       }
     )
-
-if proxy_url is not None:
-  proxies.update({'http://': proxy_url, 'https://': proxy_url})

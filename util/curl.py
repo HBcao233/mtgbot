@@ -105,7 +105,7 @@ class Client(httpx.AsyncClient):
     )
     _headers.update(headers)
     super().__init__(
-      proxies=config.proxies if proxy else None,
+      proxy=config.proxy_url if proxy else None,
       verify=False,
       follow_redirects=follow_redirects,
       headers=_headers,
