@@ -36,23 +36,26 @@ if ($bots.count -eq 0) {
 }
 
 $now = Get-Date
-ps python | foreach {
-  $a, $b, $name = $_.CommandLine.split(' ')
-  if ($name -and $bots.Contains("$name") -and (!$venv -or $a.Contains(".venv")) ) {
-    # $_ | format-list *
-    $bot = $bots["$name"]
-    $bot.pid = $_.id
-    $bot.status = $bot.pid -gt 0
-    $bot.start = $_.StartTime
-    $ago = (New-TimeSpan -Start $bot.start -End $now)
-    Switch ($ago.TotalSeconds) {
-      {$_ -gt 3600*24} { $bot.ago = $ago.ToString("d' days 'h' hours'") }
-      {$_ -gt 3600} { $bot.ago = $ago.ToString("h' hours 'm' minutes'") }
-      {$_ -gt 60} { $bot.ago = $ago.ToString("m' minutes 's' seconds'") }
-      default { $bot.ago = $ago.ToString("s' seconds'") }
+try {
+  ps python -ErrorAction Stop | foreach {
+    $a, $b, $name = $_.CommandLine.split(' ')
+    if ($name -and $bots.Contains("$name") -and (!$venv -or $a.Contains(".venv")) ) {
+      # $_ | format-list *
+      $bot = $bots["$name"]
+      $bot.pid = $_.id
+      $bot.status = $bot.pid -gt 0
+      $bot.start = $_.StartTime
+      $ago = (New-TimeSpan -Start $bot.start -End $now)
+      Switch ($ago.TotalSeconds) {
+        {$_ -gt 3600*24} { $bot.ago = $ago.ToString("d' days 'h' hours'") }
+        {$_ -gt 3600} { $bot.ago = $ago.ToString("h' hours 'm' minutes'") }
+        {$_ -gt 60} { $bot.ago = $ago.ToString("m' minutes 's' seconds'") }
+        default { $bot.ago = $ago.ToString("s' seconds'") }
+      }
     }
   }
-}
+} catch [Microsoft.PowerShell.Commands.ProcessCommandException] {}
+
 
 function status() {
   $color = @("Red", "Green")
