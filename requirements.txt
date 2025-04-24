@@ -4,10 +4,11 @@ httpx[http2]
 httpx[socks]
 opencv-python
 ujson
-# bs4
-# pillow
-# rlottie-python
-# moviepy
 
+bs4
+pillow
+rlottie-python
+moviepy
+psutil
 # 使用proxy需要
 # python-socks[asyncio]
