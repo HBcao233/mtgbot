@@ -14,7 +14,7 @@ async def help(event):
     '· /kid <url>: kemono爬取',
     '· /roll [min=0][ -~/][max=9]: 返回一个min~max的随机数（默认0-9）',
     '. /status 查看服务器运行状态',
-    '. /status 查看小派魔是否还活着',
+    '. /ping 查看小派魔是否还活着',
   ]
   if event.is_private:
     text.extend(
