@@ -86,12 +86,12 @@ async def server_status(event):
         
         # 构建回复消息
         reply_msg = (
-            "🖥️ 服务器状态:\n"
-            f"⚡ CPU使用率: {cpu_percent}%\n"
-            f"💾 内存使用: {mem_used}MB/{mem_total}MB ({mem_percent}%)\n"
-            f"💽 磁盘使用: {disk_used}MB/{disk_total}MB ({disk_percent}%)\n"
-            f"⏱️ 运行时长: {uptime}\n"
-            f"🐧 系统信息: {get_system_info()}"
+            "**服务器状态**:\n"
+            f"- **CPU使用率**: {cpu_percent}%\n"
+            f"- **内存使用**: {mem_used}MB/{mem_total}MB ({mem_percent}%)\n"
+            f"- **磁盘使用**: {disk_used}MB/{disk_total}MB ({disk_percent}%)\n"
+            f"- **运行时长**: {uptime}\n"
+            f"- **系统信息**: {get_system_info()}"
         )
         
         await event.reply(reply_msg)
