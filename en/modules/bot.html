@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>bot module &mdash; mtgbot 0.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
@@ -135,7 +135,7 @@ message text.</p>
 which is the only way to edit messages that were sent
 after the user selects an inline query result.</p>
 </dd>
-<dt>message (<cite>int</cite> | <cite>Message &lt;telethon.tl.custom.message.Message&gt;</cite> | <cite>str</cite>):</dt><dd><p>The ID of the message (or <cite>Message
+<dt>message (<cite>int</cite> | <cite>Message &lt;telethon.tl.custom.message.Message&gt;</cite> | <a href="#id5"><span class="problematic" id="id6">:tl:`InputMessageID`</span></a> | <cite>str</cite>):</dt><dd><p>The ID of the message (or <cite>Message
 &lt;telethon.tl.custom.message.Message&gt;</cite> itself) to be edited.
 If the <cite>entity</cite> was a <cite>Message
 &lt;telethon.tl.custom.message.Message&gt;</cite>, then this message
@@ -150,7 +150,7 @@ property for allowed values. Markdown parsing will be used by
 default.</p>
 </dd>
 <dt>attributes (<cite>list</cite>, optional):</dt><dd><p>Optional attributes that override the inferred ones, like
-<a href="#id5"><span class="problematic" id="id6">:tl:`DocumentAttributeFilename`</span></a> and so on.</p>
+<a href="#id7"><span class="problematic" id="id8">:tl:`DocumentAttributeFilename`</span></a> and so on.</p>
 </dd>
 <dt>formatting_entities (<cite>list</cite>, optional):</dt><dd><p>A list of message formatting entities. When provided, the <code class="docutils literal notranslate"><span class="pre">parse_mode</span></code> is ignored.</p>
 </dd>
@@ -166,15 +166,15 @@ Successful thumbnails were files below 20kB and 320x320px.
 Width/height and dimensions/size ratios may be important.
 For Telegram to accept a thumbnail, you must provide the
 dimensions of the underlying media through <code class="docutils literal notranslate"><span class="pre">attributes=</span></code>
-with <a href="#id7"><span class="problematic" id="id8">:tl:`DocumentAttributesVideo`</span></a> or by installing the
+with <a href="#id9"><span class="problematic" id="id10">:tl:`DocumentAttributesVideo`</span></a> or by installing the
 optional <code class="docutils literal notranslate"><span class="pre">hachoir</span></code> dependency.</p>
 </dd>
 <dt>force_document (<cite>bool</cite>, optional):</dt><dd><p>Whether to send the given file as a document or not.</p>
 </dd>
-<dt>buttons (<cite>list</cite>, <cite>custom.Button &lt;telethon.tl.custom.button.Button&gt;</cite>, <a href="#id9"><span class="problematic" id="id10">:tl:`KeyboardButton`</span></a>):</dt><dd><p>The matrix (list of lists), row list or button to be shown
+<dt>buttons (<cite>list</cite>, <cite>custom.Button &lt;telethon.tl.custom.button.Button&gt;</cite>, <a href="#id11"><span class="problematic" id="id12">:tl:`KeyboardButton`</span></a>):</dt><dd><p>The matrix (list of lists), row list or button to be shown
 after sending the message. This parameter will only work if
 you have signed in as a bot. You can also pass your own
-<a href="#id11"><span class="problematic" id="id12">:tl:`ReplyMarkup`</span></a> here.</p>
+<a href="#id13"><span class="problematic" id="id14">:tl:`ReplyMarkup`</span></a> here.</p>
 </dd>
 <dt>supports_streaming (<cite>bool</cite>, optional):</dt><dd><p>Whether the sent video supports streaming or not. Note that
 Telegram only recognizes as streamable some formats like MP4,
@@ -191,7 +191,7 @@ trying to edit a message that was sent via inline bots.</p>
 </dl>
 </dd>
 <dt>Returns</dt><dd><p>The edited <cite>Message &lt;telethon.tl.custom.message.Message&gt;</cite>,
-unless <cite>entity</cite> was a <a href="#id13"><span class="problematic" id="id14">:tl:`InputBotInlineMessageID`</span></a> or <a href="#id15"><span class="problematic" id="id16">:tl:`InputBotInlineMessageID64`</span></a> in which
+unless <cite>entity</cite> was a <a href="#id15"><span class="problematic" id="id16">:tl:`InputBotInlineMessageID`</span></a> or <a href="#id17"><span class="problematic" id="id18">:tl:`InputBotInlineMessageID64`</span></a> in which
 case this method returns a boolean.</p>
 </dd>
 <dt>Raises</dt><dd><p><code class="docutils literal notranslate"><span class="pre">MessageAuthorRequiredError</span></code> if you’re not the author of the
