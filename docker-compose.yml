@@ -14,8 +14,6 @@ services:
 
     build: .
     stop_signal: SIGINT
-    depends_on:
-      - tgbot
       
   tgbot2:
     container_name: tgbot2
