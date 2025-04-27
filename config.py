@@ -1,5 +1,7 @@
 import os
+import sys
 from typing import TYPE_CHECKING
+from dotenv import load_dotenv
 
 if TYPE_CHECKING:
   from plugin import Command, InlineCommand, Setting
@@ -15,9 +17,15 @@ settings: list['Setting'] = []
 
 
 env = os.environ
-bot_home = x if (x := env.get('BOT_HOME', '')) != '.' else ''
+
+bot_home = sys.argv[1] if len(sys.argv) > 1 else ''
+bot_home = x if (x := env.get('BOT_HOME', '')) != '.' else bot_home
 if bot_home:
   botHome = os.path.join(botRoot, bot_home)
+
+env_path = os.path.join(botHome, '.env')
+load_dotenv(dotenv_path=env_path, verbose=True)
+env = os.environ
 
 token = env.get('token') or ''
 api_id = env.get('api_id', '') or env.get('app_id', '') or default_api_id

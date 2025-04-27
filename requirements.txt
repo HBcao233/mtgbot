@@ -12,3 +12,4 @@ moviepy
 psutil
 # 使用proxy需要
 # python-socks[asyncio]
+python-dotenv
