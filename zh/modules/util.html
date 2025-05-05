@@ -334,13 +334,13 @@ rand: 是否在文件结尾加入随机字符串bytes</p>
 <span id="util-data"></span><h2>util.data 模块<a class="headerlink" href="#module-util.data" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="util.data.Animations">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Animations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Animations" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Animations</span></span><a class="headerlink" href="#util.data.Animations" title="Link to this definition"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#util.data.Documents" title="util.data.Documents"><code class="xref py py-class docutils literal notranslate"><span class="pre">Documents</span></code></a></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="util.data.Data">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Data" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Data" title="Link to this definition"></a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="util.data.Data.get">
@@ -381,7 +381,7 @@ rand: 是否在文件结尾加入随机字符串bytes</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="util.data.Documents">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Documents" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'documents'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Documents" title="Link to this definition"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#util.data.Data" title="util.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="util.data.Documents.value_de_json">
@@ -464,7 +464,7 @@ rand: 是否在文件结尾加入随机字符串bytes</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="util.data.Photos">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Photos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Photos" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Photos</span></span><a class="headerlink" href="#util.data.Photos" title="Link to this definition"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#util.data.Data" title="util.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="util.data.Photos.value_de_json">
@@ -480,7 +480,7 @@ rand: 是否在文件结尾加入随机字符串bytes</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="util.data.Settings">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Settings" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Settings</span></span><a class="headerlink" href="#util.data.Settings" title="Link to this definition"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#util.data.Data" title="util.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="util.data.Settings.Unset">
@@ -502,7 +502,7 @@ rand: 是否在文件结尾加入随机字符串bytes</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="util.data.Videos">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Videos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Videos" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Videos</span></span><a class="headerlink" href="#util.data.Videos" title="Link to this definition"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#util.data.Documents" title="util.data.Documents"><code class="xref py py-class docutils literal notranslate"><span class="pre">Documents</span></code></a></p>
 </dd></dl>
 
@@ -812,13 +812,13 @@ file_path: 文件路径（三选一）</p>
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-util" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="util.Animations">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Animations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Animations" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Animations</span></span><a class="headerlink" href="#util.Animations" title="Link to this definition"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#util.data.Documents" title="util.data.Documents"><code class="xref py py-class docutils literal notranslate"><span class="pre">Documents</span></code></a></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="util.Data">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Data" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Data" title="Link to this definition"></a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="util.Data.get">
@@ -859,7 +859,7 @@ file_path: 文件路径（三选一）</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="util.Documents">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Documents" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'documents'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Documents" title="Link to this definition"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#util.data.Data" title="util.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="util.Documents.value_de_json">
@@ -942,7 +942,7 @@ file_path: 文件路径（三选一）</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="util.Photos">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Photos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Photos" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Photos</span></span><a class="headerlink" href="#util.Photos" title="Link to this definition"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#util.data.Data" title="util.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="util.Photos.value_de_json">
@@ -958,7 +958,7 @@ file_path: 文件路径（三选一）</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="util.Videos">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Videos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Videos" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Videos</span></span><a class="headerlink" href="#util.Videos" title="Link to this definition"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#util.data.Documents" title="util.data.Documents"><code class="xref py py-class docutils literal notranslate"><span class="pre">Documents</span></code></a></p>
 </dd></dl>
 
