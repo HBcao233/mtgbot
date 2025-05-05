@@ -1,3 +1,4 @@
+#!/bin/bash
 root=$(dirname $(realpath $0))
 
 color=("\e[31m" "\e[32m")
