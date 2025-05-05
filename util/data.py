@@ -27,17 +27,6 @@ def setData(file: str, data: dict):
 
 
 class Data(object):
-  def __new__(cls, *args, **kwargs):
-    if not hasattr(cls, '__instances'):
-      cls.__instances = {}
-    
-    def _(file: str):
-      if file not in cls.__instances.keys():
-        cls.__instances[file] = super().__new__(cls)
-      return cls.__instances[file]
-    
-    return _(*args, **kwargs)
-
   def __init__(self, file: str):
     self.file = file
     self.data = getData(file)
