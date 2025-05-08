@@ -135,7 +135,7 @@ async def _global_inline_query(event):
       try:
         r = await i.func(event)
       except Exception:
-        logger.error(f'{i.func.__qualname__} InlineQuery 获取失败', exc_info=1)
+        logger.error(f'InlineCommand "{i.func.__module__}.{i.func.__qualname__}" 获取失败', exc_info=1)
       else:
         if isinstance(r, list):
           res.extend(r)
