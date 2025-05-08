@@ -215,7 +215,7 @@ class Options:
     return {k: k in self for k in self.args}.items()
 
   def __str__(self):
-    return f"Option({', '.join(f'{k}={v}' for k,v in self.items())})"
+    return f'Option({", ".join(f"{k}={v}" for k, v in self.items())})'
 
   def __repr__(self):
     return self.__str__()

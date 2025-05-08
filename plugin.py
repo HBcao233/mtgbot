@@ -356,13 +356,16 @@ def load_plugins():
     m = re.match(r'([_A-Z0-9a-z]+)(.py)?', name)
     if not m:
       continue
-    load_plugin(f'{config.bot_home+"." if config.bot_home else ""}plugins.{m.group(1)}')
+    load_plugin(
+      f'{config.bot_home + "." if config.bot_home else ""}plugins.{m.group(1)}'
+    )
 
 
 def import_plugin(name):
   try:
     return __import__(
-      f'{config.bot_home+"." if config.bot_home else ""}plugins.{name}', fromlist=[name]
+      f'{config.bot_home + "." if config.bot_home else ""}plugins.{name}',
+      fromlist=[name],
     )
   except Exception:
     load_logger.warning('Error to import plugin "' + name + '"', exc_info=1)

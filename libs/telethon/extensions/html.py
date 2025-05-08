@@ -154,8 +154,8 @@ ENTITY_TO_FORMATTER = {
   MessageEntityStrike: ('<del>', '</del>'),
   MessageEntityBlockquote: ('<blockquote>', '</blockquote>'),
   MessageEntityPre: lambda e, _: (
-    '<pre>\n' "    <code class='language-{}'>\n" '        '.format(e.language),
-    '{}\n' '    </code>\n' '</pre>',
+    "<pre>\n    <code class='language-{}'>\n        ".format(e.language),
+    '{}\n    </code>\n</pre>',
   ),
   MessageEntityEmail: lambda _, t: ('<a href="mailto:{}">'.format(t), '</a>'),
   MessageEntityUrl: lambda _, t: ('<a href="{}">'.format(t), '</a>'),

@@ -19,7 +19,7 @@ if __name__ == '__main__':
   if not config.api_id or not config.api_hash:
     raise ValueError('请提供正确的 api_id 和 api_hash')
   logger.info(
-    f'当前 bot_token={config.token.split(":")[0]+"*"*35}, api_id={config.api_id}, proxy={config.proxy}'
+    f'当前 bot_token={config.token.split(":")[0] + "*" * 35}, api_id={config.api_id}, proxy={config.proxy}'
   )
 
   try:
@@ -135,7 +135,10 @@ async def _global_inline_query(event):
       try:
         r = await i.func(event)
       except Exception:
-        logger.error(f'InlineCommand "{i.func.__module__}.{i.func.__qualname__}" 获取失败', exc_info=1)
+        logger.error(
+          f'InlineCommand "{i.func.__module__}.{i.func.__qualname__}" 获取失败',
+          exc_info=1,
+        )
       else:
         if isinstance(r, list):
           res.extend(r)
