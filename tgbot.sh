@@ -15,11 +15,11 @@ fi
 _status(){
   printf ${color[$status]}
   printf "●"
-  printf "\e[37m"
+  printf "\e[0m"
   printf " mtgbot   " 
   printf ${color[$status]}
   printf ${status_text[$status]}
-  printf "\e[37m\n"
+  printf "\e[0m\n"
   
   printf "%10s %s\n" PID $pid
   printf "%10s %s\n" Since "$start_time"
