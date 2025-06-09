@@ -154,6 +154,11 @@ class Animations(Documents):
     super().__init__('animations')
 
 
+class Audios(Documents):
+  def __init__(self):
+    super().__init__('audios')
+
+
 class Settings(Data):
   class Unset:
     pass
