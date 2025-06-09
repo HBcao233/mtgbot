@@ -43,7 +43,6 @@ async def start(event, text):
         if p.startswith('^/help') or p.startswith('/help'):
           await i[0](event)
           break
-  raise events.StopPropagation
 
 
 @handler('cancel', info='取消当前正在进行的任务')
