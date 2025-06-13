@@ -18,8 +18,8 @@ settings: list['Setting'] = []
 
 env = os.environ
 
-bot_home = sys.argv[1] if len(sys.argv) > 1 else ''
-bot_home = x if (x := env.get('BOT_HOME', '')) != '.' else bot_home
+bot_home = env.get('BOT_HOME', '')
+bot_home = sys.argv[1] if len(sys.argv) > 1 else bot_home
 if bot_home:
   botHome = os.path.join(botRoot, bot_home)
 
