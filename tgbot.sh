@@ -81,7 +81,6 @@ _start(){
     exit 1
   fi
   bot=${bots[$b]}
-  echo "x${status[$b]}"
   if [ ${status[$b]} -gt 0 ]; then
     echo "机器人 $bot 已经正在运行啦"
   else
