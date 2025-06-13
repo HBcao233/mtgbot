@@ -19,7 +19,7 @@ start_time=()
 
 for i in ${!bots[@]}; do
   bot=${bots[$i]}
-  p=$(ps aux | grep "$root" | grep "$i" | grep -v grep | awk '{print $2}')
+  p=$(ps aux | grep "$root" | grep "bot'$bot'" | grep -v grep | awk '{print $2}')
   pid[$i]=$p
   status[$i]=0
   start_time[$i]=""
@@ -84,7 +84,7 @@ _start(){
   if [ ${status[$b]} -gt 0 ]; then
     echo "机器人 $bot 已经正在运行啦"
   else
-    cd $root && nohup python $root/main.py "$bot" > $root/$bot/bot.log 2>&1 &
+    cd $root && nohup python $root/main.py "$bot" "bot'$bot'" > $root/$bot/bot.log 2>&1 &
     echo "启动机器人 $bot 中..."
   fi
 }
