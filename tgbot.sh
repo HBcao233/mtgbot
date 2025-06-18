@@ -19,7 +19,7 @@ start_time=()
 
 for i in ${!bots[@]}; do
   bot=${bots[$i]}
-  p=$(ps aux | grep "$root" | grep "bot'$bot'" | grep -v grep | awk '{print $2}')
+  p=$(ps aux | grep "$root" | grep "bot'$bot'" | grep -v grep | grep -v ps | awk '{print $2}')
   pid[$i]=$p
   status[$i]=0
   start_time[$i]=""
