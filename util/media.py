@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import asyncio
 import inspect
+import mimetypes
 
 import config
 from .log import logger
@@ -140,6 +141,7 @@ async def ffmpeg(command: list[str], progress_callback: callable = None):
         func = progress_callback(time, full_time)
         if inspect.isawaitable(func):
           await func
+  await proc.wait()
   return proc.returncode, '\n'.join(stdout)
 
 
@@ -206,11 +208,12 @@ async def file_to_media(
   nosound_video=True,
 ):
   _ext = os.path.splitext(path)[-1].lower()
-  if _ext == '.mp4':
+  if _ext in ['.mp4', '.webm', '.avi', '.mov']:
+    mime_type = mimetypes.guess_type(f'x{_ext}')[0]
     video, duration, w, h, thumb = videoInfo(path)
     media = types.InputMediaUploadedDocument(
       file=await config.bot.upload_file(video),
-      mime_type='video/mp4',
+      mime_type=mime_type,
       attributes=[
         types.DocumentAttributeVideo(
           duration=duration,
@@ -218,7 +221,7 @@ async def file_to_media(
           h=int(h),
           supports_streaming=supports_streaming,
         ),
-        types.DocumentAttributeFilename(os.path.split(path)[-1]),
+        types.DocumentAttributeFilename(os.path.basename(path)),
       ],
       nosound_video=nosound_video,
       spoiler=spoiler,
