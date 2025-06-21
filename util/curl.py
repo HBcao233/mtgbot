@@ -5,6 +5,7 @@ import time
 from typing import Union
 from stat import ST_MTIME
 import mimetypes
+import inspect
 
 import config
 from .string import randStr
@@ -26,6 +27,7 @@ mimetypes.add_type('image/tiff', '.tiff')
 mimetypes.add_type('image/vnd.adobe.photoshop', '.psd')
 
 mimetypes.add_type('video/mp4', '.mp4')
+mimetypes.add_type('video/webm', '.webm')
 mimetypes.add_type('video/quicktime', '.mov')
 mimetypes.add_type('video/avi', '.avi')
 
@@ -142,6 +144,7 @@ class Client(httpx.AsyncClient):
     saveas: str = None,
     nocache: bool = False,
     rand: bool = False,
+    progress_callback: callable = None,
     **kwargs,
   ) -> str:
     """
@@ -166,11 +169,20 @@ class Client(httpx.AsyncClient):
     try:
       async with self.stream('GET', url=url, **kwargs) as r:
         r.raise_for_status()
+        if progress_callback:
+          total = int(r.headers['Content-Length'])
+
         path = getPath(url, ext, saveas, r.headers['content-type'])
         if nocache or not os.path.isfile(path):
           with open(path, 'wb') as f:
             async for chunk in r.aiter_raw():
               f.write(chunk)
+              try:
+                func = progress_callback(r.num_bytes_downloaded, total)
+                if inspect.isawaitable(func):
+                  await func
+              except Exception:
+                logger.warning('更新进度条错误', exc_info=1)
     except Exception:
       if path:
         os.remove(path)
@@ -222,6 +234,7 @@ async def getImg(
   async with Client(
     proxy=proxy, follow_redirects=follow_redirects, timeout=timeout
   ) as client:
+    logger.info(f'GET {logless(url)}')
     return await client.getImg(
       url, ext=ext, saveas=saveas, nocache=nocache, rand=rand, **kwargs
     )
