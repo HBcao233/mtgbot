@@ -72,13 +72,14 @@ class Progress:
   def set_total(self, total=100):
     self.total = total
 
-  async def update(self, p=0, total=None):
+  async def update(self, p=0, total=None, *, line=None):
     if total is None:
       total = self.total
     if time.time() - self.wait_until <= 1:
       return
 
     self.p = p
+    mid = self.mid
 
     x = math.floor(104 * p / total)
     text = '['
@@ -91,9 +92,18 @@ class Progress:
     else:
       precent = f'{p} / {total}'
     text += f'] {precent}'
+    if line is not None:
+      text = self.prefix + text
+    else:
+      mid = (await bot.get_messages(mid.chat_id, ids=[mid.message_id]))[0]
+      msg = mid.message.split('\n')
+      if line >= len(msg):
+        msg.extend([''] * (line - len(msg) + 1))
+      msg[line] = text
+      text = '\n'.join(msg)
 
     try:
-      await self.mid.edit(self.prefix + text)
+      await mid.edit(text)
     except (errors.MessageNotModifiedError, errors.MessageIdInvalidError):
       pass
     except errors.FloodWaitError as e:
