@@ -166,6 +166,7 @@ class Client(httpx.AsyncClient):
       return ''
 
     path = None
+    total = None
     try:
       async with self.stream('GET', url=url, **kwargs) as r:
         r.raise_for_status()
@@ -177,12 +178,13 @@ class Client(httpx.AsyncClient):
           with open(path, 'wb') as f:
             async for chunk in r.aiter_raw():
               f.write(chunk)
-              try:
-                func = progress_callback(r.num_bytes_downloaded, total)
-                if inspect.isawaitable(func):
-                  await func
-              except Exception:
-                logger.warning('更新进度条错误', exc_info=1)
+              if progress_callback:
+                try:
+                  func = progress_callback(r.num_bytes_downloaded, total)
+                  if inspect.isawaitable(func):
+                    await func
+                except Exception:
+                  logger.warning('更新进度条错误', exc_info=1)
     except Exception:
       if path:
         os.remove(path)

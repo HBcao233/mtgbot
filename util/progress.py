@@ -92,10 +92,10 @@ class Progress:
     else:
       precent = f'{p} / {total}'
     text += f'] {precent}'
-    if line is not None:
+    if line is None:
       text = self.prefix + text
     else:
-      mid = (await bot.get_messages(mid.chat_id, ids=[mid.message_id]))[0]
+      mid = (await bot.get_messages(mid.chat_id, ids=[mid.id]))[0]
       msg = mid.message.split('\n')
       if line >= len(msg):
         msg.extend([''] * (line - len(msg) + 1))
