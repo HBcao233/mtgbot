@@ -34,7 +34,7 @@ debug = False
 if env.get('debug', '') in ['true', 'T', '1', 'True', 'debug']:
   debug = True
 
-echo_chat_id = int(x) if (x := env.get('echo_chat_id', '')) else 0
+
 superadmin = [int(x) for x in env.get('superadmin', '').split(',') if x]
 
 telegraph_author_name = env.get('telegraph_author_name', '')

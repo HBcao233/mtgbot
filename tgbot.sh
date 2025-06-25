@@ -60,9 +60,9 @@ _stop(){
   if [ ${status[$b]} -eq 0 ]; then
     echo "机器人未启动"
   else
-    p=${pid[$b]}
-    kill $p
-    echo "杀死进程 $p"
+    p=${pid[$b]} 
+    kill -s SIGINT "$p"
+    echo "杀死进程 $ps"
     pid[$b]=0
     status[$b]=0
     start_time[$b]=""
@@ -134,4 +134,6 @@ case $1 in
     ;;
   *)
     echo "Usage: $0 start|stop|status|log"
+    exit 1
 esac
+exit 0
