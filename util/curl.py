@@ -114,27 +114,41 @@ class Client(httpx.AsyncClient):
       timeout=timeout,
       **kwargs,
     )
-
-  """
+  
+  '''
   def build_request(self,
     method, url, 
     *, 
     headers=None, 
     **kwargs
   ):
+    """
+    添加反向代理
+    """
     p = urllib.parse.urlparse(url)
     if headers is None:
       headers = {}
-    _headers = httpx.Headers({
-     'host': p.netloc,
-     'origin': p.scheme + '://' + p.netloc,
-    })
-    _headers.update(headers)
+    _headers = httpx.Headers(headers)
+    
+    arr = ['i.pximg.net']
+    if p.netloc in arr:
+      _headers.update({
+        'upstream-host': p.netloc,
+      })
+      if (v := headers.get('referer', None)):
+        _headers.update({
+          'real-referer': v,
+        })
+      if (v := headers.get('origin', None)):
+        _headers.update({
+          'real-origin': v,
+        })
+      
     return super().build_request(
       method, url, headers=_headers,
       **kwargs
     )
-  """
+  '''
 
   async def getImg(
     self,

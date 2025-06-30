@@ -62,7 +62,7 @@ _stop(){
   else
     p=${pid[$b]} 
     kill -s SIGINT "$p"
-    echo "杀死进程 $ps"
+    echo "杀死进程 $p"
     pid[$b]=0
     status[$b]=0
     start_time[$b]=""
