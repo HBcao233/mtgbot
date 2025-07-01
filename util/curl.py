@@ -41,6 +41,7 @@ mimetypes.add_type('application/x-tgsticker', '.tgs')
 
 
 def logless(t):
+  t = str(t)
   if len(t) > 40:
     t = t[:20] + '....' + t[-20:]
   return t
@@ -125,16 +126,15 @@ class Client(httpx.AsyncClient):
     """
     添加反向代理
     """
-    p = urllib.parse.urlparse(url)
     if headers is None:
       headers = {}
     _headers = httpx.Headers(headers)
     
+    url = httpx.URL(url)
     arr = ['i.pximg.net']
-    if p.netloc in arr:
-      _headers.update({
-        'upstream-host': p.netloc,
-      })
+    if url.host in arr:
+      _headers['upstream-host'] = url.host
+      url = url.copy_with(host='fuck-cors.hbcaoqaq-1cd.workers.dev')
       if (v := headers.get('referer', None)):
         _headers.update({
           'real-referer': v,
