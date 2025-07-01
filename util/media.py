@@ -212,7 +212,10 @@ async def file_to_media(
     mime_type = mimetypes.guess_type(f'x{_ext}')[0]
     video, duration, w, h, thumb = videoInfo(path)
     media = types.InputMediaUploadedDocument(
-      file=await config.bot.upload_file(video),
+      file = await config.bot.upload_file(
+        video,
+        progress_callback=progress_callback,
+      ),
       mime_type=mime_type,
       attributes=[
         types.DocumentAttributeVideo(
