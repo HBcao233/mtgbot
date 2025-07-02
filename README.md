@@ -8,13 +8,13 @@
 </div>
 <p align="center">
   <a href="https://github.com/HBcao233/mtgbot-plugins">Plugins</a>
-  ·
+  ◆
   <a href="https://deepwiki.com/HBcao233/mtgbot">DeepWiki</a>
-  ·
+  ◆
   <a href="https://hbcao233.github.io/mtgbot/zh/">文档</a>
   <br/>
   <a href="https://docs.telethon.dev">Telethon 文档</a>
-  ·
+  ◆
   <a href="https://tl.telethon.dev">Telethon API</a>
 </p>
 <p align="center">
@@ -26,7 +26,7 @@
 
 一个基于 telethon 的 Telegram 机器人框架
 
-根目录下 mtgbot 和 tgbot2 文件夹为两个机器人实例, 每个实例需在 docker-compose.yml 中注册，并且文件夹下需要有  .env 文件以及 plugins 插件目录
+根目录下 mtgbot 和 tgbot2 文件夹为两个机器人实例, 每个实例需在 docker-compose.yml 中注册，并且文件夹下需要有 .env 文件以及 plugins 插件目录
 
 ### 基于本框架的插件 
 * [mtgbot-plugins](https://github.com/HBcao233/mtgbot-plugins)

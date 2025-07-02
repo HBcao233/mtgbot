@@ -5,7 +5,6 @@ services:
     container_name: tgbot
     volumes:
       - .:/tgbot
-      - /www/wwwroot/i.xxx.xxx:/tgbot/hosting
     env_file:
       - tgbot/.env
     environment:
