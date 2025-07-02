@@ -45,6 +45,7 @@ async def createPage(title, content):
 
   if not isinstance(content, str):
     content = json.dumps(content)
+  # logger.info(content)
   r = await util.post(
     'https://api.telegra.ph/createPage',
     data={
@@ -56,10 +57,11 @@ async def createPage(title, content):
     },
   )
   if r.status_code != 200:
-    return False
+    return {'code': 1, 'message': '请求失败'}
   res = r.json()
   if not res['ok']:
-    return False
+    logger.warn(res)
+    return {'code': 1, 'message': res['error']}
   return res['result']['url']
 
 
