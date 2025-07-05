@@ -1,8 +1,8 @@
 from telethon import events, Button
-from plugin import handler
+from plugin import Command
 
 
-@handler('help', info='介绍与帮助')
+@Command('help', info='介绍与帮助')
 async def help(event):
   text = f'''<b>Hi! 这里是小派魔!</b>
 指令列表:
@@ -22,7 +22,9 @@ async def help(event):
 
 \u25c6 游戏
 \u25cf /lighton
-{"\u3000"*3}点灯游戏'''
+{"\u3000"*3}点灯游戏
+
+\u25c6 更多爬虫解析等功能仅限私聊使用'''
 
   if event.is_private:
     text = f'''<b>Hi! 这里是小派魔!</b>
@@ -81,20 +83,24 @@ async def help(event):
 \u25cf /lighton
 {"\u3000"*3}点灯游戏'''
   
-  await event.reply(
+  m = await event.reply(
     text,
     buttons=Button.url('源代码', 'https://github.com/HBcao233/mtgbot'),
     parse_mode='html',
   )
+  if not m.is_private:
+    bot.schedule_delete_messages(30, m.peer_id, [m.id, event.message.id])
   raise events.StopPropagation
 
 
-@handler('ping', info='查看小派魔是否存活')
+@Command('ping', info='查看小派魔是否存活')
 async def ping(event):
-  await event.reply('小派魔存活中')
+  m = await event.reply('小派魔存活中')
+  if not m.is_private:
+    bot.schedule_delete_messages(5, m.peer_id, [m.id, event.message.id])
 
 
-@handler('status', info='查看小派魔服务器运行状态')
+@Command('status', info='查看小派魔服务器运行状态')
 async def server_status(event):
   import psutil
   import time
@@ -121,29 +127,6 @@ async def server_status(event):
     uptime_seconds = time.time() - boot_time
     uptime = str(time.strftime('%H小时%M分钟%S秒', time.gmtime(uptime_seconds)))
 
-    # 获取系统信息
-    def get_system_info():
-      try:
-        # Linux系统获取发行版信息
-        if platform.system() == 'Linux':
-          # 尝试读取/etc/os-release文件
-          try:
-            with open('/etc/os-release') as f:
-              os_info = {}
-              for line in f:
-                if '=' in line:
-                  k, v = line.strip().split('=', 1)
-                  os_info[k] = v.strip('"')
-            return f'{os_info.get("PRETTY_NAME", "Linux")} {platform.release()}'
-          except Exception:
-            # 如果读取失败，使用platform信息
-            return f'Linux {platform.release()}'
-        else:
-          # 非Linux系统
-          return f'{platform.system()} {platform.release()} {platform.version()}'
-      except Exception:
-        return f'{platform.system()} {platform.release()}'
-
     # 构建回复消息
     reply_msg = (
       '**服务器状态**:\n'
@@ -151,10 +134,13 @@ async def server_status(event):
       f'- **内存使用**: {mem_used}MB/{mem_total}MB ({mem_percent}%)\n'
       f'- **磁盘使用**: {disk_used}MB/{disk_total}MB ({disk_percent}%)\n'
       f'- **运行时长**: {uptime}\n'
-      f'- **系统信息**: {get_system_info()}'
     )
 
-    await event.reply(reply_msg)
-
+    m = await event.reply(reply_msg)
+    if not m.is_private:
+      bot.schedule_delete_messages(30, m.peer_id, [m.id, event.message.id])
   except Exception as e:
-    await event.reply(f'获取服务器状态时出错: {str(e)}')
+    logger.warn('获取服务器状态时出错', exc_info=1)
+    m = await event.reply(f'获取服务器状态时出错: {e}')
+    if not m.is_private:
+      bot.schedule_delete_messages(5, m.peer_id, [m.id, event.message.id])
