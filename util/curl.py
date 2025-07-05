@@ -61,7 +61,7 @@ def getPath(url=None, ext=None, saveas=None, mime_type=None):
     _path, saveas = os.path.split(saveas)
   _name = ''
   _ext = ''
-  if ext is True:
+  if ext is True or ext == 'auto':
     if mime_type is not None:
       _ext = mimetypes.guess_extension(mime_type)
     elif url is not None:
@@ -167,7 +167,7 @@ class Client(httpx.AsyncClient):
     Args:
       url: 文件url
       ext: (优先级大于saveas)
-        为True时: 自动从url中获取文件后缀名
+        为True/ 'auto' 时: 自动从url中获取文件后缀名
         为str时: 指定后缀
       saveas: 指定下载文件名或路径
       nocache: 是否不使用缓存, 默认为 False
