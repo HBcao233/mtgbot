@@ -103,7 +103,24 @@ class Bot(TelegramClient):
       supports_streaming=supports_streaming,
       schedule=schedule,
     )
-
+    
+  async def delete_messages(self, entity: 'hints.EntityLike',
+    message_ids: 'typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]',
+    *,
+    revoke: bool = True,
+  ):
+    try:
+      return await super().delete_messages(entity, message_ids, revoke=revoke)
+    except errors.MessageDeleteForbiddenError:
+      if not utils.is_list_like(message_ids) or len(message_ids) == 1:
+        raise
+      for i in message_ids:
+        try:
+          await super().delete_messages(entity, i, revoke=revoke)
+        except errors.MessageDeleteForbiddenError:
+          pass
+      raise
+  
   @staticmethod
   def schedule_decorator(func):
     if not inspect.isawaitable(func):
@@ -136,6 +153,9 @@ class Bot(TelegramClient):
     if inspect.isawaitable(func):
       func = functools.partial(self.loop.create_task, func)
     self.loop.call_later(time, func)
-
+  
   def schedule_delete_messages(self, time, *args, **kwargs):
-    self.schedule(time, self.delete_messages(*args, **kwargs))
+    try:
+      self.schedule(time, self.delete_messages(*args, **kwargs))
+    except errors.MessageDeleteForbiddenError:
+        logger.warn('计划任务 Bot.delete_messages except MessageDeleteForbiddenError')
