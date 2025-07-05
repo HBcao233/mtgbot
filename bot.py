@@ -5,6 +5,7 @@ import inspect
 import functools
 import typing
 import time
+import os
 
 import config
 from util.log import logger
@@ -15,7 +16,14 @@ class Bot(TelegramClient):
   async def connect(self):
     start_time = time.perf_counter()
     logger.info('登录中')
-    await super().connect()
+    try:
+      await super().connect()
+    except errors.AuthKeyDuplicatedError as e: 
+      logger.warn(f'AuthKeyDuplicatedError: {e}')
+      path = os.path.join(config.botHome, 'bot.session')
+      os.remove(path)
+      await self.sign_in(bot_token=config.token)
+      
     me = await self.get_me()
     if me is None:
       logger.info('认证失败, 尝试重新登录')
