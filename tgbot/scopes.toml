@@ -1,0 +1,37 @@
+[[NoScopeAll]]
+# 全局不显示命令
+# cmd格式: "*" or "all" or "x, y" or ["x", "y"]
+# cmd = ""
+
+[[NoScopeUsers]]
+# 所有私聊不显示命令
+# cmd = "pid"
+
+[[NoScopeChats]]
+# 所有群聊不显示命令
+cmd = ["cancel", "ping", "status"]
+
+[[NoScopeChatAdmins]]
+# cmd = "a"
+
+[[NoScopePeer]]
+# 指定 chat_id 用户/频道/群聊 不显示命令
+# chat_id > 0: 用户私聊
+# chat_id < 0: 频道/群聊
+# 频道 -xxxxxxxxxx, 群聊 -100xxxxxxxxxx
+chat_id = 0
+# cmd = "*"
+
+[[NoScopePeerUser]]
+# 指定 chat_id 频道/群聊 中的 user_id 用户 不显示命令
+# chat_id 必须 < 0
+# user_id 必须 > 0
+chat_id = -1001234567890
+user_id = 100
+# cmd = "b"
+
+[[NoScopePeerAdmins]]
+# 指定 频道/群聊 的所有管理员不显示
+# chat_id 必须 < 0, 或者为 "*", "all"
+chat_id = -1001143091022
+cmd = "*"

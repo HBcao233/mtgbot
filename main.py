@@ -3,6 +3,8 @@ import asyncio
 import inspect
 import ast
 import time
+import os
+import tomllib
 
 import config
 import util
@@ -45,7 +47,10 @@ async def start(event, text):
           break
 
 
-@handler('cancel', info='取消当前正在进行的任务')
+@handler(
+  'cancel', 
+  info='取消当前正在进行的任务',
+)
 async def _cancel(event):
   f = True
 
@@ -145,26 +150,136 @@ async def _global_inline_query(event):
     await event.answer(res)
 
 
+def load_scopes_config():
+  path = util.getFile('', 'scopes.toml')
+  c = {
+    'NoScopeAll': [], 
+    'NoScopeUsers': [],
+    'NoScopeChats': [],
+    'NoScopePeer': [],
+    'NoScopePeerUser': [],
+    'NoScopePeerAdmins': [],
+  }
+  if not os.path.isfile(path):
+    return c
+  try:
+    with open(path, 'rb') as f:
+      c.update(tomllib.load(f))
+  except Exception:
+    logger.warning('Scopes Config 加载失败', exc_info=1)
+    return c
+  c = {
+    k: [
+      {
+        _k: (
+          (_v if _v != '*' else 'all') 
+          if _k != 'cmd' else 
+          (_v if isinstance(_v, list) else ([j.strip() for j in _v.split(',')] if _v != 'all' and _v != '*' else 'all'))
+        )
+        for _k, _v in i.items()
+      }
+      for i in v 
+      if i != {} and (
+        ('cmd' in i and i['cmd'] != '' and i['cmd'] != [])
+        or logger.warning(f'{k}-{i}: cmd项为空, 已忽略') == 'x'
+      )
+    ]
+    for k, v in c.items()
+  }
+  
+  c['NoScopePeer'] = [
+    i
+    for i in c['NoScopePeer']
+    if (
+      (isinstance(i['chat_id'], int) and i['chat_id'] != 0)
+      or logger.warning(f'NoScopePeer-{i}: chat_id 配置错误, 已忽略') == 'x'
+    )
+  ]
+  c['NoScopePeerUser'] = [
+    i
+    for i in c['NoScopePeerUser']
+    if (
+      (isinstance(i['chat_id'], int) and isinstance(i['user_id'], int) and i['chat_id'] < 0 and i['user_id'] > 0)
+      or logger.warning(f'NoScopePeerUser-{i}: chat_id/user_id 配置错误, 已忽略') == 'x'
+    )
+  ]
+  c['NoScopePeerAdmins'] = [
+    i
+    for i in c['NoScopePeerAdmins']
+    if (
+      (
+        (isinstance(i['chat_id'], str) and i['chat_id'] == 'all') or 
+        (isinstance(i['chat_id'], int) and i['chat_id'] < 0)
+      )
+      or logger.warning(f'NoScopePeerAdmins-{i}: chat_id 配置错误, 已忽略') == 'x'
+    )
+  ]
+  return c
+
+
+def filter_scopes_config(commands, c):
+  for k, v in commands.items():
+    for i in c['NoScopeAll']:
+      if i['cmd'] == 'all':
+        return {}
+      else:
+        commands[k] = {j for j in v if j[0] not in i['cmd']}
+    
+    if k.type == types.BotCommandScopeUsers or (k.type == types.BotCommandScopePeer and k.chat_id > 0):
+      for i in c['NoScopeUsers']:
+        if i['cmd'] == 'all':
+          commands[k] = set()
+        else:
+          commands[k] = {j for j in v if j[0] not in i['cmd']}
+    
+    if k.type in (types.BotCommandScopeChats, types.BotCommandScopePeerUser, types.BotCommandScopeChatAdmins, types.BotCommandScopePeerAdmins) or (k.type == types.BotCommandScopePeer and k.chat_id < 0):
+      for i in c['NoScopeChats']:
+        if i['cmd'] == 'all':
+          commands[k] = set()
+        else:
+          commands[k] = {j for j in v if j[0] not in i['cmd']}
+          
+    if k.type in (types.BotCommandScopeChatAdmins, types.BotCommandScopePeerAdmins):
+      for i in c['NoScopeChatAdmins']:
+        if i['cmd'] == 'all':
+          commands[k] = set()
+        else:
+          commands[k] = {j for j in v if j[0] not in i['cmd']}
+          
+    if k.type == types.BotCommandScopePeer:
+      for i in c['NoScopePeer']:
+        if i['chat_id'] == k.chat_id:
+          if i['cmd'] == 'all':
+            commands[k] = set()
+          else:
+            commands[k] = {j for j in v if j[0] not in i['cmd']}
+    
+    elif k.type == types.BotCommandScopePeerUser:
+      for i in c['NoScopePeerUser']:
+        if i['chat_id'] == k.chat_id and i['user_id'] == k.user_id:
+          if i['cmd'] == 'all':
+            commands[k] = set()
+          else:
+            commands[k] = {j for j in v if j[0] not in i['cmd']}
+            
+    elif k.type == types.BotCommandScopePeerChatAdmins:
+      for i in c['NoScopePeerAdmins']:
+        if i['chat_id'] == k.chat_id:
+          if i['cmd'] == 'all':
+            commands[k] = set()
+          else:
+            commands[k] = {j for j in v if j[0] not in i['cmd']}
+  return commands
+
+
 async def _init():
   """
   初始化
   """
   start_time = time.perf_counter()
-  await bot(
-    functions.bots.ResetBotCommandsRequest(
-      scope=types.BotCommandScopeDefault(),
-      lang_code='zh',
-    )
-  )
-  await bot(
-    functions.bots.ResetBotCommandsRequest(
-      scope=types.BotCommandScopeUsers(),
-      lang_code='zh',
-    )
-  )
-
+  # ---start--- Command初始化 ---start---
+  commands: dict[Scope, set[tuple[str, str]]] = {}
   try:
-    commands: dict[Scope, set[tuple[str, str]]] = {}
     for i in config.commands:
       if not util.bool_or_callable(i.enable):
         continue
@@ -177,24 +292,34 @@ async def _init():
   except Exception:
     logger.critical(f'{i.func.__module__}.{i} 初始化失败', exc_info=1)
     exit(1)
-
-  for k in commands:
-    if k.type != types.BotCommandScopeDefault:
-      commands[k].update(commands[Scope.all()])
-
-  logger.debug(
-    '{\n'
-    + ('\n'.join([f'  {k}: {str([i[0] for i in v])},' for k, v in commands.items()]))
-    + '\n}'
+  # ---end--- Command初始化 ---end---
+  
+  # ---start--- 重置Scope ---start---
+  await bot(
+    functions.bots.ResetBotCommandsRequest(
+      scope=types.BotCommandScopeDefault(),
+      lang_code='zh',
+    )
   )
-
+  await bot(
+    functions.bots.ResetBotCommandsRequest(
+      scope=types.BotCommandScopeUsers(),
+      lang_code='zh',
+    )
+  )
+  await bot(
+    functions.bots.ResetBotCommandsRequest(
+      scope=types.BotCommandScopeChats(),
+      lang_code='zh',
+    )
+  )
   data = util.data.Settings()
   old_peer = data.get('scope_peer', {})
   new_peer = {}
   for scope, v in commands.items():
     if scope.type == types.BotCommandScopePeer:
       new_peer[str(scope.chat_id)] = [i[0] for i in v]
-
+  
   logger.debug(f'old_peer: {old_peer}')
   logger.debug(f'new_peer: {new_peer}')
   for k, v in old_peer.items():
@@ -229,16 +354,61 @@ async def _init():
 
   with data:
     data['scope_peer'] = new_peer
-
+  # ---end--- 重置Scope ---end---
+  
+  # ---start--- 设置Scope ---start---
+  scopes_config = load_scopes_config()
+  logger.info(f'读取到Scopes配置: {scopes_config}')
+  
+  if commands.get(Scope.private()) is None:
+    commands[Scope.private()] = commands[Scope.all()]
+  if commands.get(Scope.chats()) is None:
+    commands[Scope.chats()] = commands[Scope.all()]
+  if commands.get(Scope.chat_admins()) is None:
+    commands[Scope.chat_admins()] = commands[Scope.all()]
+  for k in commands:
+    if k.type in (types.BotCommandScopePeerUser, types.BotCommandScopeChatAdmins, types.BotCommandScopePeerAdmins) or (k.type == types.BotCommandScopePeer and k.chat_id < 0):
+      commands[k].update(commands[Scope.chats()])
+  for i in scopes_config['NoScopePeer']:
+    k = Scope.chat(i['chat_id'])
+    if i['chat_id'] > 0:
+      if k not in commands:
+        commands[k] = commands[Scope.private()]
+    else:
+      if k not in commands:
+        commands[k] = commands[Scope.chats()]
+  for i in scopes_config['NoScopePeerUser']:
+    k = Scope.chats(i['chat_id'], i['user_id'])
+    if k not in commands:
+      commands[k] = commands[Scope.chats()]
+  for i in scopes_config['NoScopePeerAdmins']:
+    k = Scope.chat_admins(i['chat_id'])
+    if k not in commands:
+      commands[k] = commands[Scope.chats()]
+  # 给所有其他 Scope 添加 Scope.all() 的命令
+  for k in commands:
+    if k.type != types.BotCommandScopeDefault:
+      commands[k].update(commands[Scope.all()])
+      
+  commands = filter_scopes_config(commands, scopes_config)
+  logger.debug(
+    '{\n'
+    + ('\n'.join([f'  {k}: {str([i[0] for i in v])},' for k, v in commands.items()]))
+    + '\n}'
+  )
+  
   for k, v in commands.items():
-    await bot(
-      functions.bots.SetBotCommandsRequest(
-        scope=await k.to_command_scope(),
-        lang_code='zh',
-        commands=[types.BotCommand(*i) for i in v],
+    try:
+      await bot(
+        functions.bots.SetBotCommandsRequest(
+          scope=await k.to_command_scope(),
+          lang_code='zh',
+          commands=[types.BotCommand(*i) for i in v],
+        )
       )
-    )
-
+    except ValueError:  
+      logger.warning('scope 实体化失败, 可能是 bot 未加入群组', exc_info=1)
+  # ---end--- 设置Scope ---end---
   logger.info(f'初始化完成, 用时: {time.perf_counter() - start_time}s')
 
 
