@@ -30,6 +30,90 @@ for i in ${!bots[@]}; do
 done
 
 
+show() {
+  for i in ${!_array[@]}; do
+    if [ $i -eq $index ]; then
+      printf $'\033[30;47m  %d. %s \033[0m\n' "$i" "${_array[$i]}"
+    else
+      printf "\x1b[0m  %d. %s \n" $i "${_array[$i]}"
+    fi
+  done
+}
+choose() {
+  _array=()
+  for i in "$@"; do 
+    _array[${#_array[@]}]="$i"
+  done
+  text="0"
+  backspace=0
+  control=0
+  control_text=""
+  index=0
+  show 
+  echo -n '请输入: 0'
+  while IFS= read -s -n 1 char; do
+    if [[ "$char" == $'\x08' ]] || [[ "$char" == $'\x7f' ]]; then
+      text="${text%?}"
+      backspace=1
+    elif [[ "$char" == $'\r' ]] || [[ "$char" == $'\n' ]] || [[ -z "$char" ]]; then
+      echo
+      break
+    elif [[ "$char" == $'\x1b' ]]; then
+      control=1
+    elif [[ -n "$char" ]]; then
+      if [[ control -eq 0 ]] && [[ "$char" =~ ^[0-9]+$ ]] && [[ ${#text} -lt 2 ]]; then
+        text="$text""$char"
+      else
+        control_text="$control_text""$char"
+      fi
+      if [[ ${#control_text} -eq 2 ]]; then
+        if [[ $control_text == '[A' ]]; then
+          if [ $index -gt 0 ]; then
+            index=$(($index - 1))
+          else
+            index=$((${#_array[@]} - 1))
+          fi
+        elif [[ $control_text == '[B' ]]; then
+          if [ "$index" -lt $((${#_array[@]} - 1)) ]; then
+            index=$(($index + 1))
+          else 
+            index="0"
+          fi
+        fi
+        text="$index"
+        control=0
+        control_text=""
+      fi
+    fi
+    if [ -n "$text" ]; then 
+      tindex=$(("10#""$text"))
+      if [ $tindex -ge 0 ] && [ $tindex -lt ${#_array[@]} ]; then
+        index=$tindex
+      fi
+    fi
+    printf '\r'
+    for (( i=0; i<${#_array[@]}; i++)); do 
+      printf $'\x1b[A'
+    done
+    show 
+    if [ -n "$text" ]; then
+      printf "\r请输入序号: %s \x1b[D" "$text"
+    else
+      printf "\r请输入序号: %s \x1b[D" "$index"
+    fi
+    if [[ $backspace -eq 1 ]]; then
+      if [ ${#text} -eq 1 ]; then
+        printf "\x1b[C\x1b[D\x1b[K"
+      else
+        printf "\x1b[D\x1b[K"
+      fi
+      backspace=0
+    fi
+  done
+  return $index
+}
+
+
 _status(){
   for i in ${!bots[@]}; do
     s=${status[$i]}
@@ -89,7 +173,15 @@ _start(){
   fi
 }
 
-case $1 in
+action="$1"
+if [ -z "$action" ]; then
+  echo "未从参数中读取到操作名"
+  actions=(status start stop restart log ps)
+  choose "${actions[@]}"
+  action=${actions[$?]}
+fi
+
+case $action in
   start|stop|restart|log)
     bot=$2
     if [ -z "$bot" ]; then
@@ -98,21 +190,14 @@ case $1 in
         bot=${bots[0]}
         echo "自动选择唯一机器人 \"$bot\""
       else
-       for i in ${!bots[@]}; do
-          printf "  %d. %s\n" $i "${bots[$i]}"
-        done
-        read  -p "请输入需要序号: " b
-        if [ -z "$b" ] || [ -z "${bots[$b]}" ]; then
-          echo "输入错误"
-          exit 1
-        fi
-        bot=${bots[$b]}
+        choose "${bots[@]}"
+        bot=${bots[$?]}
       fi
-      
+ 
     fi
     ;;
 esac
-case $1 in
+case $action in
   start)
     _start $bot
     ;;
