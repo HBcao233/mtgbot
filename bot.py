@@ -23,8 +23,14 @@ class Bot(TelegramClient):
       path = os.path.join(config.botHome, 'bot.session')
       os.remove(path)
       await self.sign_in(bot_token=config.token)
-      
-    me = await self.get_me()
+    try:
+      me = await self.get_me()
+    except errors.AuthKeyDuplicatedError:
+      logger.warn(f'AuthKeyDuplicatedError: {e}')
+      path = os.path.join(config.botHome, 'bot.session')
+      os.remove(path)
+      await self.sign_in(bot_token=config.token)
+      me = await self.get_me()
     if me is None:
       logger.info('认证失败, 尝试重新登录')
       try:
