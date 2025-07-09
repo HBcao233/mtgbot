@@ -156,6 +156,7 @@ def load_scopes_config():
     'NoScopeAll': [], 
     'NoScopeUsers': [],
     'NoScopeChats': [],
+    'NoScopeChatAdmins': [],
     'NoScopePeer': [],
     'NoScopePeerUser': [],
     'NoScopePeerAdmins': [],
@@ -262,7 +263,7 @@ def filter_scopes_config(commands, c):
           else:
             commands[k] = {j for j in v if j[0] not in i['cmd']}
             
-    elif k.type == types.BotCommandScopePeerChatAdmins:
+    elif k.type == types.BotCommandScopePeerAdmins:
       for i in c['NoScopePeerAdmins']:
         if i['chat_id'] == k.chat_id:
           if i['cmd'] == 'all':
@@ -429,3 +430,4 @@ if __name__ == '__main__':
     pass
   except KeyboardInterrupt:
     pass
+  

@@ -200,7 +200,7 @@ class Client(httpx.AsyncClient):
                 except Exception:
                   logger.warning('更新进度条错误', exc_info=1)
     except Exception:
-      if path:
+      if path and os.path.isfile(path):
         os.remove(path)
       raise
 
