@@ -1,0 +1,93 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2024, HBcao233
+# This file is distributed under the same license as the mtgbot package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: mtgbot \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-10 11:19+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/quick_start.rst:3
+msgid "快速上手"
+msgstr "Quick Start"
+
+#: ../../source/quick_start.rst:5
+msgid "上手 mtgbot 只需两步"
+msgstr "Getting started with mtgbot only requires two steps."
+
+#: ../../source/quick_start.rst:7
+msgid "创建 xxxbot/.env"
+msgstr "Create xxxbot/.env"
+
+#: ../../source/quick_start.rst:9
+msgid "使用 tgbot脚本 或 Docker  启动bot"
+msgstr "Use tgbot script to start bot"
+
+#: ../../source/quick_start.rst:12
+msgid "创建 .env"
+msgstr "Create .env"
+
+#: ../../source/quick_start.rst:14
+msgid "创建 ``xxxbot/.env``, 例如:"
+msgstr "Create ``xxxbot/.env``, content with such as"
+
+#: ../../source/quick_start.rst:45
+msgid "tgbot 脚本运行 (推荐)"
+msgstr "Use tgbot script to run bot (Recommended)"
+
+#: ../../source/quick_start.rst:46
+msgid "运行 ``tgbot.sh/tgbot.ps1 start xxxbot`` 即可"
+msgstr "Runing ``tgbot.sh/tgbot.ps1`` start xxxbot"
+
+#: ../../source/quick_start.rst:49
+msgid "Linux"
+msgstr ""
+
+#: ../../source/quick_start.rst:70
+msgid "Windows"
+msgstr ""
+
+#: ../../source/quick_start.rst:72
+msgid "需要安装 Powershell 7"
+msgstr "Need install Powershell 7"
+
+#: ../../source/quick_start.rst:90
+msgid "Docker 运行 (备选)"
+msgstr "Use Docker to run (Alternative)"
+
+#: ../../source/quick_start.rst:91
+msgid "修改 ``docker-compose.yml``"
+msgstr "Edit ``docker-compose.yml``"
+
+#: ../../source/quick_start.rst:111
+msgid "使用 docker-compose 命令运行"
+msgstr "Use docker-compose command to run"
+
+#: ../../source/quick_start.rst:120
+msgid "如果只修改 python 代码可以直接 docker restart 重启"
+msgstr "If you only edit python files, direct runing ``docker restart`` to restart bot is ok."
+
+#: ../../source/quick_start.rst:122
+msgid "如果修改了 .env, requirements.txt 或 libs 文件夹等 docker 加载内容"
+msgstr "But if edit ``.env``, ``requirements.txt``, files of ``libs``, etc. loaded by docker"
+
+#: ../../source/quick_start.rst:124
+msgid "则需要进入项目目录 docker compose build && docker compose up -d 重新构建镜像"
+msgstr "You need enter mtgbot dir and run ``docker compose build && docker compose up -d`` to rebuild the image."
+
+#: ../../source/quick_start.rst:126
+msgid "docker 常用命令"
+msgstr "Docker Common commands"
+
+#: ../../source/quick_start.rst:138
+msgid "python 直接运行 (不推荐)"
+msgstr "Run direct use python (Not Recommended)"

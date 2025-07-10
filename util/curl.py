@@ -41,6 +41,9 @@ mimetypes.add_type('application/x-tgsticker', '.tgs')
 
 
 def logless(t):
+  """
+  将字符串缩减至长度 40 以下
+  """
   t = str(t)
   if len(t) > 40:
     t = t[:20] + '....' + t[-20:]
@@ -48,6 +51,9 @@ def logless(t):
 
 
 def clean_outdated_file():
+  """
+  清理过期缓存文件
+  """
   for i in os.listdir(getCache('.')):
     f = getCache(i)
     if os.path.isfile(f) and time.time() - os.stat(f)[ST_MTIME] > outdated_time:
@@ -56,6 +62,9 @@ def clean_outdated_file():
 
 
 def getPath(url=None, ext=None, saveas=None, mime_type=None):
+  """
+  根据 url, ext, saveas, mime_type 获取保存路径
+  """
   _path = ''
   if saveas and '/' in saveas:
     _path, saveas = os.path.split(saveas)
@@ -87,16 +96,31 @@ def getPath(url=None, ext=None, saveas=None, mime_type=None):
 
 
 class Client(httpx.AsyncClient):
+  """
+  httpx 异步客户端
+  
+  .. important::
+    follow_redirects 默认值被设置为了 ``True``, 而 `httpx.AsyncClient` 默认值为 ``False``
+  
+  Arguments
+    proxy (`bool`): 
+      是否使用代理
+
+    headers (`dict` | `httpx.Headers`): 
+      指定headers，如 p站图片需要{"Referer": "https://www.pixiv.net"}
+    
+    follow_redirects (`bool`): 
+      是否跟踪重定向, 默认为 True
+
+    timeout (`int` | `httpx.Timeout`): 
+      默认为无限制
+      
+    kwargs:
+      其他参数
+  """
   def __init__(
     self, *, proxy=True, headers=None, follow_redirects=True, timeout=None, **kwargs
   ):
-    """
-    Args:
-      proxy: 是否使用代理
-      headers: 指定headers，如 p站图片需要{"Referer": "https://www.pixiv.net"}
-      follow_redirects: 是否跟踪重定向, 默认为 True
-      timeout: 默认为无限制
-    """
     if headers is None:
       headers = {}
     if timeout is None:
@@ -162,18 +186,27 @@ class Client(httpx.AsyncClient):
     **kwargs,
   ) -> str:
     """
-    流式GET 请求下载文件, 返回下载文件路径
+    流式 GET 请求下载文件, 返回下载文件路径
 
-    Args:
-      url: 文件url
-      ext: (优先级大于saveas)
+    Arguments
+      url (`str`):  
+        文件url
+        
+      ext (`bool` | `str`): 
+        (优先级大于saveas)
         为True/ 'auto' 时: 自动从url中获取文件后缀名
         为str时: 指定后缀
-      saveas: 指定下载文件名或路径
-      nocache: 是否不使用缓存, 默认为 False
-      rand: 是否在文件结尾加入随机字符串bytes
+        
+      saveas (`str`): 
+        指定下载文件名或路径
+        
+      nocache (`bool`): 
+        是否不使用缓存, 默认为 ``False``
+      
+      rand (`bool`): 
+        是否在文件结尾加入随机字符串bytes
 
-    Returns:
+    Returns
       str: 文件路径
     """
     if url is None or url == '':
@@ -215,6 +248,9 @@ class Client(httpx.AsyncClient):
 async def request(
   method, url, *, proxy=False, follow_redirects=True, timeout=None, **kwargs
 ):
+  """
+  异步 client.request() 的简略写法
+  """
   async with Client(
     proxy=proxy, follow_redirects=follow_redirects, timeout=timeout
   ) as client:
@@ -228,10 +264,16 @@ async def request(
 
 
 async def get(url, **kwargs):
+  """
+  异步 client.get() 的简略写法
+  """
   return await request('GET', url, **kwargs)
 
 
 async def post(url, **kwargs):
+  """
+  异步 client.post() 的简略写法
+  """
   return await request('POST', url, **kwargs)
 
 
@@ -247,6 +289,9 @@ async def getImg(
   timeout=None,
   **kwargs,
 ) -> str:
+  """
+  异步 client.getImg() 的简略写法
+  """
   async with Client(
     proxy=proxy, follow_redirects=follow_redirects, timeout=timeout
   ) as client:

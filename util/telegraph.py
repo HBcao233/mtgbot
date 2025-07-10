@@ -8,6 +8,26 @@ from util.log import logger
 
 
 async def createPage(title, content):
+  """
+  创建 Telegraph 页面
+  
+  Arguments
+    title (`str`):
+      标题
+  
+    content (`list`):
+      内容, 格式如下 (详见 `Node <https://telegra.ph/api#Node>`_)
+      
+      .. code-block:: python
+        
+        [
+          {
+            'tag': '',  # a, aside, b, blockquote, br, code, em, figcaption, figure, h3, h4, hr, i, iframe, img, li, ol, p, pre, s, strong, u, ul, video
+            'attrs': '',  # href, src
+            'children': []
+          }
+        ]
+  """
   _author_name = config.telegraph_author_name
   _author_url = config.telegraph_author_url
   with util.data.Settings() as data:
@@ -66,6 +86,7 @@ async def createPage(title, content):
 
 
 async def getPageList():
+  """获取所有 Telegraph Page"""
   try:
     r = await util.post(
       'https://api.telegra.ph/getPageList',

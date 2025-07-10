@@ -1,33 +1,53 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2024, HBcao233
 # This file is distributed under the same license as the mtgbot package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: mtgbot \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 19:28+0800\n"
+"POT-Creation-Date: 2025-07-10 11:19+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: en\n"
-"Language-Team: en <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
 
-#: ../../source/index.rst:22
-msgid "快速上手"
+#: ../../source/index.rst:26
+msgid "第一步"
 msgstr "First Steps"
 
 #: ../../source/modules.rst:1
 msgid "模块"
 msgstr "Modules"
 
-#: ../../source/index.rst:7
+#: ../../source/index.rst:3
 msgid "Mtgbot 文档"
 msgstr "Mtgbot Documentation"
 
+#: ../../source/index.rst:15
+msgid "第一次使用? 跳转 `安装 <./installation.html>`_"
+msgstr "Are you new here? Jump straight into `Installation <./installation.html>`_"
+
+#: ../../source/index.rst:16
+msgid "需要 Telethon 文档? https://docs.telethon.dev/"
+msgstr "Need Telethon documentation? https://docs.telethon.dev/"
+
+#: ../../source/index.rst:17
+msgid "Telethon Bot 对比 HTTP Bot API 的优势? 见 `HTTP Bot API vs MTProto <https://docs.telethon.dev/en/stable/concepts/botapi-vs-mtproto.html#botapi>`_"
+msgstr "What are the advantages of the Telethon Bot over the HTTP Bot API? See `HTTP Bot API vs MTProto <https://docs.telethon.dev/en/stable/concepts/botapi-vs-mtproto.html#botapi>`_"
+
+#: ../../source/index.rst:20
+msgid "这是什么?"
+msgstr "What is this"
+
+#: ../../source/index.rst:22
+msgid "mtgbot 是一个轻量化的 Telegram 机器人框架，基于 `Telethon <https://github.com/LonamiWebs/Telethon>`_ MTProto 协议库。 致力于用最简单的方式开发复杂机器人"
+msgstr "Mtgbot is a lightweighting Telegram Bot framework which is based on `Telethon <https://github.com/LonamiWebs/Telethon>`_ MTProto protocol library. Devoted to developing complex telegram bots in the simplest way."
+
+#: ../../source/index.rst:24
+msgid "是否厌倦了繁文缛节的 Nonebot 2, 是否看不惯反人类的依赖注入机制, 来试试轻量化的机器人框架 Mtgbot 吧"
+msgstr "Are you tired of the cumbersome Nonebot 2? Do you dislike the anti-human dependency injection mechanism? Then why not give the lightweight bot framework Mtgbot a try?"

@@ -1,4 +1,5 @@
 from telethon import events, types, functions, utils, errors, Button
+import builtins
 import asyncio
 import inspect
 import ast
@@ -15,6 +16,10 @@ from bot import Bot
 import filters
 
 
+#: Bot: Bot (`TelegramClient <https://docs.telethon.dev/en/stable/modules/client.html#telethon-client>`_ 子类) 实例, 注入 builtins
+bot: Bot
+
+
 if __name__ == '__main__':
   if len(config.token) < 36 or ':' not in config.token:
     raise ValueError('请提供正确的 bot token')
@@ -25,19 +30,21 @@ if __name__ == '__main__':
   )
 
   try:
-    __builtins__.bot = config.bot = Bot(
+    bot: Bot = Bot(
       util.getFile('bot.session'),
       config.api_id,
       config.api_hash,
       proxy=config.proxy,
     ).start(bot_token=config.token)
+    config.bot = bot 
+    builtins.bot = bot
   except ConnectionError:
     logger.critical('连接错误', exc_info=1)
     exit(1)
 
 
 @handler('start')
-async def start(event, text):
+async def _start(event, text):
   if text == '':
     for i in bot.list_event_handlers():
       if getattr(i[1], 'pattern', None):
@@ -150,7 +157,12 @@ async def _global_inline_query(event):
     await event.answer(res)
 
 
-def load_scopes_config():
+def _load_scopes_config():
+  """
+  加载 Scopes配置
+  
+  :meta private:
+  """
   path = util.getFile('', 'scopes.toml')
   c = {
     'NoScopeAll': [], 
@@ -219,6 +231,11 @@ def load_scopes_config():
 
 
 def filter_scopes_config(commands, c):
+  """
+  使用 ScopesConfig 对命令进行过滤
+  
+  :meta private:
+  """
   for k, v in commands.items():
     for i in c['NoScopeAll']:
       if i['cmd'] == 'all':
@@ -358,7 +375,7 @@ async def _init():
   # ---end--- 重置Scope ---end---
   
   # ---start--- 设置Scope ---start---
-  scopes_config = load_scopes_config()
+  scopes_config = _load_scopes_config()
   logger.info(f'读取到Scopes配置: {scopes_config}')
   
   if commands.get(Scope.private()) is None:

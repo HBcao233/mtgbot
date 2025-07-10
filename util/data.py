@@ -1,15 +1,25 @@
 from telethon import types, utils
+from typing import Union, Generator
+from collections import namedtuple
 import ujson as json
 import os.path
 import sqlite3
-from typing import Union
-from collections import namedtuple
 
 from .file import getDataFile
 from .log import logger
 
 
 def getData(file: str) -> dict:
+  """
+  读取 ``data/{file}.json`` 文件, 并将其转为字典数据
+  
+  Arguments
+    file (`str`):
+      文件名
+  
+  Returns
+    dict: 字典数据
+  """
   path = getDataFile(f'{file}.json')
   if not os.path.isfile(path):
     setData(file, dict())
@@ -22,11 +32,31 @@ def getData(file: str) -> dict:
 
 
 def setData(file: str, data: dict):
+  """
+  将字典数据转为json存入 ``data/{file}.json`` 文件
+  
+  Arguments
+    file (`str`):
+      文件名 
+    
+    data (`dict`):
+      字典数据 
+  """
   with open(getDataFile(f'{file}.json'), 'w') as f:
-    f.write(json.dumps(data, indent=2))
+    json.dumps(data, f, indent=2)
 
 
 class Data(object):
+  """
+  读取 ``data/{file}.json`` 文件, 并将其转为 方便py存取的格式
+  
+  .. code-block:: python
+    
+    with Data('urls') as data:
+      print(data['xxx'])
+      print(data.get('xxx'))
+      data['xxx'] = 'yyy'
+  """
   def __init__(self, file: str):
     self.file = file
     self.data = getData(file)
@@ -39,7 +69,13 @@ class Data(object):
 
   def __len__(self):
     return len(self.data)
-
+  
+  def save(self):
+    """
+    保存数据
+    """
+    setData(self.file, self.data)
+  
   @staticmethod
   def value_to_json(v):
     return v
@@ -69,9 +105,6 @@ class Data(object):
   def values(self):
     return self.data.values()
 
-  def save(self):
-    setData(self.file, self.data)
-
   def __enter__(self):
     return self
 
@@ -83,6 +116,10 @@ class Data(object):
 
 
 class Photos(Data):
+  """
+  保存已发送至 Telegram 的图片 file_id
+  """
+  
   def __init__(self):
     super().__init__('photos')
 
@@ -114,6 +151,10 @@ class Photos(Data):
 
 
 class Documents(Data):
+  """
+  保存已发送至 Telegram 的文档 file_id
+  """
+  
   def __init__(self, file='documents'):
     super().__init__(file)
 
@@ -145,21 +186,27 @@ class Documents(Data):
 
 
 class Videos(Documents):
+  """保存已发送至 Telegram 的视频 file_id"""
   def __init__(self):
     super().__init__('videos')
 
 
 class Animations(Documents):
+  """保存已发送至 Telegram 的动画 file_id"""
   def __init__(self):
     super().__init__('animations')
 
 
 class Audios(Documents):
+  """保存已发送至 Telegram 的音频 file_id"""
   def __init__(self):
     super().__init__('audios')
 
 
 class Settings(Data):
+  """
+  保存机器人设置
+  """
   class Unset:
     pass
 
@@ -180,6 +227,11 @@ class Settings(Data):
 
 
 def namedtuple_factory(cursor, row):
+  """
+  SQLite 命名数组工厂
+  
+  :meta private:
+  """
   fields = [column[0] for column in cursor.description]
   cls = namedtuple('Row', fields, rename=True)
   cls.__repr__ = (
@@ -198,6 +250,9 @@ def namedtuple_factory(cursor, row):
 
 
 class MessageData:
+  """
+  消息id数据库
+  """
   inited = False
 
   def __new__(cls):
@@ -256,6 +311,7 @@ class MessageData:
 
   @classmethod
   def has_chat(cls, chat_id):
+    """是否存在chat_id"""
     chat_id = utils.get_peer_id(chat_id)
     cls.init()
     r = cls._conn.execute(f"SELECT id FROM messages WHERE chat_id='{chat_id}'")
@@ -266,8 +322,10 @@ class MessageData:
   @classmethod
   def get_message(cls, chat_id: Union[int, types.Message], message_id: int = None):
     """
-    MessageData.get_message(message: types.Message)
-    MessageData.get_message(chat_id: int, message_id: int)
+    获取 message_id 列
+    
+    - `MessageData.get_message(message: types.Message)`
+    - `MessageData.get_message(chat_id: int, message_id: int)`
     """
     cls.init()
     if isinstance(chat_id, types.Message):
@@ -306,8 +364,10 @@ class MessageData:
   @classmethod
   def has_message(cls, chat_id, message_id=None):
     """
-    MessageData.has_message(message: types.Message)
-    MessageData.has_message(chat_id: int, message_id: int)
+    是否存在 message_id
+    
+    - `MessageData.has_message(message: types.Message)`
+    - `MessageData.has_message(chat_id: int, message_id: int)`
     """
     cls.init()
     if isinstance(chat_id, types.Message):
@@ -328,7 +388,13 @@ class MessageData:
     return False
 
   @classmethod
-  def iter_chats(cls):
+  def iter_chats(cls) -> Generator[int, None, None]:
+    """
+    枚举 chat_id
+    
+    Returns
+      `Generator[int, None, None]`
+    """
     cls.init()
     offset = 0
     while True:
@@ -344,7 +410,26 @@ class MessageData:
   @classmethod
   def iter_messages(
     cls, chat_id: int, *, reverse: bool = False, min_id: int = None, max_id: int = None
-  ):
+  ) -> Generator[int, None, None]:
+    """
+    枚举某 chat 中的 message_id
+    
+    Arguments
+      chat_id (`int`):
+        chat_id
+      
+      reverse (`bool`):
+        是否反向
+        
+        - ``False``: 由小到大
+        - ``True``: 由大到小
+      
+      min_id (`int`):
+        最小id
+        
+      max_id (`int`):
+        最大id
+    """
     chat_id = utils.get_peer_id(chat_id)
     cls.init()
     _offset = 0
@@ -370,6 +455,9 @@ class MessageData:
 
   @classmethod
   def get_group(cls, grouped_id: int) -> list[int]:
+    """
+    根据 grouped_id 获取一组 message_id
+    """
     cls.init()
     r = cls._conn.execute(
       f"SELECT message_id FROM messages WHERE grouped_id='{grouped_id}'"

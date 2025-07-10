@@ -67,6 +67,9 @@ __all__ = [
 
 
 def bool_or_callable(obj) -> bool:
+  """
+  计算 obj 的布尔值, 如果 obj 为 callable, 则调用后再求布尔值
+  """
   if callable(obj):
     return bool(obj())
   return bool(obj)

@@ -5,20 +5,43 @@ from dotenv import load_dotenv
 
 if TYPE_CHECKING:
   from plugin import Command, InlineCommand, Setting
+  from bot import Bot
 
 
 default_api_id = '4'
 default_api_hash = '014b35b6184100b085b0d0572f9b5103'
 
-botRoot = botHome = os.path.dirname(os.path.realpath(__file__))
+#: Bot 实例
+#: 
+#: :meta hide-value:
+bot: 'Bot' = None
+
+#: mtgbot 根目录
+#:
+#: :meta hide-value:
+botRoot: str = os.path.dirname(os.path.realpath(__file__)) 
+
+#: bot 私有目录 (.env所在目录) 
+#:
+#: :meta hide-value:
+botHome: str = botRoot 
+
+#: 加载的 Commands
 commands: list['Command'] = []
+#: 加载的 InlineCommands
 inlines: list['InlineCommand'] = []
+#: 加载的 Settings
 settings: list['Setting'] = []
 
+#: 当前环境变量 (.env导入的变量)  
+#:
+#: :meta hide-value:
+env: dict = os.environ 
 
-env = os.environ
-
-bot_home = env.get('BOT_HOME', '')
+#: bot文件夹名 
+#:
+#: :meta hide-value:
+bot_home: str = env.get('BOT_HOME', '')  
 bot_home = sys.argv[1] if len(sys.argv) > 1 else bot_home
 if bot_home:
   botHome = os.path.join(botRoot, bot_home)
@@ -34,14 +57,17 @@ debug = False
 if env.get('debug', '') in ['true', 'T', '1', 'True', 'debug']:
   debug = True
 
-
+#: 超级管理员列表
 superadmin = [int(x) for x in env.get('superadmin', '').split(',') if x]
 
 telegraph_author_name = env.get('telegraph_author_name', '')
 telegraph_author_url = env.get('telegraph_author_url', '')
 telegraph_access_token = env.get('telegraph_access_token', '')
 
-proxy_url = proxy = None
+#: 代理链接
+proxy_url: str = None
+#: Telethon格式代理
+proxy: dict = None
 proxy_type = env.get('proxy_type', '') or 'http'
 if (proxy_port := env.get('proxy_port', '')) != '':
   proxy_port = int(proxy_port)
@@ -68,3 +94,4 @@ if (proxy_port := env.get('proxy_port', '')) != '':
         'password': proxy_password,
       }
     )
+

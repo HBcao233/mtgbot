@@ -1,23 +1,20 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2024, HBcao233
 # This file is distributed under the same license as the mtgbot package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: mtgbot \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 19:34+0800\n"
+"POT-Creation-Date: 2025-07-10 19:28+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: en\n"
-"Language-Team: en <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
 
 #: ../../source/modules.rst:1
 msgid "模块"
@@ -25,367 +22,1483 @@ msgstr "Modules"
 
 #: ../../source/modules/bot.rst:2
 msgid "bot 模块"
-msgstr "bot module"
+msgstr "bot Module"
 
-#: bot.Bot:1 of
+#: ../../../bot.py:docstring of bot.Bot:1
 msgid "基类：:py:class:`~telethon.client.telegramclient.TelegramClient`"
-msgstr ""
+msgstr "BaseClass: :py:class:`~telethon.client.telegramclient.TelegramClient`"
 
-#: bot.Bot.connect:1 of
-msgid "Connects to Telegram."
-msgstr ""
+#: ../../../bot.py:docstring of bot.Bot.request_callback:1
+msgid "请求回调"
+msgstr "Request Callback"
 
-#: bot.Bot.connect:5 of
-msgid ""
-"Connect means connect and nothing else, and only one low-level request is"
-" made to notify Telegram about which layer we will be using."
-msgstr ""
+#: ../../../bot.py:docstring of bot.Bot.request_callback:3
+msgid "使用 ``bot(functions.XXX)`` (``bot.__call__``) 向telegram发送 Request 后做后续处理 (如记录发送消息id, debug记录所有请求)"
+msgstr "Do some thing after using ``bot(telthon.functions.XXX)`` (``bot.__call__``) to send a request to Telegram (such as recording sended message_id, recording all request for debug)."
 
-#: bot.Bot.connect:9 of
-msgid ""
-"Before Telegram sends you updates, you need to make a high-level request,"
-" like `client.get_me() <telethon.client.users.UserMethods.get_me>`, as "
-"described in https://core.telegram.org/api/updates."
-msgstr ""
+#: ../../../bot.py:docstring of bot.Bot.schedule_decorator:1
+msgid "计划任务装饰器"
+msgstr "Schedule Task Decorator"
 
-#: bot.Bot.connect:18 bot.Bot.delete_messages:41 of util.progress.Progress:30
-msgid "Example"
-msgstr ""
+#: ../../../bot.py:docstring of bot.Bot.schedule:1
+msgid "设置计划任务"
+msgstr "set a schedule task"
 
-#: bot.Bot.delete_messages:1 of
-msgid "Deletes the given messages, optionally \"for everyone\"."
-msgstr ""
-
-#: bot.Bot.delete_messages:3 of
-msgid "See also `Message.delete() <telethon.tl.custom.message.Message.delete>`."
-msgstr ""
-
-#: bot.Bot.delete_messages:7 of
-msgid ""
-"This method does **not** validate that the message IDs belong to the chat"
-" that you passed! It's possible for the method to delete messages from "
-"different private chats and small group chats at once, so make sure to "
-"pass the right IDs."
-msgstr ""
-
-#: bot.Bot.delete_messages:33 of util.media.ffmpeg:5 util.progress.Progress:6
+#: ../../../bot.py:docstring of bot.Bot.schedule:3
+#: ../../../bot.py:docstring of bot.Bot.schedule_delete_messages:3
+#: ../../../filters.py:docstring of filters.Filter:9
+#: ../../../plugin.py:docstring of plugin.Command:5
+#: ../../../plugin.py:docstring of plugin.InlineCommand:5
+#: ../../../plugin.py:docstring of plugin.Setting:5
+#: ../../../plugin.py:docstring of plugin.import_plugin:3
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:3
+#: ../../../util/__init__.py:docstring of util.data.getData:3
+#: ../../../util/__init__.py:docstring of util.data.setData:3
+#: ../../../util/__init__.py:docstring of util.media.videoInfo:3
+#: ../../../util/__init__.py:docstring of util.string.md5sum:3
+#: ../../../util/__init__.py:docstring of util.string.randStr:3
+#: ../../../util/curl.py:docstring of util.curl.Client:6
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:3
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:3
+#: ../../../util/data.py:docstring of util.data.getData:3
+#: ../../../util/data.py:docstring of util.data.setData:3
+#: ../../../util/media.py:docstring of util.media.ffmpeg:3
+#: ../../../util/media.py:docstring of util.media.file_to_media:6
+#: ../../../util/media.py:docstring of util.media.videoInfo:3
+#: ../../../util/progress.py:docstring of util.progress.Progress:3
+#: ../../../util/string.py:docstring of util.string.Options:5
+#: ../../../util/string.py:docstring of util.string.md5sum:3
+#: ../../../util/string.py:docstring of util.string.multiple_replace:3
+#: ../../../util/string.py:docstring of util.string.randStr:3
+#: ../../../util/telegraph.py:docstring of util.telegraph.createPage:3
 msgid "Arguments"
 msgstr ""
 
-#: bot.Bot.delete_messages:16 of
-msgid "entity (`entity`):"
+#: ../../../bot.py:docstring of bot.Bot.schedule:4
+#: ../../../bot.py:docstring of bot.Bot.schedule_delete_messages:4
+msgid "time (`int`):"
 msgstr ""
 
-#: bot.Bot.delete_messages:14 of
-msgid ""
-"From who the message will be deleted. This can actually be `None` for "
-"normal chats, but **must** be present for channels and megagroups."
+#: ../../../bot.py:docstring of bot.Bot.schedule:5
+#: ../../../bot.py:docstring of bot.Bot.schedule_delete_messages:5
+msgid "延迟时间"
+msgstr "delay time"
+
+#: ../../../bot.py:docstring of bot.Bot.schedule:7
+msgid "func (`callable`):"
 msgstr ""
 
-#: bot.Bot.delete_messages:19 of
-msgid ""
-"message_ids (`list` | `int` | `Message "
-"<telethon.tl.custom.message.Message>`):"
+#: ../../../bot.py:docstring of bot.Bot.schedule:8
+msgid "执行函数"
+msgstr "Run function"
+
+#: ../../../bot.py:docstring of bot.Bot.schedule:11
+msgid "非异步函数传参请用: functools.partial(func, \\*args, \\*\\*kwargs)"
+msgstr "Passing args to a not-async function, pleace use ``functools.partial(func, \\*args, \\*\\*kwargs)``"
+
+#: ../../../bot.py:docstring of bot.Bot.schedule_delete_messages:1
+msgid "计划删除消息"
+msgstr "Scheduling to delete messages"
+
+#: ../../../bot.py:docstring of bot.Bot.schedule_delete_messages:7
+msgid "entity (`hints.EntityLike`):"
 msgstr ""
 
-#: bot.Bot.delete_messages:19 of
-msgid "The IDs (or ID) or messages to be deleted."
+#: ../../../bot.py:docstring of bot.Bot.schedule_delete_messages:8
+msgid "指定实体 一般为 peer"
+msgstr "To who will it be sent. "
+
+#: ../../../bot.py:docstring of bot.Bot.schedule_delete_messages:10
+msgid "message_ids (`typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]`):"
 msgstr ""
 
-#: bot.Bot.delete_messages:33 of
-msgid "revoke (`bool`, optional):"
+#: ../../../bot.py:docstring of bot.Bot.schedule_delete_messages:11
+msgid "消息id列表"
+msgstr "The IDs (or ID) or messages to be deleted."
+
+#: ../../../bot.py:docstring of bot.Bot.schedule_delete_messages:13
+msgid "revoke (`bool`):"
 msgstr ""
 
-#: bot.Bot.delete_messages:22 of
-msgid ""
-"Whether the message should be deleted for everyone or not. By default it "
-"has the opposite behaviour of official clients, and it will delete the "
-"message for everyone."
-msgstr ""
-
-#: bot.Bot.delete_messages:26 of
-msgid ""
-"`Since 24 March 2019 <https://telegram.org/blog/unsend-privacy-emoji>`_, "
-"you can also revoke messages of any age (i.e. messages sent long in the "
-"past) the *other* person sent in private conversations (and of course "
-"your messages too)."
-msgstr ""
-
-#: bot.Bot.delete_messages:32 of
-msgid ""
-"Disabling this has no effect on channels or megagroups, since it will "
-"unconditionally delete the message for everyone."
-msgstr ""
-
-#: bot.Bot.delete_messages:37 of util.media.ffmpeg:9
-msgid "Returns"
-msgstr ""
-
-#: bot.Bot.delete_messages:36 of
-msgid ""
-"A list of :tl:`AffectedMessages`, each item being the result for the "
-"delete calls of the messages in chunks of 100 each."
-msgstr ""
+#: ../../../bot.py:docstring of bot.Bot.schedule_delete_messages:14
+msgid "是否为对方也删除, 默认为 True"
+msgstr "Whether the message should be deleted for everyone or not. By default it has the opposite behaviour of official clients, and it will delete the message for everyone."
 
 #: ../../source/modules/config.rst:2
 msgid "config 模块"
-msgstr "config module"
+msgstr "config Module"
+
+#: ../../docstring of config.bot:1
+msgid "Bot 实例"
+msgstr "Bot instance"
+
+#: ../../docstring of config.botRoot:1
+msgid "mtgbot 根目录"
+msgstr "mtgbot root directory"
+
+#: ../../docstring of config.commands:1
+msgid "加载的 Commands"
+msgstr "loaded Commands"
+
+#: ../../docstring of config.inlines:1
+msgid "加载的 InlineCommands"
+msgstr "loaded InlineCommands"
+
+#: ../../docstring of config.settings:1
+msgid "加载的 Settings"
+msgstr "loaded Settings"
+
+#: ../../docstring of config.bot_home:1
+msgid "bot文件夹名"
+msgstr "bot directory name"
+
+#: ../../docstring of config.botHome:1
+msgid "bot 私有目录 (.env所在目录)"
+msgstr "bot private directory (The directory where .env file is located)"
+
+#: ../../docstring of config.env:1
+msgid "当前环境变量 (.env导入的变量)"
+msgstr "Environmental variables (import from .env file)"
+
+#: ../../docstring of config.superadmin:1
+msgid "超级管理员列表"
+msgstr "Superadmin list"
+
+#: ../../docstring of config.proxy:1
+msgid "Telethon格式代理"
+msgstr "the proxy formated of Telethon"
+
+#: ../../docstring of config.proxy_url:1
+msgid "代理链接"
+msgstr "proxy url"
 
 #: ../../source/modules/filters.rst:2
 msgid "filters 模块"
-msgstr "filters module"
+msgstr "filters Module"
 
-#: filters.Filter:1 of plugin.Command:1 plugin.InlineCommand:1 plugin.Scope:1
-#: plugin.Setting:1 util.data.Data:1 util.data.MessageData:1
-#: util.data.Settings.Unset:1 util.progress.Progress:1 util.string.Options:1
+#: ../../../filters.py:docstring of filters.Filter:1
+#: ../../../plugin.py:docstring of plugin.Command:1
+#: ../../../plugin.py:docstring of plugin.InlineCommand:1
+#: ../../../plugin.py:docstring of plugin.Scope:1
+#: ../../../plugin.py:docstring of plugin.Setting:1
+#: ../../../util/__init__.py:docstring of util.data.Data:1
+#: ../../../util/__init__.py:docstring of util.data.MessageData:1
+#: ../../../util/data.py:docstring of util.data.Data:1
+#: ../../../util/data.py:docstring of util.data.MessageData:1
+#: ../../../util/data.py:docstring of util.data.Settings.Unset:1
+#: ../../../util/progress.py:docstring of util.progress.Progress:1
+#: ../../../util/string.py:docstring of util.string.Options:1
 msgid "基类：:py:class:`object`"
+msgstr "BaseClass: :py:class:`object`"
+
+#: ../../../filters.py:docstring of filters.Filter:1
+msgid "事件过滤器"
+msgstr "Event Filter"
+
+#: ../../../filters.py:docstring of filters.Filter:3
+msgid "可与同类进行:"
+msgstr "Can operations with the same class instance:"
+
+#: ../../../filters.py:docstring of filters.Filter:4
+msgid "非运算 ``~ Filter``"
+msgstr "NOT operation ``~ Filter``"
+
+#: ../../../filters.py:docstring of filters.Filter:5
+msgid "与运算 ``Filter & Filter``"
+msgstr "AND operation ``Filter & Filter``"
+
+#: ../../../filters.py:docstring of filters.Filter:6
+msgid "或运算 ``Filter | Filter``"
+msgstr "OR operation ``Filter | Filter``"
+
+#: ../../../filters.py:docstring of filters.Filter:7
+msgid "异或运算 ``Filter ^ Filter``"
+msgstr "XOR operation ``Filter ^ Filter``"
+
+#: ../../../filters.py:docstring of filters.Filter:10
+#: ../../../filters.py:docstring of filters.Filter:16
+msgid "value (`Callable[[Any], bool]`):"
 msgstr ""
 
-#: filters.Filter:1 of
-msgid "过滤器"
+#: ../../../filters.py:docstring of filters.Filter:11
+#: ../../../filters.py:docstring of filters.Filter:17
+msgid "过滤函数"
+msgstr "filtering function"
+
+#: ../../../filters.py:docstring of filters.Filter:13
+#: ../../../filters.py:docstring of filters.Filter:19
+msgid "参数需为 event, 返回值为 bool"
+msgstr "Arguments must be ``event``, and returns is bool"
+
+#: ../../../filters.py:docstring of filters.Filter:15
+msgid "Members"
 msgstr ""
+
+#: ../../../filters.py:docstring of filters.Filter.filter:1
+msgid "运行过滤函数进行过滤"
+msgstr "Run the filtering function to filter event."
+
+#: ../../../filters.py:docstring of filters.Command:1
+msgid "返回一个 过滤指定命令 的过滤器"
+msgstr "Return a Filter which can filter the specified command"
+
+#: ../../source/modules/filters.rst:0
+msgid "参数"
+msgstr "Arguments"
+
+#: ../../../filters.py:docstring of filters.Command:3
+msgid "命令名"
+msgstr "Command's name"
+
+#: ../../docstring of filters.PRIVATE:1
+msgid "过滤私聊"
+msgstr "filter private"
+
+#: ../../docstring of filters.CHANNEL:1
+msgid "过滤频道"
+msgstr "filter channel"
+
+#: ../../docstring of filters.GROUP:1
+msgid "过滤群组"
+msgstr "filter group"
+
+#: ../../docstring of filters.TEXT:1
+msgid "是否有文本"
+msgstr "filter has text"
+
+#: ../../docstring of filters.MEDIA:1
+msgid "是否有媒体"
+msgstr "filter has media"
+
+#: ../../docstring of filters.PHOTO:1
+msgid "是否有图片"
+msgstr "filter has photo"
+
+#: ../../docstring of filters.DOCUMENT:1
+msgid "是否有文档"
+msgstr "filter has document"
+
+#: ../../docstring of filters.FILE:1
+msgid "是否有图片或文档 等价于 PHOTO | DOCUMENT"
+msgstr "filter has file"
+
+#: ../../docstring of filters.ONLYTEXT:1
+msgid "是否为纯文本 (有文本且无文件)"
+msgstr "filter only text (has text but no file)"
+
+#: ../../docstring of filters.COMMAND:1
+msgid "是否是命令"
+msgstr "filter command"
+
+#: ../../docstring of filters.WEB_PREVIEW:1
+msgid "是否有链接预览"
+msgstr "filter has web preview"
+
+#: ../../docstring of filters.AUDIO:1
+msgid "是否有音频"
+msgstr "filter has audio"
+
+#: ../../docstring of filters.VOICE:1
+msgid "是否有语音留言"
+msgstr "filter has has voice"
+
+#: ../../docstring of filters.VIDEO:1
+msgid "是否有视频"
+msgstr "filter has video"
+
+#: ../../docstring of filters.VIDEO_NOTE:1
+msgid "是否有视频留言"
+msgstr "filter has video_note"
+
+#: ../../docstring of filters.GIF:1
+msgid "是否有gif"
+msgstr "filter has gif"
+
+#: ../../docstring of filters.STICKER:1
+msgid "是否有贴纸"
+msgstr "filter has sticker"
+
+#: ../../docstring of filters.CONTACT:1
+msgid "是否有联系人分享"
+msgstr "filter has contact"
+
+#: ../../docstring of filters.GAME:1
+msgid "是否有游戏"
+msgstr "filter has game"
+
+#: ../../docstring of filters.GEO:1
+msgid "是否有位置 (GeoPoint media)"
+msgstr "filter has GeoPoint media"
+
+#: ../../docstring of filters.INVOICE:1
+msgid "是否有发票"
+msgstr "filter has invoice"
+
+#: ../../docstring of filters.POLL:1
+msgid "是否有投票"
+msgstr "filter has poll"
+
+#: ../../docstring of filters.VENUE:1
+msgid "是否有 MessageMediaVenue"
+msgstr "filter has MessageMediaVenue"
+
+#: ../../docstring of filters.DICE:1
+msgid "是否有 MessageMediaDice, 骰子"
+msgstr "filter has MessageMediaDice"
+
+#: ../../docstring of filters.VIA_BOT:1
+msgid "是否来自机器人"
+msgstr "filter whether sent from bot"
+
+#: ../../docstring of filters.BUTTON:1
+msgid "是否有按钮"
+msgstr "filter whether has buttons"
+
+#: ../../docstring of filters.REPLY:1
+msgid "是否回复某消息"
+msgstr "filter whether is reply to a message"
+
+#: ../../docstring of filters.FORWARD:1
+msgid "是否是转发消息"
+msgstr "filter whether is a forward message"
 
 #: ../../source/modules/main.rst:2
 msgid "main 模块"
-msgstr "main module"
+msgstr "main Module"
+
+#: ../../docstring of main.bot:1
+msgid "Bot (`TelegramClient <https://docs.telethon.dev/en/stable/modules/client.html#telethon-client>`_ 子类) 实例, 注入 builtins"
+msgstr "Bot (the subclass of `TelegramClient <https://docs.telethon.dev/en/stable/modules/client.html#telethon-client>`_) instance, Assignment info builtins"
+
+#: ../../docstring of main.bot:0
+#: ../../docstring of util.log.default_handler:0
+msgid "type"
+msgstr ""
+
+#: ../../docstring of main.bot:3
+msgid "Bot"
+msgstr ""
 
 #: ../../source/modules/plugin.rst:2
 msgid "plugin 模块"
-msgstr "plugin module"
+msgstr "plugin Module"
 
-#: of plugin.Scope.all:1
+#: ../../../plugin.py:docstring of plugin.Scope:1
+msgid "命令显示范围"
+msgstr "Command Scope"
+
+#: ../../../plugin.py:docstring of plugin.Scope:3
+msgid "一般情况下请用静态方法创建"
+msgstr "In general, pleace using static method to instance the class."
+
+#: ../../../plugin.py:docstring of plugin.Scope.to_command_scope:1
+msgid "Scope 转 BotCommandScope"
+msgstr "Scope to BotCommandScope"
+
+#: ../../../plugin.py:docstring of plugin.Scope.all:1
 msgid "默认范围，全部"
-msgstr ""
+msgstr "Default Scope, all scope"
 
-#: of plugin.Scope.chat:1
-msgid "给定 chat_id 指代的群聊/频道 或给定 chat_id 的用户私聊"
-msgstr ""
-
-#: of plugin.Scope.chat_admins:1
-msgid "所有群聊和频道的管理员; 或给定 chat_id 指代的群聊/频道的管理员"
-msgstr ""
-
-#: of plugin.Scope.chats:1
-msgid "所有群聊和频道; 或给定 chat_id 指代的群聊/频道/用户; 或给定 chat_id 指代的群聊/频道中特定的 user_id 指代的用户"
-msgstr ""
-
-#: of plugin.Scope.private:1
+#: ../../../plugin.py:docstring of plugin.Scope.private:1
 msgid "所有私聊"
-msgstr ""
+msgstr "all private"
 
-#: of plugin.Scope.superadmin:1
-msgid "所有superadmin (请在 .env 中配置 superadmin 项, 可以为一个数字或以半角逗号 \",\" 隔开的id列表)"
-msgstr ""
+#: ../../../plugin.py:docstring of plugin.Scope.chat:1
+msgid "给定 chat_id 指代的群聊/频道"
+msgstr "The channel/megagroup which the chat_id refers to"
 
-#: of plugin.Scope.user:1
+#: ../../../plugin.py:docstring of plugin.Scope.chat:3
+msgid "或给定 chat_id 的用户私聊"
+msgstr "Or the user private which the chat_id refers to"
+
+#: ../../../plugin.py:docstring of plugin.Scope.user:1
 msgid "给定 chat_id 的用户 (不管群聊私聊)"
-msgstr ""
+msgstr "The user anywhere (both private and group) which the chat_id refers to"
 
-#: of plugin.ScopeList:1
+#: ../../../plugin.py:docstring of plugin.Scope.chats:1
+msgid "所有群聊和频道;"
+msgstr "All channels and megagroups"
+
+#: ../../../plugin.py:docstring of plugin.Scope.chats:3
+msgid "或给定 chat_id 指代的群聊/频道/用户;"
+msgstr "Or the channel / megagroup / private which the chat_id refers to"
+
+#: ../../../plugin.py:docstring of plugin.Scope.chats:5
+msgid "或给定 chat_id 指代的群聊/频道中特定的 user_id 指代的用户"
+msgstr "Or the user which refers by user_id in the channel / megagroup which the chat_id  refers to."
+
+#: ../../../plugin.py:docstring of plugin.Scope.chat_admins:1
+msgid "所有群聊和频道的管理员;"
+msgstr "All admins of channels / megagroups"
+
+#: ../../../plugin.py:docstring of plugin.Scope.chat_admins:3
+msgid "或给定 chat_id 指代的群聊/频道的管理员"
+msgstr "Or admins of the channel / megagroup which the chan_id refers to."
+
+#: ../../../plugin.py:docstring of plugin.Scope.superadmin:1
+msgid "所有superadmin (请在 .env 中配置 superadmin 项, 可以为一个数字或以半角逗号 \",\" 隔开的id列表)"
+msgstr "All superadmins (Configure in .env `superadmin` item, it's a chat_ids string split by \",\", such as \"12345678,23456789\")"
+
+#: ../../../plugin.py:docstring of plugin.ScopeList:1
 msgid "基类：:py:class:`list`"
-msgstr ""
+msgstr "BaseClass: :py:class:`list`"
 
-#: of plugin.ScopeList.append:1
+#: ../../../plugin.py:docstring of plugin.ScopeList:1
+msgid "命令范围列表"
+msgstr "Command Scope List"
+
+#: ../../../plugin.py:docstring of plugin.ScopeList.append:1
 msgid "Append object to the end of the list."
 msgstr ""
 
+#: ../../../plugin.py:docstring of plugin.Command:1
+msgid "命令装饰器"
+msgstr "Command Decorator"
+
+#: ../../../plugin.py:docstring of plugin.Command:3
+msgid "定制化的 bot.on(events.NewMessage()) 装饰器"
+msgstr "Custom ``bot.on(events.NewMessage())`` Decorator"
+
+#: ../../../plugin.py:docstring of plugin.Command:6
+msgid "cmd (`str`):"
+msgstr ""
+
+#: ../../../plugin.py:docstring of plugin.Command:7
+msgid "命令名称"
+msgstr "Command name"
+
+#: ../../../plugin.py:docstring of plugin.Command:9
+#: ../../../plugin.py:docstring of plugin.InlineCommand:6
+msgid "pattern (`str` | `re.Pattern` | `callable`):"
+msgstr ""
+
+#: ../../../plugin.py:docstring of plugin.Command:10
+#: ../../../plugin.py:docstring of plugin.InlineCommand:7
+msgid "正则表达式"
+msgstr "regex pattern"
+
+#: ../../../plugin.py:docstring of plugin.Command:12
+msgid "默认值: re.compile(r'^/' + self.cmd + '.*').match"
+msgstr "default: ``re.compile(r'^/' + self.cmd + '.*').match``"
+
+#: ../../../plugin.py:docstring of plugin.Command:14
+msgid "enable (`callable` | `bool`):"
+msgstr ""
+
+#: ../../../plugin.py:docstring of plugin.Command:15
+msgid "是否启用"
+msgstr "whether enabled"
+
+#: ../../../plugin.py:docstring of plugin.Command:17
+msgid "info (`str`):"
+msgstr ""
+
+#: ../../../plugin.py:docstring of plugin.Command:18
+msgid "命令描述消息, 不为空则会在命令列表中显示"
+msgstr "Command infomation, leaving a blank to not show in command list"
+
+#: ../../../plugin.py:docstring of plugin.Command:20
+msgid "scope (`ScopeList` | `Scope`):"
+msgstr ""
+
+#: ../../../plugin.py:docstring of plugin.Command:21
+msgid "命令描述显示范围"
+msgstr "bot command scope"
+
+#: ../../../plugin.py:docstring of plugin.Command:23
+msgid "show_info (`bool` | `callable`):"
+msgstr ""
+
+#: ../../../plugin.py:docstring of plugin.Command:24
+msgid "是否显示命令描述"
+msgstr "whether show info"
+
+#: ../../../plugin.py:docstring of plugin.Command:26
+msgid "filter (`filters.Filter` | `Any`):"
+msgstr ""
+
+#: ../../../plugin.py:docstring of plugin.Command:27
+msgid "过滤器, 需为 一个实现了filter方法的任意对象,"
+msgstr "Event filter, need be a object has filter(self, event) method."
+
+#: ../../../plugin.py:docstring of plugin.Command:29
+msgid "建议使用 `filters <filters.html>`_ 中的内置的 `Filter <filters.html#filters.Filter>`_ 类实例化"
+msgstr "Recommend to use a instance of `Filter <filters.html#filters.Filter>`_ in the `filters <filters.html>`_ Module"
+
+#: ../../../plugin.py:docstring of plugin.InlineCommand:1
+msgid "内联命令装饰器"
+msgstr "InlineCommand Decorator"
+
+#: ../../../plugin.py:docstring of plugin.InlineCommand:3
+msgid "定制化的 bot.on(events.InlineQuery() 装饰器"
+msgstr "Custom ``bot.on(events.InlineQuery())`` Decorator"
+
+#: ../../../plugin.py:docstring of plugin.InlineCommand:9
+msgid "默认值: None (匹配全部)"
+msgstr "default: None (will match all)"
+
+#: ../../../plugin.py:docstring of plugin.Command:1
+msgid "Command 别名"
+msgstr "an alias of Command."
+
+#: ../../../plugin.py:docstring of plugin.InlineCommand:1
+msgid "InlineCommand 别名"
+msgstr "an alias of InlineCommand."
+
+#: ../../../plugin.py:docstring of plugin.Setting:1
+msgid "设置按钮装饰器"
+msgstr "Settings Button Callback Decorator"
+
+#: ../../../plugin.py:docstring of plugin.Setting:3
+msgid "定制化的 bot.on(events.CallbackQuery()) 装饰器"
+msgstr "Custom ``bot.on(events.CallbackQuery())`` Decorator"
+
+#: ../../../plugin.py:docstring of plugin.Setting:6
+#: ../../../util/string.py:docstring of util.string.Options:6
+#: ../../../util/string.py:docstring of util.string.multiple_replace:4
+msgid "text (`str`):"
+msgstr ""
+
+#: ../../../plugin.py:docstring of plugin.Setting:7
+msgid "按钮文本"
+msgstr "button text"
+
+#: ../../../plugin.py:docstring of plugin.import_plugin:1
+msgid "导入插件"
+msgstr "import plugin"
+
+#: ../../../plugin.py:docstring of plugin.import_plugin:4
+msgid "name (`str`):"
+msgstr ""
+
+#: ../../../plugin.py:docstring of plugin.import_plugin:5
+msgid "插件名, 去掉plugins.前缀, 及 .py 后缀的文件名或文件夹名"
+msgstr "plugin name, no prefix \"plugins\" and subfix \".py\""
+
 #: ../../source/modules/util.rst:2
 msgid "util 包"
-msgstr "util package"
+msgstr "util Package"
 
 #: ../../source/modules/util.rst:5
 msgid "子模块"
-msgstr "Submodules"
+msgstr "Submodule"
 
 #: ../../source/modules/util.rst:8
-msgid "util.curl 模块"
-msgstr "util.curl module"
-
-#: of util.curl.Client:1
-msgid "基类：:py:class:`~httpx.AsyncClient`"
-msgstr ""
-
-#: of util.curl.Client.getImg:1
-msgid "流式GET 请求下载文件, 返回下载文件路径"
-msgstr ""
-
-#: of util.curl.Client.getImg:10 util.string.md5sum:6 util.string.randStr:4
-msgid "Args:"
-msgstr ""
-
-#: of util.curl.Client.getImg:4
-msgid "url: 文件url ext: (优先级大于saveas)"
-msgstr ""
-
-#: of util.curl.Client.getImg:6
-msgid "为True时: 自动从url中获取文件后缀名 为str时: 指定后缀"
-msgstr ""
-
-#: of util.curl.Client.getImg:8
-msgid "saveas: 指定下载文件名或路径 nocache: 是否不使用缓存, 默认为 False rand: 是否在文件结尾加入随机字符串bytes"
-msgstr ""
-
-#: of util.curl.Client.getImg:12 util.string.md5sum:8 util.string.randStr:6
-msgid "Returns:"
-msgstr ""
-
-#: of util.curl.Client.getImg:13
-msgid "str: 文件路径"
-msgstr ""
-
-#: ../../source/modules/util.rst:16
-msgid "util.data 模块"
-msgstr "util.data module"
-
-#: of util.data.Animations:1 util.data.Videos:1
-msgid "基类：:py:class:`~util.data.Documents`"
-msgstr ""
-
-#: of util.data.Documents:1 util.data.Photos:1 util.data.Settings:1
-msgid "基类：:py:class:`~util.data.Data`"
-msgstr ""
-
-#: of util.data.MessageData.add_message:1
-msgid "记录 chat_id, message_id 并返回记录id"
-msgstr ""
-
-#: of util.data.MessageData.get_message_by_rid:1
-msgid "通过记录id获取message"
-msgstr ""
-
-#: ../../source/modules/util.rst:24
-msgid "util.file 模块"
-msgstr "util.file module"
-
-#: ../../source/modules/util.rst:32
 msgid "util.log 模块"
-msgstr "util.log module"
+msgstr "util.log Module"
 
-#: ../../source/modules/util.rst:40
-msgid "util.media 模块"
-msgstr "util.media module"
+#: ../../docstring of util.log.logger:1
+msgid "全局 logger 日志记录器"
+msgstr "logger"
 
-#: of util.media.ffmpeg:1
-msgid "Run a ffmpeg command"
+#: ../../docstring of util.log.default_handler:1
+msgid "默认日志处理器"
+msgstr "default log handler"
+
+#: ../../docstring of util.log.default_handler:3
+msgid "logging.StreamHandler"
 msgstr ""
 
-#: of util.media.ffmpeg:4
-msgid ""
-"command (list[str]): a command progress_callback (callable, optional): a "
-"update function for progress"
-msgstr ""
+#: ../../docstring of util.log.file_handler:1
+msgid "文件日志处理器"
+msgstr "file log handler"
 
-#: of util.media.ffmpeg:8
-msgid ""
-"returncode (int): command returncode stdout (str): command stdout "
-"(decoded)"
-msgstr ""
-
-#: of util.media.ffmpeg:15
-msgid "Examples"
-msgstr ""
-
-#: of util.media.ffmpeg:12
-msgid ""
-"mid = event.reply('请等待...') bar = Progress(mid) returncode, stdout = "
-"await ffmpeg(['ffmpeg', input, 'output.mp4', '-y'], bar.update) if "
-"returncode != 0:"
-msgstr ""
-
-#: of util.media.ffmpeg:16
-msgid "logger.warning(stdout)"
-msgstr ""
-
-#: ../../source/modules/util.rst:48
-msgid "util.progress 模块"
-msgstr "util.progress module"
-
-#: of util.progress.Progress:1
-msgid "进度条"
-msgstr ""
-
-#: of util.progress.Progress:4
-msgid ""
-"mid (Message <telethon.tl.custom.message.Message>): 用于进度条显示的 Message "
-"total (int | float): 总数，将会以 p/total 计算当前进度百分比 prefix (str): 进度条前显示的字符"
-msgstr ""
-
-#: of util.progress.Progress:10
-msgid "Attributes"
-msgstr ""
-
-#: of util.progress.Progress:9
-msgid "chars (list[str]): 一个由全角空格及八分之一至完整方块共9个UTF-8字符组成的列表 p (int): 当前进度"
-msgstr ""
-
-#: of util.progress.Progress:13
-msgid "mid = event.reply('请等待...') bar = Progress(mid) for i in range(100)"
-msgstr ""
-
-#: of util.progress.Progress:16
-msgid "bar.update(i+1) await asyncio.sleep(1)"
-msgstr ""
-
-#: of util.progress.Progress:19
-msgid "bar.set_prefix('发送中...') async with bot.action(event.chat_id, 'video'):"
-msgstr ""
-
-#: of util.progress.Progress:24
-msgid "await bot.send_file("
-msgstr ""
-
-#: of util.progress.Progress:22
-msgid ""
-"event.chat_id, media, reply_to=event.message, "
-"progress_callback=bar.update,"
-msgstr ""
-
-#: of util.progress.Progress:26
-msgid ")"
-msgstr ""
-
-#: of util.progress.Progress:28
-msgid ""
-"command = ['ffmpeg', ...] returncode, stdout = util.ffmpeg(command, "
-"bar.update)"
-msgstr ""
-
-#: ../../source/modules/util.rst:56
+#: ../../source/modules/util.rst:17
 msgid "util.string 模块"
-msgstr "util.string module"
+msgstr "util.string Module"
 
-#: of util.string.char_width:1
+#: ../../../util/string.py:docstring of util.string.multiple_replace:1
+msgid "多个替换"
+msgstr "multiple replace"
+
+#: ../../../util/string.py:docstring of util.string.multiple_replace:5
+msgid "需要替换的文本"
+msgstr "the text need to replace"
+
+#: ../../../util/string.py:docstring of util.string.multiple_replace:7
+msgid "d (`Mapping[str, str]`):"
+msgstr ""
+
+#: ../../../util/string.py:docstring of util.string.multiple_replace:8
+msgid "替换字典, 将出现的key替换为value"
+msgstr "replacement dice, replace the key to value"
+
+#: ../../../util/string.py:docstring of util.string.markdown_escape:1
+msgid "Markdown 转义"
+msgstr "Markdown Escape"
+
+#: ../../../util/string.py:docstring of util.string.markdown_unescape:1
+msgid "Markdown 去转义"
+msgstr "Markdown Unescape"
+
+#: ../../../util/string.py:docstring of util.string.html_escape:1
+msgid "HTML 转义"
+msgstr "HTML Escape"
+
+#: ../../../util/string.py:docstring of util.string.html_unescape:1
+msgid "HTML 去转义"
+msgstr "HTML Unescape"
+
+#: ../../../util/string.py:docstring of util.string.get_escape_func:1
+msgid "获取parse_mode对应转义函数"
+msgstr "get escape function of the parse_mode"
+
+#: ../../../util/string.py:docstring of util.string.get_unescape_func:1
+msgid "获取parse_mode对应去转义函数"
+msgstr "get unescape function of the parse_mode"
+
+#: ../../../util/__init__.py:docstring of util.string.randStr:1
+#: ../../../util/string.py:docstring of util.string.randStr:1
+msgid "随机字符串"
+msgstr "gen random string"
+
+#: ../../../util/__init__.py:docstring of util.string.randStr:4
+#: ../../../util/string.py:docstring of util.string.randStr:4
+msgid "length (`int`):"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.string.randStr:5
+#: ../../../util/string.py:docstring of util.string.randStr:5
+msgid "字符串长度, 默认为 8"
+msgstr "string length, default is 8"
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_chats:3
+#: ../../../util/__init__.py:docstring of util.data.getData:7
+#: ../../../util/__init__.py:docstring of util.media.videoInfo:7
+#: ../../../util/__init__.py:docstring of util.string.md5sum:11
+#: ../../../util/__init__.py:docstring of util.string.randStr:7
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:21
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_chats:3
+#: ../../../util/data.py:docstring of util.data.getData:7
+#: ../../../util/media.py:docstring of util.media.ffmpeg:10
+#: ../../../util/media.py:docstring of util.media.videoInfo:7
+#: ../../../util/string.py:docstring of util.string.md5sum:11
+#: ../../../util/string.py:docstring of util.string.randStr:7
+msgid "Returns"
+msgstr "Returns"
+
+#: ../../../util/__init__.py:docstring of util.string.randStr:8
+#: ../../../util/string.py:docstring of util.string.randStr:8
+msgid "`str`: 随机字符串"
+msgstr "`str`: random string"
+
+#: ../../../util/__init__.py:docstring of util.string.md5sum:1
+#: ../../../util/string.py:docstring of util.string.md5sum:1
+msgid "计算字符串或文件的 md5 值"
+msgstr "Calculate string or file's md5 hex string"
+
+#: ../../../util/__init__.py:docstring of util.string.md5sum:4
+#: ../../../util/string.py:docstring of util.string.md5sum:4
+msgid "string (`str`):"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.string.md5sum:5
+#: ../../../util/string.py:docstring of util.string.md5sum:5
+msgid "字符串（三选一）"
+msgstr "calc by string (Choose one from the three parameters)"
+
+#: ../../../util/__init__.py:docstring of util.string.md5sum:6
+#: ../../../util/string.py:docstring of util.string.md5sum:6
+msgid "byte (`bytes`):"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.string.md5sum:7
+#: ../../../util/string.py:docstring of util.string.md5sum:7
+msgid "bytes（三选一）"
+msgstr "calc by bytes (Choose one from the three parameters)"
+
+#: ../../../util/__init__.py:docstring of util.string.md5sum:8
+#: ../../../util/string.py:docstring of util.string.md5sum:8
+msgid "file_path (`str`):"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.string.md5sum:9
+#: ../../../util/string.py:docstring of util.string.md5sum:9
+msgid "文件路径（三选一）"
+msgstr "calc by file path (Choose one from the three parameters)"
+
+#: ../../../util/__init__.py:docstring of util.string.md5sum:12
+#: ../../../util/string.py:docstring of util.string.md5sum:12
+msgid "`str`: md5"
+msgstr ""
+
+#: ../../../util/string.py:docstring of util.string.char_width:1
+msgid "返回 Unicode 十进制序号对应字符的屏幕宽度"
+msgstr "Return the screen column width for unicode ordinal o."
+
+#: ../../../util/string.py:docstring of util.string.char_width:3
 msgid "Return the screen column width for unicode ordinal o."
 msgstr ""
 
-#: of util.string.md5sum:1
-msgid "计算字符串或文件的 md5 值"
+#: ../../../util/string.py:docstring of util.string.str_width:1
+msgid "计算字符串屏幕宽度"
+msgstr "Return the screen column width for string."
+
+#: ../../../util/string.py:docstring of util.string.Options:1
+msgid "解析命令选项, 将text用空格打散后查找是否有期待字符串"
+msgstr "parse options, find expected string in text split by space"
+
+#: ../../../util/string.py:docstring of util.string.Options:3
+msgid "如 Options('/pid mask', mark=('spoiler', '遮罩'), hide='') -> Options(mark=True, hide=False)"
+msgstr "Such as Options('/pid mask', mark=('spoiler', '遮罩'), hide='') -> Options(mark=True, hide=False)"
+
+#: ../../../util/string.py:docstring of util.string.Options:7
+msgid "解析文本"
+msgstr "text need to parse"
+
+#: ../../../util/string.py:docstring of util.string.Options:9
+msgid "args (`Mapping[str, Union[str, Sequence[str]]]`):"
 msgstr ""
 
-#: of util.string.md5sum:4
-msgid "string: 字符串（三选一） byte: bytes（三选一） file_path: 文件路径（三选一）"
+#: ../../../util/string.py:docstring of util.string.Options:10
+msgid "期待字符串"
+msgstr "expected strings"
+
+#: ../../../util/string.py:docstring of util.string.Options:12
+msgid "以下情况 Options.aaa=True"
+msgstr "In the following circumstances, the attribute Options.aaa = True"
+
+msgid "``aaa=''``: 出现 'aaa'"
+msgstr "``aaa=''``: find 'aaa'"
+
+msgid "``aaa='bbb'``: 出现 'aaa' 或 'bbb'"
+msgstr "``aaa='bbb'``: find 'aaa' or 'bbb'"
+
+msgid "``aaa=('bbb', 'ccc')``: 出现 'aaa', 'bbb', 'ccc' 其中之一"
+msgstr "``aaa=('bbb', 'ccc')``: find 'aaa' or 'bbb' or 'ccc'"
+
+#: ../../../util/string.py:docstring of util.string.Options.get:1
+msgid "返回指定key的属性值"
+msgstr "Return the value of key"
+
+#: ../../../util/string.py:docstring of util.string.Options.keys:1
+msgid "返回所有属性名"
+msgstr "Return all keys"
+
+#: ../../../util/string.py:docstring of util.string.Options.items:1
+msgid "返回 {属性名: 属性值}"
+msgstr "Return dict {key: True/False}"
+
+#: ../../source/modules/util.rst:26
+msgid "util.curl 模块"
+msgstr "util.curl Module"
+
+#: ../../../util/curl.py:docstring of util.curl.logless:1
+msgid "将字符串缩减至长度 40 以下"
+msgstr "Reduce the string to a length of less than 40 characters."
+
+#: ../../../util/curl.py:docstring of util.curl.clean_outdated_file:1
+msgid "清理过期缓存文件"
+msgstr "clean outdated cached file"
+
+#: ../../../util/curl.py:docstring of util.curl.getPath:1
+msgid "根据 url, ext, saveas, mime_type 获取保存路径"
+msgstr "get path by url, ext, saveas, mime_type"
+
+#: ../../../util/curl.py:docstring of util.curl.Client:1
+msgid "基类：:py:class:`~httpx.AsyncClient`"
+msgstr "BaseClass: :py:class:`~httpx.AsyncClient`"
+
+#: ../../../util/curl.py:docstring of util.curl.Client:1
+msgid "httpx 异步客户端"
+msgstr "httpx async client"
+
+#: ../../../util/curl.py:docstring of util.curl.Client:4
+msgid "follow_redirects 默认值被设置为了 ``True``, 而 `httpx.AsyncClient` 默认值为 ``False``"
+msgstr "follow_redirects default is set to ``True``, which httpx's default is ``False``"
+
+#: ../../../util/curl.py:docstring of util.curl.Client:7
+msgid "proxy (`bool`):"
 msgstr ""
 
-#: of util.string.md5sum:9
-msgid "str: md5"
+#: ../../../util/curl.py:docstring of util.curl.Client:8
+msgid "是否使用代理"
+msgstr "whether use proxy"
+
+#: ../../../util/curl.py:docstring of util.curl.Client:10
+msgid "headers (`dict` | `httpx.Headers`):"
 msgstr ""
 
-#: of util.string.randStr:1
-msgid "随机字符串"
+#: ../../../util/curl.py:docstring of util.curl.Client:11
+msgid "指定headers，如 p站图片需要{\"Referer\": \"https://www.pixiv.net\"}"
+msgstr "custom headers, such as {\"Referer\": \"https://www.pixiv.net\"}"
+
+#: ../../../util/curl.py:docstring of util.curl.Client:13
+msgid "follow_redirects (`bool`):"
 msgstr ""
 
-#: of util.string.randStr:4
-msgid "length: 字符串长度, 默认为 8"
+#: ../../../util/curl.py:docstring of util.curl.Client:14
+msgid "是否跟踪重定向, 默认为 True"
+msgstr "whether following redirects, default is True"
+
+#: ../../../util/curl.py:docstring of util.curl.Client:15
+msgid "timeout (`int` | `httpx.Timeout`):"
 msgstr ""
 
-#: of util.string.randStr:7
-msgid "str: 字符串"
+#: ../../../util/curl.py:docstring of util.curl.Client:16
+msgid "默认为无限制"
+msgstr "default is no limit"
+
+#: ../../../util/curl.py:docstring of util.curl.Client:18
+msgid "kwargs:"
 msgstr ""
 
-#: ../../source/modules/util.rst:64
+#: ../../../util/curl.py:docstring of util.curl.Client:19
+msgid "其他参数"
+msgstr "other kwargs"
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:1
+msgid "流式 GET 请求下载文件, 返回下载文件路径"
+msgstr "stream GET request to get file, return the path of file"
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:4
+msgid "url (`str`):"
+msgstr ""
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:5
+msgid "文件url"
+msgstr "file url"
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:7
+msgid "ext (`bool` | `str`):"
+msgstr ""
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:8
+msgid "(优先级大于saveas) 为True/ 'auto' 时: 自动从url中获取文件后缀名 为str时: 指定后缀"
+msgstr ""
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:12
+msgid "saveas (`str`):"
+msgstr ""
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:13
+msgid "指定下载文件名或路径"
+msgstr ""
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:15
+msgid "nocache (`bool`):"
+msgstr ""
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:16
+msgid "是否不使用缓存, 默认为 ``False``"
+msgstr ""
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:18
+msgid "rand (`bool`):"
+msgstr ""
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:19
+msgid "是否在文件结尾加入随机字符串bytes"
+msgstr ""
+
+#: ../../../util/curl.py:docstring of util.curl.Client.getImg:22
+msgid "str: 文件路径"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.curl.request:1
+#: ../../../util/curl.py:docstring of util.curl.request:1
+msgid "异步 client.request() 的简略写法"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.curl.get:1
+#: ../../../util/curl.py:docstring of util.curl.get:1
+msgid "异步 client.get() 的简略写法"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.curl.post:1
+#: ../../../util/curl.py:docstring of util.curl.post:1
+msgid "异步 client.post() 的简略写法"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.curl.getImg:1
+#: ../../../util/curl.py:docstring of util.curl.getImg:1
+msgid "异步 client.getImg() 的简略写法"
+msgstr ""
+
+#: ../../source/modules/util.rst:35
+msgid "util.file 模块"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.file.getFile:1
+#: ../../../util/file.py:docstring of util.file.getFile:1
+msgid "获取指定bot私有目录下目录名的指定文件"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.file.getResourceFile:1
+#: ../../../util/file.py:docstring of util.file.getResourceFile:1
+msgid "获取resources文件夹下文件"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.file.getDataFile:1
+#: ../../../util/file.py:docstring of util.file.getDataFile:1
+msgid "获取data文件夹下文件"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.file.getCacheFile:1
+#: ../../../util/file.py:docstring of util.file.getCacheFile:1
+msgid "获取data/cache文件夹下文件"
+msgstr ""
+
+#: ../../source/modules/util.rst:44
+msgid "util.data 模块"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.getData:1
+#: ../../../util/data.py:docstring of util.data.getData:1
+msgid "读取 ``data/{file}.json`` 文件, 并将其转为字典数据"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.getData:4
+#: ../../../util/__init__.py:docstring of util.data.setData:4
+#: ../../../util/data.py:docstring of util.data.getData:4
+#: ../../../util/data.py:docstring of util.data.setData:4
+msgid "file (`str`):"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.getData:5
+#: ../../../util/__init__.py:docstring of util.data.setData:5
+#: ../../../util/data.py:docstring of util.data.getData:5
+#: ../../../util/data.py:docstring of util.data.setData:5
+msgid "文件名"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.getData:8
+#: ../../../util/data.py:docstring of util.data.getData:8
+msgid "dict: 字典数据"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.setData:1
+#: ../../../util/data.py:docstring of util.data.setData:1
+msgid "将字典数据转为json存入 ``data/{file}.json`` 文件"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.setData:7
+#: ../../../util/data.py:docstring of util.data.setData:7
+msgid "data (`dict`):"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.setData:8
+#: ../../../util/data.py:docstring of util.data.setData:8
+msgid "字典数据"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.Data:1
+#: ../../../util/data.py:docstring of util.data.Data:1
+msgid "读取 ``data/{file}.json`` 文件, 并将其转为 方便py存取的格式"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.Data.save:1
+#: ../../../util/data.py:docstring of util.data.Data.save:1
+msgid "保存数据"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.Documents:1
+#: ../../../util/__init__.py:docstring of util.data.Photos:1
+#: ../../../util/data.py:docstring of util.data.Documents:1
+#: ../../../util/data.py:docstring of util.data.Photos:1
+#: ../../../util/data.py:docstring of util.data.Settings:1
+msgid "基类：:py:class:`~util.data.Data`"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.Photos:1
+#: ../../../util/data.py:docstring of util.data.Photos:1
+msgid "保存已发送至 Telegram 的图片 file_id"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.Documents:1
+#: ../../../util/data.py:docstring of util.data.Documents:1
+msgid "保存已发送至 Telegram 的文档 file_id"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.Animations:1
+#: ../../../util/__init__.py:docstring of util.data.Videos:1
+#: ../../../util/data.py:docstring of util.data.Animations:1
+#: ../../../util/data.py:docstring of util.data.Audios:1
+#: ../../../util/data.py:docstring of util.data.Videos:1
+msgid "基类：:py:class:`~util.data.Documents`"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.Videos:1
+#: ../../../util/data.py:docstring of util.data.Videos:1
+msgid "保存已发送至 Telegram 的视频 file_id"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.Animations:1
+#: ../../../util/data.py:docstring of util.data.Animations:1
+msgid "保存已发送至 Telegram 的动画 file_id"
+msgstr ""
+
+#: ../../../util/data.py:docstring of util.data.Audios:1
+msgid "保存已发送至 Telegram 的音频 file_id"
+msgstr ""
+
+#: ../../../util/data.py:docstring of util.data.Settings:1
+msgid "保存机器人设置"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData:1
+#: ../../../util/data.py:docstring of util.data.MessageData:1
+msgid "消息id数据库"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.add_message:1
+#: ../../../util/data.py:docstring of util.data.MessageData.add_message:1
+msgid "记录 chat_id, message_id 并返回记录id"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.has_chat:1
+#: ../../../util/data.py:docstring of util.data.MessageData.has_chat:1
+msgid "是否存在chat_id"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.get_message:1
+#: ../../../util/data.py:docstring of util.data.MessageData.get_message:1
+msgid "获取 message_id 列"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.get_message:3
+#: ../../../util/data.py:docstring of util.data.MessageData.get_message:3
+msgid "`MessageData.get_message(message: types.Message)`"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.get_message:4
+#: ../../../util/data.py:docstring of util.data.MessageData.get_message:4
+msgid "`MessageData.get_message(chat_id: int, message_id: int)`"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.get_message_by_rid:1
+#: ../../../util/data.py:docstring of util.data.MessageData.get_message_by_rid:1
+msgid "通过记录id获取message"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.has_message:1
+#: ../../../util/data.py:docstring of util.data.MessageData.has_message:1
+msgid "是否存在 message_id"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.has_message:3
+#: ../../../util/data.py:docstring of util.data.MessageData.has_message:3
+msgid "`MessageData.has_message(message: types.Message)`"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.has_message:4
+#: ../../../util/data.py:docstring of util.data.MessageData.has_message:4
+msgid "`MessageData.has_message(chat_id: int, message_id: int)`"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_chats:1
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_chats:1
+msgid "枚举 chat_id"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_chats:4
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_chats:4
+msgid "`Generator[int, None, None]`"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:1
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:1
+msgid "枚举某 chat 中的 message_id"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:4
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:4
+msgid "chat_id (`int`):"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:5
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:5
+msgid "chat_id"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:7
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:7
+msgid "reverse (`bool`):"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:8
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:8
+msgid "是否反向"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:10
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:10
+msgid "``False``: 由小到大"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:11
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:11
+msgid "``True``: 由大到小"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:13
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:13
+msgid "min_id (`int`):"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:14
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:14
+msgid "最小id"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:16
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:16
+msgid "max_id (`int`):"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.iter_messages:17
+#: ../../../util/data.py:docstring of util.data.MessageData.iter_messages:17
+msgid "最大id"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.data.MessageData.get_group:1
+#: ../../../util/data.py:docstring of util.data.MessageData.get_group:1
+msgid "根据 grouped_id 获取一组 message_id"
+msgstr ""
+
+#: ../../source/modules/util.rst:53
+msgid "util.media 模块"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.videoInfo:1
+#: ../../../util/media.py:docstring of util.media.videoInfo:1
+msgid "获取视频信息"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.videoInfo:4
+#: ../../../util/media.py:docstring of util.media.file_to_media:7
+#: ../../../util/media.py:docstring of util.media.videoInfo:4
+msgid "path (`str`):"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.videoInfo:5
+#: ../../../util/media.py:docstring of util.media.file_to_media:8
+#: ../../../util/media.py:docstring of util.media.videoInfo:5
+msgid "文件路径"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.videoInfo:8
+#: ../../../util/media.py:docstring of util.media.videoInfo:8
+msgid "`tuple`"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.videoInfo:10
+#: ../../../util/media.py:docstring of util.media.videoInfo:10
+msgid "`file object`: 文件对象"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.videoInfo:11
+#: ../../../util/media.py:docstring of util.media.videoInfo:11
+msgid "`int`: 视频时长"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.videoInfo:12
+#: ../../../util/media.py:docstring of util.media.videoInfo:12
+msgid "`int`: 视频宽度"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.videoInfo:13
+#: ../../../util/media.py:docstring of util.media.videoInfo:13
+msgid "`int`: 视频高度"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.videoInfo:14
+#: ../../../util/media.py:docstring of util.media.videoInfo:14
+msgid "`bytes`: 视频缩略图"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.img2bytes:1
+#: ../../../util/media.py:docstring of util.media.img2bytes:1
+msgid "cv2 图片转 bytes"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.getPhotoThumbnail:1
+#: ../../../util/media.py:docstring of util.media.getPhotoThumbnail:1
+msgid "将图片 resize 为最大宽高320的图片"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.media.resizePhoto:1
+#: ../../../util/media.py:docstring of util.media.resizePhoto:1
+msgid "resize cv2图片"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.ffmpeg:1
+msgid "运行 ffmpeg 命令"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.ffmpeg:4
+msgid "command (list[str]):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.ffmpeg:5
+msgid "命令空格分割列表"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.ffmpeg:7
+msgid "progress_callback (callable, optional):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.ffmpeg:8
+#: ../../../util/media.py:docstring of util.media.file_to_media:20
+msgid "进度回调函数"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.ffmpeg:11
+msgid "returncode (int):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.ffmpeg:12
+msgid "命令返回值 returncode"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.ffmpeg:14
+msgid "stdout (str):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.ffmpeg:15
+msgid "命令行输出 (已解码)"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.ffmpeg:17
+msgid "Examples"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.video2mp4:1
+msgid "视频转 mp4"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.message_media_to_media:1
+msgid "Media 转 MessageMedia, 覆盖 spoiler"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.message_to_media:1
+msgid "Message 转 MessageMedia, 覆盖 spoiler"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_id_to_media:1
+msgid "file_id 转 MessageMedia, 覆盖 spoiler"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:1
+msgid "文件路径转 MessageMedia, 覆盖 spoiler"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:4
+msgid "参数说明详见 `send_file <https://docs.telethon.dev/en/stable/modules/client.html#telethon.client.uploads.UploadMethods.send_file>`_"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:10
+msgid "spoiler (`bool`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:11
+msgid "是否遮罩"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:13
+msgid "force_document (`bool`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:14
+msgid "图片等强制以文件形式发送"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:16
+msgid "file_size (`int`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:17
+msgid "文件大小"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:19
+msgid "progress_callback (`callable`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:22
+msgid "attributes (`list`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:23
+msgid "文件属性"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:25
+msgid "thumb (`str` | `bytes` | `filw`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:26
+msgid "JPEG 缩略图, 最大宽高必须小于 320, 大小最大 20KB"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:28
+msgid "allow_cache (`bool`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:29
+msgid "允许缓存"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:31
+msgid "voice_note (`bool`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:32
+msgid "是否作为语音留言发送"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:34
+msgid "video_note (`bool`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:35
+msgid "是否作为视频留言发送"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:37
+msgid "supports_streaming (`bool`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:38
+msgid "是否支持流媒体"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:40
+msgid "mime_type (`str`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:41
+msgid "指定文件 mime_type"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:43
+msgid "as_image (`bool`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:44
+msgid "强制作为图片"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:46
+msgid "ttl (`int`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:47
+msgid "文件的生存时间（也称为“自毁定时器”或“自毁媒体”）。如果设置了，文件只能在短时间内查看，然后它们就会自动从消息历史记录中消失。"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:49
+msgid "范围: 1 ~ 60"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:51
+msgid "并非所有媒体都可以使用这个参数, 如文本文件, 对它们使用将报错 TtlMediaInvalidError."
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:53
+msgid "nosound_video (`bool`):"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:54
+msgid "将无音轨视频发送成 gif还是视频."
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:56
+msgid "``False``: Telegram 中将显示为 gif"
+msgstr ""
+
+#: ../../../util/media.py:docstring of util.media.file_to_media:57
+msgid "``True``: Telegram 中将显示为视频"
+msgstr ""
+
+#: ../../source/modules/util.rst:62
+msgid "util.progress 模块"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:1
+msgid "进度条"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:4
+msgid "mid (`types.Message <https://docs.telethon.dev/en/stable/modules/custom.html#telethon.tl.custom.message.Message>`_):"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:5
+msgid "用于进度条显示的 Message"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:7
+msgid "total (`int` | `float`):"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:8
+msgid "总数，将会以 p/total 计算当前进度百分比"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:10
+msgid "prefix (`str`):"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:11
+msgid "进度条前显示的字符"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:13
+msgid "Attributes"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:14
+msgid "chars (`list[str]`):"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:15
+msgid "一个由全角空格及八分之一至完整方块共9个UTF-8字符组成的列表"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:17
+msgid "p (`int`):"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:18
+msgid "当前进度"
+msgstr ""
+
+#: ../../../util/progress.py:docstring of util.progress.Progress:20
+msgid "Example"
+msgstr ""
+
+#: ../../source/modules/util.rst:71
 msgid "util.telegraph 模块"
-msgstr "util.telegraph module"
+msgstr ""
 
-#: ../../source/modules/util.rst:72
-msgid "Module contents"
+#: ../../../util/telegraph.py:docstring of util.telegraph.createPage:1
+msgid "创建 Telegraph 页面"
+msgstr ""
+
+#: ../../../util/telegraph.py:docstring of util.telegraph.createPage:4
+msgid "title (`str`):"
+msgstr ""
+
+#: ../../../util/telegraph.py:docstring of util.telegraph.createPage:5
+msgid "标题"
+msgstr ""
+
+#: ../../../util/telegraph.py:docstring of util.telegraph.createPage:7
+msgid "content (`list`):"
+msgstr ""
+
+#: ../../../util/telegraph.py:docstring of util.telegraph.createPage:8
+msgid "内容, 格式如下 (详见 `Node <https://telegra.ph/api#Node>`_)"
+msgstr ""
+
+#: ../../../util/telegraph.py:docstring of util.telegraph.getPageList:1
+msgid "获取所有 Telegraph Page"
+msgstr ""
+
+#: ../../source/modules/util.rst:80
+msgid "util 模块快捷导入"
+msgstr ""
+
+#: ../../../util/__init__.py:docstring of util.bool_or_callable:1
+msgid "计算 obj 的布尔值, 如果 obj 为 callable, 则调用后再求布尔值"
 msgstr ""

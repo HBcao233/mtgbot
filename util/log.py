@@ -8,9 +8,14 @@ from logging.handlers import TimedRotatingFileHandler
 
 __all__ = ['logger', 'default_handler', 'file_handler']
 
+flag = True
 logs_dir = os.path.join(config.botHome, 'logs/')
 if not os.path.isdir(logs_dir):
-  os.mkdir(logs_dir)
+  try:
+    os.mkdir(logs_dir)
+  except FileNotFoundError:
+    print('Warning: logs 文件夹创建失败')
+    flag = False
 
 logging.getLogger('httpx').setLevel(logging.ERROR)
 logging.getLogger('httpcore').setLevel(logging.ERROR)
@@ -62,6 +67,7 @@ class TimedHandler(TimedRotatingFileHandler):
     currentTime = int(time.time())
     timeTuple = time.localtime(currentTime)
     filename = time.strftime(suffix, timeTuple) + self.base_name
+    
     super().__init__(
       os.path.join(logs_dir, filename),
       'MIDNIGHT',
@@ -73,6 +79,7 @@ class TimedHandler(TimedRotatingFileHandler):
       atTime=None,
       errors=errors,
     )
+      
     self.suffix = suffix
     self.extMatch = re.compile(
       r'^\d{4}-\d{2}-\d{2}' + re.escape(self.base_name) + r'$', re.ASCII
@@ -87,16 +94,22 @@ class TimedHandler(TimedRotatingFileHandler):
   def rotator(self, source, dest):
     self.baseFilename = os.path.abspath(os.fspath(dest))
 
-
+#: logging.StreamHandler: 默认日志处理器
 default_handler = logging.StreamHandler(sys.stdout)
 default_handler.setFormatter(main_formater)
 default_handler.setLevel(main_level)
 default_handler.addFilter(default_handler_filter)
 
-file_handler = TimedHandler()
-file_handler.setFormatter(main_formater)
-file_handler.setLevel(main_level)
-file_handler.addFilter(file_handler_filter)
+  #: 文件日志处理器
+file_handler: TimedHandler
+if flag:
+  file_handler = TimedHandler()
+  file_handler.setFormatter(main_formater)
+  file_handler.setLevel(main_level)
+  file_handler.addFilter(file_handler_filter)
+
+#: debug 文件日志处理器
+debug_handler: TimedHandler
 
 if config.debug:
   debug_handler = TimedHandler('debug')
@@ -104,7 +117,7 @@ if config.debug:
   debug_handler.setLevel(main_level)
   debug_handler.addFilter(debug_handler_filter)
 
-
+#: 全局 logger 日志记录器
 logger = logging.getLogger('mtgbot')
 logger.setLevel(main_level)
 root_logger = logging.getLogger('root')
@@ -114,6 +127,7 @@ if not logger.handlers:
   root_logger.addHandler(default_handler)
 
   # 输出至 logs 文件夹
-  root_logger.addHandler(file_handler)
+  if flag:
+    root_logger.addHandler(file_handler)
   if config.debug:
     root_logger.addHandler(debug_handler)

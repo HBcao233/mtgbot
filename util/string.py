@@ -68,30 +68,45 @@ widths = [
 ]
 
 
-def multiple_replace(text, d):
+def multiple_replace(text, d: Mapping[str, str]):
+  """
+  多个替换 
+  
+  Arguments
+    text (`str`): 
+      需要替换的文本
+      
+    d (`Mapping[str, str]`):
+      替换字典, 将出现的key替换为value
+  """
   regex = re.compile('|'.join(map(re.escape, d)))
   return regex.sub(lambda i: d[i.group(0)], text)
 
 
 def markdown_escape(text):
+  """Markdown 转义"""
   return multiple_replace(text, {k: '\\' + k for k in markdown_escape_chars})
 
 
 def markdown_unescape(text):
+  """Markdown 去转义"""
   return multiple_replace(text, {'\\' + k: k for k in markdown_escape_chars})
 
 
 def html_escape(text):
+  """HTML 转义"""
   return multiple_replace(text, html_escape_chars)
 
 
 def html_unescape(text):
+  """HTML 去转义"""
   return multiple_replace(
     text, {v: k for k, v in dict(**html_escape_chars, **{'"': '&quot;'}).items()}
   )
 
 
 def get_escape_func(parse_mode: str):
+  """获取parse_mode对应转义函数"""
   if parse_mode.__class__.__name__ == 'module':
     if parse_mode.__name__ == 'telethon.extensions.markdown':
       parse_mode = 'markdown'
@@ -108,6 +123,7 @@ def get_escape_func(parse_mode: str):
 
 
 def get_unescape_func(parse_mode):
+  """获取parse_mode对应去转义函数"""
   return {
     'md': markdown_unescape,
     'markdown': markdown_unescape,
@@ -126,11 +142,12 @@ def randStr(length: int = 8) -> str:
   """
   随机字符串
 
-  Args:
-      length: 字符串长度, 默认为 8
+  Arguments
+      length (`int`): 
+        字符串长度, 默认为 8
 
-  Returns:
-      str: 字符串
+  Returns
+      `str`: 随机字符串
   """
   chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   res = ''
@@ -145,13 +162,16 @@ def md5sum(
   """
   计算字符串或文件的 md5 值
 
-  Args:
-      string: 字符串（三选一）
-      byte: bytes（三选一）
-      file_path: 文件路径（三选一）
+  Arguments
+      string (`str`): 
+        字符串（三选一）
+      byte (`bytes`): 
+        bytes（三选一）
+      file_path (`str`): 
+        文件路径（三选一）
 
-  Returns:
-      str: md5
+  Returns
+      `str`: md5
   """
   if string:
     if isinstance(string, bytes):
@@ -167,7 +187,11 @@ def md5sum(
 
 
 def char_width(o: int) -> int:
-  """Return the screen column width for unicode ordinal o."""
+  """
+  返回 Unicode 十进制序号对应字符的屏幕宽度
+  
+  Return the screen column width for unicode ordinal o.
+  """
   global widths
   if o == 0xE or o == 0xF:
     return 0
@@ -178,6 +202,9 @@ def char_width(o: int) -> int:
 
 
 def str_width(s: str) -> int:
+  """
+  计算字符串屏幕宽度
+  """
   res = 0
   for i in s:
     res += char_width(ord(i))
@@ -185,6 +212,24 @@ def str_width(s: str) -> int:
 
 
 class Options:
+  """
+  解析命令选项, 将text用空格打散后查找是否有期待字符串
+  
+  如 Options('/pid mask', mark=('spoiler', '遮罩'), hide='') -> Options(mark=True, hide=False)
+  
+  Arguments
+    text (`str`):
+      解析文本 
+      
+    args (`Mapping[str, Union[str, Sequence[str]]]`):
+      期待字符串
+      
+      以下情况 Options.aaa=True
+      
+      - ``aaa=''``: 出现 'aaa'
+      - ``aaa='bbb'``: 出现 'aaa' 或 'bbb'
+      - ``aaa=('bbb', 'ccc')``: 出现 'aaa', 'bbb', 'ccc' 其中之一
+  """
   def __init__(self, text: str, **args: Mapping[str, Union[str, Sequence[str]]]):
     self.text = text
     self.args = args
@@ -207,11 +252,17 @@ class Options:
 
   def __iter__(self):
     return iter(self.args)
-
+    
+  def get(self, key):
+    """返回指定key的属性值"""
+    return key in self._options
+    
   def keys(self):
+    """返回所有属性名"""
     return self.args.keys()
 
   def items(self):
+    """返回 {属性名: 属性值}"""
     return {k: k in self for k in self.args}.items()
 
   def __str__(self):
