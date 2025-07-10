@@ -20,7 +20,7 @@
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
     <link rel="next" title="plugin 模块" href="plugin.html" />
-    <link rel="prev" title="Mtgbot 文档" href="../index.html" /> 
+    <link rel="prev" title="bot 模块" href="bot.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,15 +45,30 @@
               <p class="caption" role="heading"><span class="caption-text">第一步</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Mtgbot 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">快速上手</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">模块</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">config 模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main 模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bot.html">bot 模块</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">config 模块</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#config.bot"><code class="docutils literal notranslate"><span class="pre">bot</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config.botRoot"><code class="docutils literal notranslate"><span class="pre">botRoot</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config.commands"><code class="docutils literal notranslate"><span class="pre">commands</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config.inlines"><code class="docutils literal notranslate"><span class="pre">inlines</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config.settings"><code class="docutils literal notranslate"><span class="pre">settings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config.bot_home"><code class="docutils literal notranslate"><span class="pre">bot_home</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config.botHome"><code class="docutils literal notranslate"><span class="pre">botHome</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config.env"><code class="docutils literal notranslate"><span class="pre">env</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config.superadmin"><code class="docutils literal notranslate"><span class="pre">superadmin</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config.proxy"><code class="docutils literal notranslate"><span class="pre">proxy</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config.proxy_url"><code class="docutils literal notranslate"><span class="pre">proxy_url</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="plugin.html">plugin 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filters.html">filters 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">util 包</a></li>
-<li class="toctree-l1"><a class="reference internal" href="main.html">main 模块</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bot.html">bot 模块</a></li>
 </ul>
 
         </div>
@@ -82,13 +97,89 @@
              
   <section id="module-config">
 <span id="config"></span><h1>config 模块<a class="headerlink" href="#module-config" title="Link to this heading"></a></h1>
+<dl class="py data">
+<dt class="sig sig-object py" id="config.bot">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">bot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="bot.html#bot.Bot" title="bot.Bot"><span class="pre">Bot</span></a></em><a class="headerlink" href="#config.bot" title="Link to this definition"></a></dt>
+<dd><p>Bot 实例</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="config.botRoot">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">botRoot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#config.botRoot" title="Link to this definition"></a></dt>
+<dd><p>mtgbot 根目录</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="config.commands">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">commands</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="plugin.html#plugin.Command" title="plugin.Command"><span class="pre">Command</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#config.commands" title="Link to this definition"></a></dt>
+<dd><p>加载的 Commands</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="config.inlines">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">inlines</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="plugin.html#plugin.InlineCommand" title="plugin.InlineCommand"><span class="pre">InlineCommand</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#config.inlines" title="Link to this definition"></a></dt>
+<dd><p>加载的 InlineCommands</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="config.settings">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="plugin.html#plugin.Setting" title="plugin.Setting"><span class="pre">Setting</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#config.settings" title="Link to this definition"></a></dt>
+<dd><p>加载的 Settings</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="config.bot_home">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">bot_home</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#config.bot_home" title="Link to this definition"></a></dt>
+<dd><p>bot文件夹名</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="config.botHome">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">botHome</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#config.botHome" title="Link to this definition"></a></dt>
+<dd><p>bot 私有目录 (.env所在目录)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="config.env">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">env</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#config.env" title="Link to this definition"></a></dt>
+<dd><p>当前环境变量 (.env导入的变量)</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="config.superadmin">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">superadmin</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#config.superadmin" title="Link to this definition"></a></dt>
+<dd><p>超级管理员列表</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="config.proxy">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">proxy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#config.proxy" title="Link to this definition"></a></dt>
+<dd><p>Telethon格式代理</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="config.proxy_url">
+<span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">proxy_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#config.proxy_url" title="Link to this definition"></a></dt>
+<dd><p>代理链接</p>
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="../index.html" class="btn btn-neutral float-left" title="Mtgbot 文档" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="bot.html" class="btn btn-neutral float-left" title="bot 模块" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
         <a href="plugin.html" class="btn btn-neutral float-right" title="plugin 模块" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

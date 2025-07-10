@@ -18,7 +18,9 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" /> 
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="main 模块" href="modules/main.html" />
+    <link rel="prev" title="安装" href="installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,17 +43,29 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
               <p class="caption" role="heading"><span class="caption-text">第一步</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Mtgbot 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">快速上手</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#env">创建 .env</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tgbot">tgbot 脚本运行 (推荐)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#docker">Docker 运行 (备选)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python">python 直接运行 (不推荐)</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">模块</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/main.html">main 模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/bot.html">bot 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/config.html">config 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/plugin.html">plugin 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/filters.html">filters 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/util.html">util 包</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/main.html">main 模块</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/bot.html">bot 模块</a></li>
 </ul>
 
         </div>
@@ -80,60 +94,141 @@
              
   <section id="id1">
 <h1>快速上手<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
-<p>最快速上手 mtgbot 只需两步
-1. 创建 xxxbot/.env
-2. 使用 tgbot脚本 或 Docker  启动bot</p>
+<p>上手 mtgbot 只需两步</p>
+<ol class="arabic simple">
+<li><p>创建 xxxbot/.env</p></li>
+<li><p>使用 tgbot脚本 或 Docker  启动bot</p></li>
+</ol>
 <section id="env">
 <h2>创建 .env<a class="headerlink" href="#env" title="Link to this heading"></a></h2>
 <p>创建 <code class="docutils literal notranslate"><span class="pre">xxxbot/.env</span></code>, 例如:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Bot Token, get it by chating with @BotFather
+token = 1234567890:abcdefghijklmnopqrstuvwxzyABCDEFGHIJ
+debug = 0
+# 时区
+TZ = &quot;Asia/Shanghai&quot;
+
+# 公用api, 如果遇到 ApiIdPublishedFloodError 无法登录请修改为自己在 my.telegram.org 申请到的 api
+api_id = 4
+api_hash = 014b35b6184100b085b0d0572f9b5103
+
+# settings命令提示信息
+settings_caption = 设置小派魔的运行参数
+
+# http / socks5
+proxy_type = http
+proxy_host = localhost
+proxy_port =
+proxy_username =
+proxy_password =
+
+telegraph_author_name = 小派魔
+telegraph_author_url = https://t.me/hbcao1bot
+# 请参考 https://telegra.ph/api 来获取
+telegraph_access_token =
+</pre></div>
+</div>
 </section>
 <section id="tgbot">
 <h2>tgbot 脚本运行 (推荐)<a class="headerlink" href="#tgbot" title="Link to this heading"></a></h2>
 <p>运行 <code class="docutils literal notranslate"><span class="pre">tgbot.sh/tgbot.ps1</span> <span class="pre">start</span> <span class="pre">xxxbot</span></code> 即可</p>
+<section id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:linenos:
+<span class="c1"># 启动 bot</span>
+tgbot.sh<span class="w"> </span>start<span class="w"> </span>&lt;botname&gt;
+<span class="c1"># 停止</span>
+tgbot.sh<span class="w"> </span>stop<span class="w"> </span>&lt;botname&gt;
+<span class="c1"># 重启</span>
+tgbot.sh<span class="w"> </span>restart<span class="w"> </span>&lt;botname&gt;
+<span class="c1"># 查看所有bot运行状态</span>
+tgbot.sh<span class="w"> </span>status
+<span class="c1"># 查看bot日志</span>
+tgbot.sh<span class="w"> </span>log
+<span class="c1"># 快捷 ps</span>
+tgbot.sh<span class="w"> </span>ps
+<span class="c1"># 特别的, bash脚本无参数运行时可进行选择</span>
+tgbot.sh
+</pre></div>
+</div>
+</section>
+<section id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Link to this heading"></a></h3>
+<p>需要安装 Powershell 7</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span># 启动 bot
+<span class="linenos"> 2</span>tgbot.ps1 start <span class="p">&lt;</span>botname&gt;
+<span class="linenos"> 3</span># 停止
+<span class="linenos"> 4</span>tgbot.ps1 stop <span class="p">&lt;</span>botname&gt;
+<span class="linenos"> 5</span># 重启
+<span class="linenos"> 6</span>tgbot.ps1 restart <span class="p">&lt;</span>botname&gt;
+<span class="linenos"> 7</span># 查看所有bot运行状态
+<span class="linenos"> 8</span>tgbot.ps1 status
+<span class="linenos"> 9</span># 查看bot日志
+<span class="linenos">10</span>tgbot.ps1 log
+</pre></div>
+</div>
+</section>
 </section>
 <section id="docker">
 <h2>Docker 运行 (备选)<a class="headerlink" href="#docker" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p>修改 <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code></p></li>
 </ol>
-<p>2. 使用 docker-compose 命令运行
-.. code-block:: bash</p>
-<blockquote>
-<div><dl class="field-list simple">
-<dt class="field-odd">linenos<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<p># 构建镜像并运行
-docker-compose build &amp;&amp; docker-compose up -d</p>
-</div></blockquote>
-<div class="admonition note">
-<p class="admonition-title">备注</p>
-<p>如果只修改 python 代码可以直接 docker restart 重启
-如果修改了 .env, requirement.txt 或 libs 文件夹等 docker 加载内容,
-则需要进入项目目录 docker compose build &amp;&amp; docker compose up -d 重新构建镜像</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3&#39;</span>
+
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tgbot</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xxxbot</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/xxxbot</span>
+<span class="w">    </span><span class="nt">env_file</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xxxbot/.env</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">BOT_HOME</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xxxbot</span>
+<span class="w">      </span><span class="nt">TZ</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Asia/Shanghai</span>
+
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">stop_signal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SIGINT</span>
+</pre></div>
 </div>
-<p>3. docker 常用命令
-.. code-block:: bash</p>
-<blockquote>
-<div><dl class="field-list simple">
-<dt class="field-odd">linenos<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<p># 重启
-docker restart &lt;container_name&gt;
-# 查看运行日志
-docker logs &lt;container_name&gt; --tail 50</p>
-</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>使用 docker-compose 命令运行</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="c1"># 构建镜像并运行</span>
+<span class="linenos">2</span>docker-compose<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>如果只修改 python 代码可以直接 docker restart 重启</p>
+<p>如果修改了 .env, requirements.txt 或 libs 文件夹等 docker 加载内容</p>
+<p>则需要进入项目目录 docker compose build &amp;&amp; docker compose up -d 重新构建镜像</p>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>docker 常用命令</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="c1"># 重启</span>
+<span class="linenos">2</span>docker<span class="w"> </span>restart<span class="w"> </span>&lt;container_name&gt;
+<span class="linenos">3</span><span class="c1"># 查看运行日志</span>
+<span class="linenos">4</span>docker<span class="w"> </span>logs<span class="w"> </span>&lt;container_name&gt;<span class="w"> </span>--tail<span class="w"> </span><span class="m">50</span>
+</pre></div>
+</div>
 </section>
 <section id="python">
 <h2>python 直接运行 (不推荐)<a class="headerlink" href="#python" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>python<span class="w"> </span>main.py<span class="w"> </span>xxxbot
+</pre></div>
+</div>
 </section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="installation.html" class="btn btn-neutral float-left" title="安装" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="modules/main.html" class="btn btn-neutral float-right" title="main 模块" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

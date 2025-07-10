@@ -19,7 +19,6 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
-    <link rel="next" title="main 模块" href="main.html" />
     <link rel="prev" title="filters 模块" href="filters.html" /> 
 </head>
 
@@ -45,27 +44,206 @@
               <p class="caption" role="heading"><span class="caption-text">第一步</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Mtgbot 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">快速上手</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">模块</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="main.html">main 模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bot.html">bot 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">config 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin.html">plugin 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filters.html">filters 模块</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">util 包</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">子模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#util-curl">util.curl 模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#util-data">util.data 模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#util-file">util.file 模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#util-log">util.log 模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#util-media">util.media 模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#util-progress">util.progress 模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#util-string">util.string 模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#util-telegraph">util.telegraph 模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util.log">util.log 模块</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#util.log.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.log.default_handler"><code class="docutils literal notranslate"><span class="pre">default_handler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.log.file_handler"><code class="docutils literal notranslate"><span class="pre">file_handler</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="main.html">main 模块</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bot.html">bot 模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util.string">util.string 模块</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.multiple_replace"><code class="docutils literal notranslate"><span class="pre">multiple_replace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.markdown_escape"><code class="docutils literal notranslate"><span class="pre">markdown_escape()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.markdown_unescape"><code class="docutils literal notranslate"><span class="pre">markdown_unescape()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.html_escape"><code class="docutils literal notranslate"><span class="pre">html_escape()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.html_unescape"><code class="docutils literal notranslate"><span class="pre">html_unescape()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.get_escape_func"><code class="docutils literal notranslate"><span class="pre">get_escape_func()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.get_unescape_func"><code class="docutils literal notranslate"><span class="pre">get_unescape_func()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.escape_makedown"><code class="docutils literal notranslate"><span class="pre">escape_makedown()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.unescape_makedown"><code class="docutils literal notranslate"><span class="pre">unescape_makedown()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.escape_html"><code class="docutils literal notranslate"><span class="pre">escape_html()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.unescape_html"><code class="docutils literal notranslate"><span class="pre">unescape_html()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.randStr"><code class="docutils literal notranslate"><span class="pre">randStr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.md5sum"><code class="docutils literal notranslate"><span class="pre">md5sum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.char_width"><code class="docutils literal notranslate"><span class="pre">char_width()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.str_width"><code class="docutils literal notranslate"><span class="pre">str_width()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.string.Options"><code class="docutils literal notranslate"><span class="pre">Options</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.string.Options.get"><code class="docutils literal notranslate"><span class="pre">Options.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.string.Options.keys"><code class="docutils literal notranslate"><span class="pre">Options.keys()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.string.Options.items"><code class="docutils literal notranslate"><span class="pre">Options.items()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util.curl">util.curl 模块</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#util.curl.logless"><code class="docutils literal notranslate"><span class="pre">logless()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.curl.clean_outdated_file"><code class="docutils literal notranslate"><span class="pre">clean_outdated_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.curl.getPath"><code class="docutils literal notranslate"><span class="pre">getPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.curl.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.curl.Client.getImg"><code class="docutils literal notranslate"><span class="pre">Client.getImg()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#util.curl.request"><code class="docutils literal notranslate"><span class="pre">request()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.curl.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.curl.post"><code class="docutils literal notranslate"><span class="pre">post()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.curl.getImg"><code class="docutils literal notranslate"><span class="pre">getImg()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util.file">util.file 模块</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#util.file.getFile"><code class="docutils literal notranslate"><span class="pre">getFile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.file.getResourceFile"><code class="docutils literal notranslate"><span class="pre">getResourceFile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.file.getResource"><code class="docutils literal notranslate"><span class="pre">getResource()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.file.getDataFile"><code class="docutils literal notranslate"><span class="pre">getDataFile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.file.getCacheFile"><code class="docutils literal notranslate"><span class="pre">getCacheFile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.file.getCache"><code class="docutils literal notranslate"><span class="pre">getCache()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util.data">util.data 模块</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#util.data.getData"><code class="docutils literal notranslate"><span class="pre">getData()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.data.setData"><code class="docutils literal notranslate"><span class="pre">setData()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.data.Data"><code class="docutils literal notranslate"><span class="pre">Data</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Data.save"><code class="docutils literal notranslate"><span class="pre">Data.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Data.value_to_json"><code class="docutils literal notranslate"><span class="pre">Data.value_to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Data.value_de_json"><code class="docutils literal notranslate"><span class="pre">Data.value_de_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Data.get"><code class="docutils literal notranslate"><span class="pre">Data.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Data.keys"><code class="docutils literal notranslate"><span class="pre">Data.keys()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Data.items"><code class="docutils literal notranslate"><span class="pre">Data.items()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Data.values"><code class="docutils literal notranslate"><span class="pre">Data.values()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#util.data.Photos"><code class="docutils literal notranslate"><span class="pre">Photos</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Photos.value_to_json"><code class="docutils literal notranslate"><span class="pre">Photos.value_to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Photos.value_de_json"><code class="docutils literal notranslate"><span class="pre">Photos.value_de_json()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#util.data.Documents"><code class="docutils literal notranslate"><span class="pre">Documents</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Documents.value_to_json"><code class="docutils literal notranslate"><span class="pre">Documents.value_to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Documents.value_de_json"><code class="docutils literal notranslate"><span class="pre">Documents.value_de_json()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#util.data.Videos"><code class="docutils literal notranslate"><span class="pre">Videos</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.data.Animations"><code class="docutils literal notranslate"><span class="pre">Animations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.data.Audios"><code class="docutils literal notranslate"><span class="pre">Audios</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.data.Settings"><code class="docutils literal notranslate"><span class="pre">Settings</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Settings.Unset"><code class="docutils literal notranslate"><span class="pre">Settings.Unset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Settings.unset"><code class="docutils literal notranslate"><span class="pre">Settings.unset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.Settings.get"><code class="docutils literal notranslate"><span class="pre">Settings.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#util.data.MessageData"><code class="docutils literal notranslate"><span class="pre">MessageData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.MessageData.inited"><code class="docutils literal notranslate"><span class="pre">MessageData.inited</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.MessageData.init"><code class="docutils literal notranslate"><span class="pre">MessageData.init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.MessageData.add_message"><code class="docutils literal notranslate"><span class="pre">MessageData.add_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.MessageData.has_chat"><code class="docutils literal notranslate"><span class="pre">MessageData.has_chat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.MessageData.get_message"><code class="docutils literal notranslate"><span class="pre">MessageData.get_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.MessageData.get_message_by_rid"><code class="docutils literal notranslate"><span class="pre">MessageData.get_message_by_rid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.MessageData.get_message_by_mid"><code class="docutils literal notranslate"><span class="pre">MessageData.get_message_by_mid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.MessageData.has_message"><code class="docutils literal notranslate"><span class="pre">MessageData.has_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.MessageData.iter_chats"><code class="docutils literal notranslate"><span class="pre">MessageData.iter_chats()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.MessageData.iter_messages"><code class="docutils literal notranslate"><span class="pre">MessageData.iter_messages()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.data.MessageData.get_group"><code class="docutils literal notranslate"><span class="pre">MessageData.get_group()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util.media">util.media 模块</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#util.media.videoInfo"><code class="docutils literal notranslate"><span class="pre">videoInfo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.media.img2bytes"><code class="docutils literal notranslate"><span class="pre">img2bytes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.media.getPhotoThumbnail"><code class="docutils literal notranslate"><span class="pre">getPhotoThumbnail()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.media.resizePhoto"><code class="docutils literal notranslate"><span class="pre">resizePhoto()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.media.ffmpeg"><code class="docutils literal notranslate"><span class="pre">ffmpeg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.media.video2mp4"><code class="docutils literal notranslate"><span class="pre">video2mp4()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.media.message_media_to_media"><code class="docutils literal notranslate"><span class="pre">message_media_to_media()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.media.message_to_media"><code class="docutils literal notranslate"><span class="pre">message_to_media()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.media.file_id_to_media"><code class="docutils literal notranslate"><span class="pre">file_id_to_media()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.media.file_to_media"><code class="docutils literal notranslate"><span class="pre">file_to_media()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util.progress">util.progress 模块</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#util.progress.Progress"><code class="docutils literal notranslate"><span class="pre">Progress</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.progress.Progress.chars"><code class="docutils literal notranslate"><span class="pre">Progress.chars</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.progress.Progress.set_prefix"><code class="docutils literal notranslate"><span class="pre">Progress.set_prefix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.progress.Progress.set_total"><code class="docutils literal notranslate"><span class="pre">Progress.set_total()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.progress.Progress.update"><code class="docutils literal notranslate"><span class="pre">Progress.update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.progress.Progress.add"><code class="docutils literal notranslate"><span class="pre">Progress.add()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util.telegraph">util.telegraph 模块</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#util.telegraph.createPage"><code class="docutils literal notranslate"><span class="pre">createPage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.telegraph.getPageList"><code class="docutils literal notranslate"><span class="pre">getPageList()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util">util 模块快捷导入</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#util.randStr"><code class="docutils literal notranslate"><span class="pre">randStr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.md5sum"><code class="docutils literal notranslate"><span class="pre">md5sum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.getFile"><code class="docutils literal notranslate"><span class="pre">getFile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.getResource"><code class="docutils literal notranslate"><span class="pre">getResource()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.getDataFile"><code class="docutils literal notranslate"><span class="pre">getDataFile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.getCache"><code class="docutils literal notranslate"><span class="pre">getCache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.videoInfo"><code class="docutils literal notranslate"><span class="pre">videoInfo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.resizePhoto"><code class="docutils literal notranslate"><span class="pre">resizePhoto()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.img2bytes"><code class="docutils literal notranslate"><span class="pre">img2bytes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.getPhotoThumbnail"><code class="docutils literal notranslate"><span class="pre">getPhotoThumbnail()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.getData"><code class="docutils literal notranslate"><span class="pre">getData()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.setData"><code class="docutils literal notranslate"><span class="pre">setData()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.Data"><code class="docutils literal notranslate"><span class="pre">Data</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.Data.save"><code class="docutils literal notranslate"><span class="pre">Data.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.Data.value_to_json"><code class="docutils literal notranslate"><span class="pre">Data.value_to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.Data.value_de_json"><code class="docutils literal notranslate"><span class="pre">Data.value_de_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.Data.get"><code class="docutils literal notranslate"><span class="pre">Data.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.Data.keys"><code class="docutils literal notranslate"><span class="pre">Data.keys()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.Data.items"><code class="docutils literal notranslate"><span class="pre">Data.items()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.Data.values"><code class="docutils literal notranslate"><span class="pre">Data.values()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#util.Photos"><code class="docutils literal notranslate"><span class="pre">Photos</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.Photos.value_to_json"><code class="docutils literal notranslate"><span class="pre">Photos.value_to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.Photos.value_de_json"><code class="docutils literal notranslate"><span class="pre">Photos.value_de_json()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#util.Videos"><code class="docutils literal notranslate"><span class="pre">Videos</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.Documents"><code class="docutils literal notranslate"><span class="pre">Documents</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.Documents.value_to_json"><code class="docutils literal notranslate"><span class="pre">Documents.value_to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.Documents.value_de_json"><code class="docutils literal notranslate"><span class="pre">Documents.value_de_json()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#util.Animations"><code class="docutils literal notranslate"><span class="pre">Animations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.MessageData"><code class="docutils literal notranslate"><span class="pre">MessageData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#util.MessageData.inited"><code class="docutils literal notranslate"><span class="pre">MessageData.inited</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.MessageData.init"><code class="docutils literal notranslate"><span class="pre">MessageData.init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.MessageData.add_message"><code class="docutils literal notranslate"><span class="pre">MessageData.add_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.MessageData.has_chat"><code class="docutils literal notranslate"><span class="pre">MessageData.has_chat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.MessageData.get_message"><code class="docutils literal notranslate"><span class="pre">MessageData.get_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.MessageData.get_message_by_rid"><code class="docutils literal notranslate"><span class="pre">MessageData.get_message_by_rid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.MessageData.get_message_by_mid"><code class="docutils literal notranslate"><span class="pre">MessageData.get_message_by_mid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.MessageData.has_message"><code class="docutils literal notranslate"><span class="pre">MessageData.has_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.MessageData.iter_chats"><code class="docutils literal notranslate"><span class="pre">MessageData.iter_chats()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.MessageData.iter_messages"><code class="docutils literal notranslate"><span class="pre">MessageData.iter_messages()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#util.MessageData.get_group"><code class="docutils literal notranslate"><span class="pre">MessageData.get_group()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#util.request"><code class="docutils literal notranslate"><span class="pre">request()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.post"><code class="docutils literal notranslate"><span class="pre">post()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.getImg"><code class="docutils literal notranslate"><span class="pre">getImg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#util.bool_or_callable"><code class="docutils literal notranslate"><span class="pre">bool_or_callable()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -97,32 +275,1202 @@
 <section id="id1">
 <h2>子模块<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 </section>
-<section id="util-curl">
-<h2>util.curl 模块<a class="headerlink" href="#util-curl" title="Link to this heading"></a></h2>
+<section id="module-util.log">
+<span id="util-log"></span><h2>util.log 模块<a class="headerlink" href="#module-util.log" title="Link to this heading"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="util.log.logger">
+<span class="sig-prename descclassname"><span class="pre">util.log.</span></span><span class="sig-name descname"><span class="pre">logger</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Logger</span> <span class="pre">mtgbot</span> <span class="pre">(INFO)&gt;</span></em><a class="headerlink" href="#util.log.logger" title="Link to this definition"></a></dt>
+<dd><p>全局 logger 日志记录器</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="util.log.default_handler">
+<span class="sig-prename descclassname"><span class="pre">util.log.</span></span><span class="sig-name descname"><span class="pre">default_handler</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StreamHandler</span> <span class="pre">&lt;stdout&gt;</span> <span class="pre">(INFO)&gt;</span></em><a class="headerlink" href="#util.log.default_handler" title="Link to this definition"></a></dt>
+<dd><p>默认日志处理器</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>logging.StreamHandler</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="util.log.file_handler">
+<span class="sig-prename descclassname"><span class="pre">util.log.</span></span><span class="sig-name descname"><span class="pre">file_handler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">TimedHandler</span></em><a class="headerlink" href="#util.log.file_handler" title="Link to this definition"></a></dt>
+<dd><p>文件日志处理器</p>
+</dd></dl>
+
 </section>
-<section id="util-data">
-<h2>util.data 模块<a class="headerlink" href="#util-data" title="Link to this heading"></a></h2>
+<section id="module-util.string">
+<span id="util-string"></span><h2>util.string 模块<a class="headerlink" href="#module-util.string" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.multiple_replace">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">multiple_replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.multiple_replace" title="Link to this definition"></a></dt>
+<dd><p>多个替换</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>text (<cite>str</cite>):</dt><dd><p>需要替换的文本</p>
+</dd>
+<dt>d (<cite>Mapping[str, str]</cite>):</dt><dd><p>替换字典, 将出现的key替换为value</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.markdown_escape">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">markdown_escape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.markdown_escape" title="Link to this definition"></a></dt>
+<dd><p>Markdown 转义</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.markdown_unescape">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">markdown_unescape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.markdown_unescape" title="Link to this definition"></a></dt>
+<dd><p>Markdown 去转义</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.html_escape">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">html_escape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.html_escape" title="Link to this definition"></a></dt>
+<dd><p>HTML 转义</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.html_unescape">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">html_unescape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.html_unescape" title="Link to this definition"></a></dt>
+<dd><p>HTML 去转义</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.get_escape_func">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">get_escape_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parse_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.get_escape_func" title="Link to this definition"></a></dt>
+<dd><p>获取parse_mode对应转义函数</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.get_unescape_func">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">get_unescape_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parse_mode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.get_unescape_func" title="Link to this definition"></a></dt>
+<dd><p>获取parse_mode对应去转义函数</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.escape_makedown">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">escape_makedown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.escape_makedown" title="Link to this definition"></a></dt>
+<dd><p>Markdown 转义</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.unescape_makedown">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">unescape_makedown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.unescape_makedown" title="Link to this definition"></a></dt>
+<dd><p>Markdown 去转义</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.escape_html">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">escape_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.escape_html" title="Link to this definition"></a></dt>
+<dd><p>HTML 转义</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.unescape_html">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">unescape_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.unescape_html" title="Link to this definition"></a></dt>
+<dd><p>HTML 去转义</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.randStr">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">randStr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#util.string.randStr" title="Link to this definition"></a></dt>
+<dd><p>随机字符串</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>length (<cite>int</cite>):</dt><dd><p>字符串长度, 默认为 8</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><p><cite>str</cite>: 随机字符串</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.md5sum">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">md5sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">byte</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#util.string.md5sum" title="Link to this definition"></a></dt>
+<dd><p>计算字符串或文件的 md5 值</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>string (<cite>str</cite>):</dt><dd><p>字符串（三选一）</p>
+</dd>
+<dt>byte (<cite>bytes</cite>):</dt><dd><p>bytes（三选一）</p>
+</dd>
+<dt>file_path (<cite>str</cite>):</dt><dd><p>文件路径（三选一）</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><p><cite>str</cite>: md5</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.char_width">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">char_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#util.string.char_width" title="Link to this definition"></a></dt>
+<dd><p>返回 Unicode 十进制序号对应字符的屏幕宽度</p>
+<p>Return the screen column width for unicode ordinal o.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.string.str_width">
+<span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">str_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#util.string.str_width" title="Link to this definition"></a></dt>
+<dd><p>计算字符串屏幕宽度</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.string.Options">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.string.</span></span><span class="sig-name descname"><span class="pre">Options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.Options" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>解析命令选项, 将text用空格打散后查找是否有期待字符串</p>
+<p>如 Options('/pid mask', mark=('spoiler', '遮罩'), hide='') -&gt; Options(mark=True, hide=False)</p>
+<dl>
+<dt>Arguments</dt><dd><dl>
+<dt>text (<cite>str</cite>):</dt><dd><p>解析文本</p>
+</dd>
+<dt>args (<cite>Mapping[str, Union[str, Sequence[str]]]</cite>):</dt><dd><p>期待字符串</p>
+<p>以下情况 Options.aaa=True</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">aaa=''</span></code>: 出现 'aaa'</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aaa='bbb'</span></code>: 出现 'aaa' 或 'bbb'</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aaa=('bbb',</span> <span class="pre">'ccc')</span></code>: 出现 'aaa', 'bbb', 'ccc' 其中之一</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="util.string.Options.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.string.Options.get" title="Link to this definition"></a></dt>
+<dd><p>返回指定key的属性值</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.string.Options.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.string.Options.keys" title="Link to this definition"></a></dt>
+<dd><p>返回所有属性名</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.string.Options.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.string.Options.items" title="Link to this definition"></a></dt>
+<dd><p>返回 {属性名: 属性值}</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="util-file">
-<h2>util.file 模块<a class="headerlink" href="#util-file" title="Link to this heading"></a></h2>
+<section id="module-util.curl">
+<span id="util-curl"></span><h2>util.curl 模块<a class="headerlink" href="#module-util.curl" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="util.curl.logless">
+<span class="sig-prename descclassname"><span class="pre">util.curl.</span></span><span class="sig-name descname"><span class="pre">logless</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.curl.logless" title="Link to this definition"></a></dt>
+<dd><p>将字符串缩减至长度 40 以下</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.curl.clean_outdated_file">
+<span class="sig-prename descclassname"><span class="pre">util.curl.</span></span><span class="sig-name descname"><span class="pre">clean_outdated_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.curl.clean_outdated_file" title="Link to this definition"></a></dt>
+<dd><p>清理过期缓存文件</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.curl.getPath">
+<span class="sig-prename descclassname"><span class="pre">util.curl.</span></span><span class="sig-name descname"><span class="pre">getPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mime_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.curl.getPath" title="Link to this definition"></a></dt>
+<dd><p>根据 url, ext, saveas, mime_type 获取保存路径</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.curl.Client">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.curl.</span></span><span class="sig-name descname"><span class="pre">Client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_redirects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.curl.Client" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncClient</span></code></p>
+<p>httpx 异步客户端</p>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>follow_redirects 默认值被设置为了 <code class="docutils literal notranslate"><span class="pre">True</span></code>, 而 <cite>httpx.AsyncClient</cite> 默认值为 <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</div>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>proxy (<cite>bool</cite>):</dt><dd><p>是否使用代理</p>
+</dd>
+<dt>headers (<cite>dict</cite> | <cite>httpx.Headers</cite>):</dt><dd><p>指定headers，如 p站图片需要{&quot;Referer&quot;: &quot;<a class="reference external" href="https://www.pixiv.net">https://www.pixiv.net</a>&quot;}</p>
+</dd>
+<dt>follow_redirects (<cite>bool</cite>):</dt><dd><p>是否跟踪重定向, 默认为 True</p>
+</dd>
+<dt>timeout (<cite>int</cite> | <cite>httpx.Timeout</cite>):</dt><dd><p>默认为无限制</p>
+</dd>
+<dt>kwargs:</dt><dd><p>其他参数</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="util.curl.Client.getImg">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">getImg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nocache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress_callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#util.curl.Client.getImg" title="Link to this definition"></a></dt>
+<dd><p>流式 GET 请求下载文件, 返回下载文件路径</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>url (<cite>str</cite>):</dt><dd><p>文件url</p>
+</dd>
+<dt>ext (<cite>bool</cite> | <cite>str</cite>):</dt><dd><p>(优先级大于saveas)
+为True/ 'auto' 时: 自动从url中获取文件后缀名
+为str时: 指定后缀</p>
+</dd>
+<dt>saveas (<cite>str</cite>):</dt><dd><p>指定下载文件名或路径</p>
+</dd>
+<dt>nocache (<cite>bool</cite>):</dt><dd><p>是否不使用缓存, 默认为 <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt>rand (<cite>bool</cite>):</dt><dd><p>是否在文件结尾加入随机字符串bytes</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><p>str: 文件路径</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.curl.request">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.curl.</span></span><span class="sig-name descname"><span class="pre">request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_redirects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.curl.request" title="Link to this definition"></a></dt>
+<dd><p>异步 client.request() 的简略写法</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.curl.get">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.curl.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.curl.get" title="Link to this definition"></a></dt>
+<dd><p>异步 client.get() 的简略写法</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.curl.post">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.curl.</span></span><span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.curl.post" title="Link to this definition"></a></dt>
+<dd><p>异步 client.post() 的简略写法</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.curl.getImg">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.curl.</span></span><span class="sig-name descname"><span class="pre">getImg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nocache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_redirects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#util.curl.getImg" title="Link to this definition"></a></dt>
+<dd><p>异步 client.getImg() 的简略写法</p>
+</dd></dl>
+
 </section>
-<section id="util-log">
-<h2>util.log 模块<a class="headerlink" href="#util-log" title="Link to this heading"></a></h2>
+<section id="module-util.file">
+<span id="util-file"></span><h2>util.file 模块<a class="headerlink" href="#module-util.file" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="util.file.getFile">
+<span class="sig-prename descclassname"><span class="pre">util.file.</span></span><span class="sig-name descname"><span class="pre">getFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.file.getFile" title="Link to this definition"></a></dt>
+<dd><p>获取指定bot私有目录下目录名的指定文件</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.file.getResourceFile">
+<span class="sig-prename descclassname"><span class="pre">util.file.</span></span><span class="sig-name descname"><span class="pre">getResourceFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.file.getResourceFile" title="Link to this definition"></a></dt>
+<dd><p>获取resources文件夹下文件</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.file.getResource">
+<span class="sig-prename descclassname"><span class="pre">util.file.</span></span><span class="sig-name descname"><span class="pre">getResource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.file.getResource" title="Link to this definition"></a></dt>
+<dd><p>获取resources文件夹下文件</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.file.getDataFile">
+<span class="sig-prename descclassname"><span class="pre">util.file.</span></span><span class="sig-name descname"><span class="pre">getDataFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.file.getDataFile" title="Link to this definition"></a></dt>
+<dd><p>获取data文件夹下文件</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.file.getCacheFile">
+<span class="sig-prename descclassname"><span class="pre">util.file.</span></span><span class="sig-name descname"><span class="pre">getCacheFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.file.getCacheFile" title="Link to this definition"></a></dt>
+<dd><p>获取data/cache文件夹下文件</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.file.getCache">
+<span class="sig-prename descclassname"><span class="pre">util.file.</span></span><span class="sig-name descname"><span class="pre">getCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.file.getCache" title="Link to this definition"></a></dt>
+<dd><p>获取data/cache文件夹下文件</p>
+</dd></dl>
+
 </section>
-<section id="util-media">
-<h2>util.media 模块<a class="headerlink" href="#util-media" title="Link to this heading"></a></h2>
+<section id="module-util.data">
+<span id="util-data"></span><h2>util.data 模块<a class="headerlink" href="#module-util.data" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="util.data.getData">
+<span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">getData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#util.data.getData" title="Link to this definition"></a></dt>
+<dd><p>读取 <code class="docutils literal notranslate"><span class="pre">data/{file}.json</span></code> 文件, 并将其转为字典数据</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>file (<cite>str</cite>):</dt><dd><p>文件名</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><p>dict: 字典数据</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.data.setData">
+<span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">setData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.setData" title="Link to this definition"></a></dt>
+<dd><p>将字典数据转为json存入 <code class="docutils literal notranslate"><span class="pre">data/{file}.json</span></code> 文件</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>file (<cite>str</cite>):</dt><dd><p>文件名</p>
+</dd>
+<dt>data (<cite>dict</cite>):</dt><dd><p>字典数据</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.data.Data">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Data" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>读取 <code class="docutils literal notranslate"><span class="pre">data/{file}.json</span></code> 文件, 并将其转为 方便py存取的格式</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Data</span><span class="p">(</span><span class="s1">&#39;urls&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">data</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;xxx&#39;</span><span class="p">])</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xxx&#39;</span><span class="p">))</span>
+  <span class="n">data</span><span class="p">[</span><span class="s1">&#39;xxx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yyy&#39;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Data.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Data.save" title="Link to this definition"></a></dt>
+<dd><p>保存数据</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Data.value_to_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Data.value_to_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Data.value_de_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_de_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Data.value_de_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Data.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Data.get" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Data.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Data.keys" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Data.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Data.items" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Data.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Data.values" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.data.Photos">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Photos</span></span><a class="headerlink" href="#util.data.Photos" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#util.data.Data" title="util.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
+<p>保存已发送至 Telegram 的图片 file_id</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Photos.value_to_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Photos.value_to_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Photos.value_de_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_de_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Photos.value_de_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.data.Documents">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'documents'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Documents" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#util.data.Data" title="util.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
+<p>保存已发送至 Telegram 的文档 file_id</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Documents.value_to_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Documents.value_to_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Documents.value_de_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_de_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Documents.value_de_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.data.Videos">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Videos</span></span><a class="headerlink" href="#util.data.Videos" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#util.data.Documents" title="util.data.Documents"><code class="xref py py-class docutils literal notranslate"><span class="pre">Documents</span></code></a></p>
+<p>保存已发送至 Telegram 的视频 file_id</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.data.Animations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Animations</span></span><a class="headerlink" href="#util.data.Animations" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#util.data.Documents" title="util.data.Documents"><code class="xref py py-class docutils literal notranslate"><span class="pre">Documents</span></code></a></p>
+<p>保存已发送至 Telegram 的动画 file_id</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.data.Audios">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Audios</span></span><a class="headerlink" href="#util.data.Audios" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#util.data.Documents" title="util.data.Documents"><code class="xref py py-class docutils literal notranslate"><span class="pre">Documents</span></code></a></p>
+<p>保存已发送至 Telegram 的音频 file_id</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.data.Settings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">Settings</span></span><a class="headerlink" href="#util.data.Settings" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#util.data.Data" title="util.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
+<p>保存机器人设置</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="util.data.Settings.Unset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Unset</span></span><a class="headerlink" href="#util.data.Settings.Unset" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="util.data.Settings.unset">
+<span class="sig-name descname"><span class="pre">unset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;util.data.Settings.Unset</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#util.data.Settings.unset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.Settings.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default=&lt;util.data.Settings.Unset</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.Settings.get" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.data.MessageData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.data.</span></span><span class="sig-name descname"><span class="pre">MessageData</span></span><a class="headerlink" href="#util.data.MessageData" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>消息id数据库</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="util.data.MessageData.inited">
+<span class="sig-name descname"><span class="pre">inited</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#util.data.MessageData.inited" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.MessageData.init">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.data.MessageData.init" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.MessageData.add_message">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grouped_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#util.data.MessageData.add_message" title="Link to this definition"></a></dt>
+<dd><p>记录 chat_id, message_id 并返回记录id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.MessageData.has_chat">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_chat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.MessageData.has_chat" title="Link to this definition"></a></dt>
+<dd><p>是否存在chat_id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.MessageData.get_message">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.MessageData.get_message" title="Link to this definition"></a></dt>
+<dd><p>获取 message_id 列</p>
+<ul class="simple">
+<li><p><cite>MessageData.get_message(message: types.Message)</cite></p></li>
+<li><p><cite>MessageData.get_message(chat_id: int, message_id: int)</cite></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.MessageData.get_message_by_rid">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_message_by_rid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.MessageData.get_message_by_rid" title="Link to this definition"></a></dt>
+<dd><p>通过记录id获取message</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.MessageData.get_message_by_mid">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_message_by_mid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.MessageData.get_message_by_mid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.MessageData.has_message">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.data.MessageData.has_message" title="Link to this definition"></a></dt>
+<dd><p>是否存在 message_id</p>
+<ul class="simple">
+<li><p><cite>MessageData.has_message(message: types.Message)</cite></p></li>
+<li><p><cite>MessageData.has_message(chat_id: int, message_id: int)</cite></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.MessageData.iter_chats">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iter_chats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#util.data.MessageData.iter_chats" title="Link to this definition"></a></dt>
+<dd><p>枚举 chat_id</p>
+<dl class="simple">
+<dt>Returns</dt><dd><p><cite>Generator[int, None, None]</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.MessageData.iter_messages">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iter_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#util.data.MessageData.iter_messages" title="Link to this definition"></a></dt>
+<dd><p>枚举某 chat 中的 message_id</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>chat_id (<cite>int</cite>):</dt><dd><p>chat_id</p>
+</dd>
+<dt>reverse (<cite>bool</cite>):</dt><dd><p>是否反向</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">False</span></code>: 由小到大</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code>: 由大到小</p></li>
+</ul>
+</dd>
+<dt>min_id (<cite>int</cite>):</dt><dd><p>最小id</p>
+</dd>
+<dt>max_id (<cite>int</cite>):</dt><dd><p>最大id</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.data.MessageData.get_group">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grouped_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#util.data.MessageData.get_group" title="Link to this definition"></a></dt>
+<dd><p>根据 grouped_id 获取一组 message_id</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="util-progress">
-<h2>util.progress 模块<a class="headerlink" href="#util-progress" title="Link to this heading"></a></h2>
+<section id="module-util.media">
+<span id="util-media"></span><h2>util.media 模块<a class="headerlink" href="#module-util.media" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="util.media.videoInfo">
+<span class="sig-prename descclassname"><span class="pre">util.media.</span></span><span class="sig-name descname"><span class="pre">videoInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">file</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#util.media.videoInfo" title="Link to this definition"></a></dt>
+<dd><p>获取视频信息</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>path (<cite>str</cite>):</dt><dd><p>文件路径</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><p><cite>tuple</cite></p>
+<ul class="simple">
+<li><p><cite>file object</cite>: 文件对象</p></li>
+<li><p><cite>int</cite>: 视频时长</p></li>
+<li><p><cite>int</cite>: 视频宽度</p></li>
+<li><p><cite>int</cite>: 视频高度</p></li>
+<li><p><cite>bytes</cite>: 视频缩略图</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.media.img2bytes">
+<span class="sig-prename descclassname"><span class="pre">util.media.</span></span><span class="sig-name descname"><span class="pre">img2bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.media.img2bytes" title="Link to this definition"></a></dt>
+<dd><p>cv2 图片转 bytes</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.media.getPhotoThumbnail">
+<span class="sig-prename descclassname"><span class="pre">util.media.</span></span><span class="sig-name descname"><span class="pre">getPhotoThumbnail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Mat</span></span></span><a class="headerlink" href="#util.media.getPhotoThumbnail" title="Link to this definition"></a></dt>
+<dd><p>将图片 resize 为最大宽高320的图片</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.media.resizePhoto">
+<span class="sig-prename descclassname"><span class="pre">util.media.</span></span><span class="sig-name descname"><span class="pre">resizePhoto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxSize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2560</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Mat</span></span></span><a class="headerlink" href="#util.media.resizePhoto" title="Link to this definition"></a></dt>
+<dd><p>resize cv2图片</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.media.ffmpeg">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.media.</span></span><span class="sig-name descname"><span class="pre">ffmpeg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress_callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.media.ffmpeg" title="Link to this definition"></a></dt>
+<dd><p>运行 ffmpeg 命令</p>
+<dl>
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>command (list[str]):</dt><dd><p>命令空格分割列表</p>
+</dd>
+<dt>progress_callback (callable, optional):</dt><dd><p>进度回调函数</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>returncode (int):</dt><dd><p>命令返回值 returncode</p>
+</dd>
+<dt>stdout (str):</dt><dd><p>命令行输出 (已解码)</p>
+</dd>
+</dl>
+</dd>
+<dt>Examples</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mid</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s1">&#39;请等待...&#39;</span><span class="p">)</span>
+<span class="n">bar</span> <span class="o">=</span> <span class="n">Progress</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span>
+<span class="n">returncode</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ffmpeg</span><span class="p">([</span><span class="s1">&#39;ffmpeg&#39;</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="s1">&#39;output.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;-y&#39;</span><span class="p">],</span> <span class="n">bar</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+  <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">stdout</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.media.video2mp4">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.media.</span></span><span class="sig-name descname"><span class="pre">video2mp4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress_callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.media.video2mp4" title="Link to this definition"></a></dt>
+<dd><p>视频转 mp4</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.media.message_media_to_media">
+<span class="sig-prename descclassname"><span class="pre">util.media.</span></span><span class="sig-name descname"><span class="pre">message_media_to_media</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message_media</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spoiler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.media.message_media_to_media" title="Link to this definition"></a></dt>
+<dd><p>Media 转 MessageMedia, 覆盖 spoiler</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.media.message_to_media">
+<span class="sig-prename descclassname"><span class="pre">util.media.</span></span><span class="sig-name descname"><span class="pre">message_to_media</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spoiler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.media.message_to_media" title="Link to this definition"></a></dt>
+<dd><p>Message 转 MessageMedia, 覆盖 spoiler</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.media.file_id_to_media">
+<span class="sig-prename descclassname"><span class="pre">util.media.</span></span><span class="sig-name descname"><span class="pre">file_id_to_media</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spoiler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.media.file_id_to_media" title="Link to this definition"></a></dt>
+<dd><p>file_id 转 MessageMedia, 覆盖 spoiler</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.media.file_to_media">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.media.</span></span><span class="sig-name descname"><span class="pre">file_to_media</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spoiler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_document</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress_callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attributes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thumb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">voice_note</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_note</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supports_streaming</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mime_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nosound_video</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.media.file_to_media" title="Link to this definition"></a></dt>
+<dd><p>文件路径转 MessageMedia, 覆盖 spoiler</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>参数说明详见 <a class="reference external" href="https://docs.telethon.dev/en/stable/modules/client.html#telethon.client.uploads.UploadMethods.send_file">send_file</a></p>
+</div>
+<dl>
+<dt>Arguments</dt><dd><dl>
+<dt>path (<cite>str</cite>):</dt><dd><p>文件路径</p>
+</dd>
+<dt>spoiler (<cite>bool</cite>):</dt><dd><p>是否遮罩</p>
+</dd>
+<dt>force_document (<cite>bool</cite>):</dt><dd><p>图片等强制以文件形式发送</p>
+</dd>
+<dt>file_size (<cite>int</cite>):</dt><dd><p>文件大小</p>
+</dd>
+<dt>progress_callback (<cite>callable</cite>):</dt><dd><p>进度回调函数</p>
+</dd>
+<dt>attributes (<cite>list</cite>):</dt><dd><p>文件属性</p>
+</dd>
+<dt>thumb (<cite>str</cite> | <cite>bytes</cite> | <cite>filw</cite>):</dt><dd><p>JPEG 缩略图, 最大宽高必须小于 320, 大小最大 20KB</p>
+</dd>
+<dt>allow_cache (<cite>bool</cite>):</dt><dd><p>允许缓存</p>
+</dd>
+<dt>voice_note (<cite>bool</cite>):</dt><dd><p>是否作为语音留言发送</p>
+</dd>
+<dt>video_note (<cite>bool</cite>):</dt><dd><p>是否作为视频留言发送</p>
+</dd>
+<dt>supports_streaming (<cite>bool</cite>):</dt><dd><p>是否支持流媒体</p>
+</dd>
+<dt>mime_type (<cite>str</cite>):</dt><dd><p>指定文件 mime_type</p>
+</dd>
+<dt>as_image (<cite>bool</cite>):</dt><dd><p>强制作为图片</p>
+</dd>
+<dt>ttl (<cite>int</cite>):</dt><dd><p>文件的生存时间（也称为“自毁定时器”或“自毁媒体”）。如果设置了，文件只能在短时间内查看，然后它们就会自动从消息历史记录中消失。</p>
+<p>范围: 1 ~ 60</p>
+<p>并非所有媒体都可以使用这个参数, 如文本文件, 对它们使用将报错 TtlMediaInvalidError.</p>
+</dd>
+<dt>nosound_video (<cite>bool</cite>):</dt><dd><p>将无音轨视频发送成 gif还是视频.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">False</span></code>: Telegram 中将显示为 gif</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code>: Telegram 中将显示为视频</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="util-string">
-<h2>util.string 模块<a class="headerlink" href="#util-string" title="Link to this heading"></a></h2>
+<section id="module-util.progress">
+<span id="util-progress"></span><h2>util.progress 模块<a class="headerlink" href="#module-util.progress" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="util.progress.Progress">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.progress.</span></span><span class="sig-name descname"><span class="pre">Progress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.progress.Progress" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>进度条</p>
+<dl>
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>mid (<a class="reference external" href="https://docs.telethon.dev/en/stable/modules/custom.html#telethon.tl.custom.message.Message">types.Message</a>):</dt><dd><p>用于进度条显示的 Message</p>
+</dd>
+<dt>total (<cite>int</cite> | <cite>float</cite>):</dt><dd><p>总数，将会以 p/total 计算当前进度百分比</p>
+</dd>
+<dt>prefix (<cite>str</cite>):</dt><dd><p>进度条前显示的字符</p>
+</dd>
+</dl>
+</dd>
+<dt>Attributes</dt><dd><dl class="simple">
+<dt>chars (<cite>list[str]</cite>):</dt><dd><p>一个由全角空格及八分之一至完整方块共9个UTF-8字符组成的列表</p>
+</dd>
+<dt>p (<cite>int</cite>):</dt><dd><p>当前进度</p>
+</dd>
+</dl>
+</dd>
+<dt>Example</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mid</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s1">&#39;请等待...&#39;</span><span class="p">)</span>
+<span class="n">bar</span> <span class="o">=</span> <span class="n">Progress</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+  <span class="n">bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">bar</span><span class="o">.</span><span class="n">set_prefix</span><span class="p">(</span><span class="s1">&#39;发送中...&#39;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">with</span> <span class="n">bot</span><span class="o">.</span><span class="n">action</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">chat_id</span><span class="p">,</span> <span class="s1">&#39;video&#39;</span><span class="p">):</span>
+  <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_file</span><span class="p">(</span>
+    <span class="n">event</span><span class="o">.</span><span class="n">chat_id</span><span class="p">,</span>
+    <span class="n">media</span><span class="p">,</span>
+    <span class="n">reply_to</span><span class="o">=</span><span class="n">event</span><span class="o">.</span><span class="n">message</span><span class="p">,</span>
+    <span class="n">progress_callback</span><span class="o">=</span><span class="n">bar</span><span class="o">.</span><span class="n">update</span><span class="p">,</span>
+  <span class="p">)</span>
+
+<span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ffmpeg&#39;</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<span class="n">returncode</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">ffmpeg</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">bar</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="util.progress.Progress.chars">
+<span class="sig-name descname"><span class="pre">chars</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['\u3000',</span> <span class="pre">'▏',</span> <span class="pre">'▎',</span> <span class="pre">'▍',</span> <span class="pre">'▌',</span> <span class="pre">'▋',</span> <span class="pre">'▊',</span> <span class="pre">'▉',</span> <span class="pre">'█']</span></em><a class="headerlink" href="#util.progress.Progress.chars" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.progress.Progress.set_prefix">
+<span class="sig-name descname"><span class="pre">set_prefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.progress.Progress.set_prefix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.progress.Progress.set_total">
+<span class="sig-name descname"><span class="pre">set_total</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.progress.Progress.set_total" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.progress.Progress.update">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.progress.Progress.update" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.progress.Progress.add">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.progress.Progress.add" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="util-telegraph">
-<h2>util.telegraph 模块<a class="headerlink" href="#util-telegraph" title="Link to this heading"></a></h2>
+<section id="module-util.telegraph">
+<span id="util-telegraph"></span><h2>util.telegraph 模块<a class="headerlink" href="#module-util.telegraph" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="util.telegraph.createPage">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.telegraph.</span></span><span class="sig-name descname"><span class="pre">createPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.telegraph.createPage" title="Link to this definition"></a></dt>
+<dd><p>创建 Telegraph 页面</p>
+<dl>
+<dt>Arguments</dt><dd><dl>
+<dt>title (<cite>str</cite>):</dt><dd><p>标题</p>
+</dd>
+<dt>content (<cite>list</cite>):</dt><dd><p>内容, 格式如下 (详见 <a class="reference external" href="https://telegra.ph/api#Node">Node</a>)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>  <span class="c1"># a, aside, b, blockquote, br, code, em, figcaption, figure, h3, h4, hr, i, iframe, img, li, ol, p, pre, s, strong, u, ul, video</span>
+    <span class="s1">&#39;attrs&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>  <span class="c1"># href, src</span>
+    <span class="s1">&#39;children&#39;</span><span class="p">:</span> <span class="p">[]</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.telegraph.getPageList">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.telegraph.</span></span><span class="sig-name descname"><span class="pre">getPageList</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.telegraph.getPageList" title="Link to this definition"></a></dt>
+<dd><p>获取所有 Telegraph Page</p>
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="module-util">
+<span id="id2"></span><h2>util 模块快捷导入<a class="headerlink" href="#module-util" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="util.randStr">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">randStr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#util.randStr" title="Link to this definition"></a></dt>
+<dd><p>随机字符串</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>length (<cite>int</cite>):</dt><dd><p>字符串长度, 默认为 8</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><p><cite>str</cite>: 随机字符串</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.md5sum">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">md5sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">byte</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#util.md5sum" title="Link to this definition"></a></dt>
+<dd><p>计算字符串或文件的 md5 值</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>string (<cite>str</cite>):</dt><dd><p>字符串（三选一）</p>
+</dd>
+<dt>byte (<cite>bytes</cite>):</dt><dd><p>bytes（三选一）</p>
+</dd>
+<dt>file_path (<cite>str</cite>):</dt><dd><p>文件路径（三选一）</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><p><cite>str</cite>: md5</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.getFile">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">getFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.getFile" title="Link to this definition"></a></dt>
+<dd><p>获取指定bot私有目录下目录名的指定文件</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.getResource">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">getResource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.getResource" title="Link to this definition"></a></dt>
+<dd><p>获取resources文件夹下文件</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.getDataFile">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">getDataFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.getDataFile" title="Link to this definition"></a></dt>
+<dd><p>获取data文件夹下文件</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.getCache">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">getCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.getCache" title="Link to this definition"></a></dt>
+<dd><p>获取data/cache文件夹下文件</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.videoInfo">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">videoInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">file</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#util.videoInfo" title="Link to this definition"></a></dt>
+<dd><p>获取视频信息</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>path (<cite>str</cite>):</dt><dd><p>文件路径</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><p><cite>tuple</cite></p>
+<ul class="simple">
+<li><p><cite>file object</cite>: 文件对象</p></li>
+<li><p><cite>int</cite>: 视频时长</p></li>
+<li><p><cite>int</cite>: 视频宽度</p></li>
+<li><p><cite>int</cite>: 视频高度</p></li>
+<li><p><cite>bytes</cite>: 视频缩略图</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.resizePhoto">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">resizePhoto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxSize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2560</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Mat</span></span></span><a class="headerlink" href="#util.resizePhoto" title="Link to this definition"></a></dt>
+<dd><p>resize cv2图片</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.img2bytes">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">img2bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.img2bytes" title="Link to this definition"></a></dt>
+<dd><p>cv2 图片转 bytes</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.getPhotoThumbnail">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">getPhotoThumbnail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Mat</span></span></span><a class="headerlink" href="#util.getPhotoThumbnail" title="Link to this definition"></a></dt>
+<dd><p>将图片 resize 为最大宽高320的图片</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.getData">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">getData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#util.getData" title="Link to this definition"></a></dt>
+<dd><p>读取 <code class="docutils literal notranslate"><span class="pre">data/{file}.json</span></code> 文件, 并将其转为字典数据</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>file (<cite>str</cite>):</dt><dd><p>文件名</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><p>dict: 字典数据</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.setData">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">setData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.setData" title="Link to this definition"></a></dt>
+<dd><p>将字典数据转为json存入 <code class="docutils literal notranslate"><span class="pre">data/{file}.json</span></code> 文件</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>file (<cite>str</cite>):</dt><dd><p>文件名</p>
+</dd>
+<dt>data (<cite>dict</cite>):</dt><dd><p>字典数据</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.Data">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Data" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>读取 <code class="docutils literal notranslate"><span class="pre">data/{file}.json</span></code> 文件, 并将其转为 方便py存取的格式</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Data</span><span class="p">(</span><span class="s1">&#39;urls&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">data</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;xxx&#39;</span><span class="p">])</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xxx&#39;</span><span class="p">))</span>
+  <span class="n">data</span><span class="p">[</span><span class="s1">&#39;xxx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yyy&#39;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="util.Data.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.Data.save" title="Link to this definition"></a></dt>
+<dd><p>保存数据</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.Data.value_to_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Data.value_to_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.Data.value_de_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_de_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Data.value_de_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.Data.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Data.get" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.Data.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.Data.keys" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.Data.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.Data.items" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.Data.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.Data.values" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.Photos">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Photos</span></span><a class="headerlink" href="#util.Photos" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#util.data.Data" title="util.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
+<p>保存已发送至 Telegram 的图片 file_id</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="util.Photos.value_to_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Photos.value_to_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.Photos.value_de_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_de_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Photos.value_de_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.Videos">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Videos</span></span><a class="headerlink" href="#util.Videos" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#util.data.Documents" title="util.data.Documents"><code class="xref py py-class docutils literal notranslate"><span class="pre">Documents</span></code></a></p>
+<p>保存已发送至 Telegram 的视频 file_id</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.Documents">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'documents'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Documents" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#util.data.Data" title="util.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a></p>
+<p>保存已发送至 Telegram 的文档 file_id</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="util.Documents.value_to_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Documents.value_to_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.Documents.value_de_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_de_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.Documents.value_de_json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.Animations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">Animations</span></span><a class="headerlink" href="#util.Animations" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#util.data.Documents" title="util.data.Documents"><code class="xref py py-class docutils literal notranslate"><span class="pre">Documents</span></code></a></p>
+<p>保存已发送至 Telegram 的动画 file_id</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="util.MessageData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">MessageData</span></span><a class="headerlink" href="#util.MessageData" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>消息id数据库</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="util.MessageData.inited">
+<span class="sig-name descname"><span class="pre">inited</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#util.MessageData.inited" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.MessageData.init">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.MessageData.init" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.MessageData.add_message">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grouped_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#util.MessageData.add_message" title="Link to this definition"></a></dt>
+<dd><p>记录 chat_id, message_id 并返回记录id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.MessageData.has_chat">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_chat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.MessageData.has_chat" title="Link to this definition"></a></dt>
+<dd><p>是否存在chat_id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.MessageData.get_message">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.MessageData.get_message" title="Link to this definition"></a></dt>
+<dd><p>获取 message_id 列</p>
+<ul class="simple">
+<li><p><cite>MessageData.get_message(message: types.Message)</cite></p></li>
+<li><p><cite>MessageData.get_message(chat_id: int, message_id: int)</cite></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.MessageData.get_message_by_rid">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_message_by_rid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.MessageData.get_message_by_rid" title="Link to this definition"></a></dt>
+<dd><p>通过记录id获取message</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.MessageData.get_message_by_mid">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_message_by_mid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.MessageData.get_message_by_mid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.MessageData.has_message">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.MessageData.has_message" title="Link to this definition"></a></dt>
+<dd><p>是否存在 message_id</p>
+<ul class="simple">
+<li><p><cite>MessageData.has_message(message: types.Message)</cite></p></li>
+<li><p><cite>MessageData.has_message(chat_id: int, message_id: int)</cite></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.MessageData.iter_chats">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iter_chats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#util.MessageData.iter_chats" title="Link to this definition"></a></dt>
+<dd><p>枚举 chat_id</p>
+<dl class="simple">
+<dt>Returns</dt><dd><p><cite>Generator[int, None, None]</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.MessageData.iter_messages">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iter_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chat_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#util.MessageData.iter_messages" title="Link to this definition"></a></dt>
+<dd><p>枚举某 chat 中的 message_id</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>chat_id (<cite>int</cite>):</dt><dd><p>chat_id</p>
+</dd>
+<dt>reverse (<cite>bool</cite>):</dt><dd><p>是否反向</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">False</span></code>: 由小到大</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code>: 由大到小</p></li>
+</ul>
+</dd>
+<dt>min_id (<cite>int</cite>):</dt><dd><p>最小id</p>
+</dd>
+<dt>max_id (<cite>int</cite>):</dt><dd><p>最大id</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.MessageData.get_group">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grouped_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#util.MessageData.get_group" title="Link to this definition"></a></dt>
+<dd><p>根据 grouped_id 获取一组 message_id</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.request">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_redirects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.request" title="Link to this definition"></a></dt>
+<dd><p>异步 client.request() 的简略写法</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.get">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.get" title="Link to this definition"></a></dt>
+<dd><p>异步 client.get() 的简略写法</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.post">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.post" title="Link to this definition"></a></dt>
+<dd><p>异步 client.post() 的简略写法</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.getImg">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">getImg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nocache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_redirects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#util.getImg" title="Link to this definition"></a></dt>
+<dd><p>异步 client.getImg() 的简略写法</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.bool_or_callable">
+<span class="sig-prename descclassname"><span class="pre">util.</span></span><span class="sig-name descname"><span class="pre">bool_or_callable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#util.bool_or_callable" title="Link to this definition"></a></dt>
+<dd><p>计算 obj 的布尔值, 如果 obj 为 callable, 则调用后再求布尔值</p>
+</dd></dl>
+
 </section>
 </section>
 
@@ -131,7 +1479,6 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
         <a href="filters.html" class="btn btn-neutral float-left" title="filters 模块" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="main.html" class="btn btn-neutral float-right" title="main 模块" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

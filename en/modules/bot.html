@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bot module &mdash; mtgbot 0.1.0 documentation</title>
+  <title>bot Module &mdash; mtgbot 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -19,7 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="main module" href="main.html" /> 
+    <link rel="next" title="config Module" href="config.html" />
+    <link rel="prev" title="main Module" href="main.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,18 +42,29 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">第一步</span></p>
+              <p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Mtgbot Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Modules</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="config.html">config module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plugin.html">plugin module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filters.html">filters module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="util.html">util package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">bot module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">bot Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bot.Bot"><code class="docutils literal notranslate"><span class="pre">Bot</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bot.Bot.request_callback"><code class="docutils literal notranslate"><span class="pre">Bot.request_callback()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bot.Bot.schedule_decorator"><code class="docutils literal notranslate"><span class="pre">Bot.schedule_decorator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bot.Bot.schedule"><code class="docutils literal notranslate"><span class="pre">Bot.schedule()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bot.Bot.schedule_delete_messages"><code class="docutils literal notranslate"><span class="pre">Bot.schedule_delete_messages()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">config Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin.html">plugin Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filters.html">filters Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">util Package</a></li>
 </ul>
 
         </div>
@@ -69,7 +81,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">bot module</li>
+      <li class="breadcrumb-item active">bot Module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/modules/bot.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -79,15 +91,73 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="bot">
-<h1>bot module<a class="headerlink" href="#bot" title="Link to this heading"></a></h1>
+  <section id="module-bot">
+<span id="bot"></span><h1>bot Module<a class="headerlink" href="#module-bot" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="bot.Bot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bot.</span></span><span class="sig-name descname"><span class="pre">Bot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">session:</span> <span class="pre">typing.Union[str,</span> <span class="pre">pathlib.Path,</span> <span class="pre">Session],</span> <span class="pre">api_id:</span> <span class="pre">int,</span> <span class="pre">api_hash:</span> <span class="pre">str,</span> <span class="pre">*,</span> <span class="pre">connection:</span> <span class="pre">typing.Type[Connection]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'telethon.network.connection.tcpfull.ConnectionTcpFull'&gt;,</span> <span class="pre">use_ipv6:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">proxy:</span> <span class="pre">tuple</span> <span class="pre">|</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">local_addr:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">tuple</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">timeout:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">10,</span> <span class="pre">request_retries:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">5,</span> <span class="pre">connection_retries:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">5,</span> <span class="pre">retry_delay:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">auto_reconnect:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">sequential_updates:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">flood_sleep_threshold:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">60,</span> <span class="pre">raise_last_call_error:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">device_model:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">system_version:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">app_version:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">lang_code:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'en',</span> <span class="pre">system_lang_code:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'en',</span> <span class="pre">loop:</span> <span class="pre">~asyncio.events.AbstractEventLoop</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">base_logger:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">~logging.Logger</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">receive_updates:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">catch_up:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">entity_cache_limit:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">5000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.Bot" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TelegramClient</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bot.Bot.request_callback">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">request_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.Bot.request_callback" title="Link to this definition"></a></dt>
+<dd><p>Request Callback</p>
+<p>Do some thing after using <code class="docutils literal notranslate"><span class="pre">bot(telthon.functions.XXX)</span></code> (<code class="docutils literal notranslate"><span class="pre">bot.__call__</span></code>) to send a request to Telegram (such as recording sended message_id, recording all request for debug).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bot.Bot.schedule_decorator">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">schedule_decorator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.Bot.schedule_decorator" title="Link to this definition"></a></dt>
+<dd><p>Schedule Task Decorator</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bot.Bot.schedule">
+<span class="sig-name descname"><span class="pre">schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.Bot.schedule" title="Link to this definition"></a></dt>
+<dd><p>set a schedule task</p>
+<dl>
+<dt>Arguments</dt><dd><dl>
+<dt>time (<cite>int</cite>):</dt><dd><p>delay time</p>
+</dd>
+<dt>func (<cite>callable</cite>):</dt><dd><p>Run function</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Passing args to a not-async function, pleace use <code class="docutils literal notranslate"><span class="pre">functools.partial(func,</span> <span class="pre">\*args,</span> <span class="pre">\*\*kwargs)</span></code></p>
+</div>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bot.Bot.schedule_delete_messages">
+<span class="sig-name descname"><span class="pre">schedule_delete_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PeerUser</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PeerChat</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PeerChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerEmpty</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerSelf</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerChat</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerUser</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerUserFromMessage</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerChannelFromMessage</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">User</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Chat</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Channel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UserFull</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChatFull</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChatFull</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChannelFull</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Message</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageReplyTo</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessagePinned</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageCallbackQuery</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Message</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageReplyTo</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessagePinned</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageCallbackQuery</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">revoke</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.Bot.schedule_delete_messages" title="Link to this definition"></a></dt>
+<dd><p>Scheduling to delete messages</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>time (<cite>int</cite>):</dt><dd><p>delay time</p>
+</dd>
+<dt>entity (<cite>hints.EntityLike</cite>):</dt><dd><p>To who will it be sent.</p>
+</dd>
+<dt>message_ids (<cite>typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]</cite>):</dt><dd><p>The IDs (or ID) or messages to be deleted.</p>
+</dd>
+<dt>revoke (<cite>bool</cite>):</dt><dd><p>Whether the message should be deleted for everyone or not. By default it has the opposite behaviour of official clients, and it will delete the message for everyone.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="main.html" class="btn btn-neutral float-left" title="main module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="main.html" class="btn btn-neutral float-left" title="main Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="config.html" class="btn btn-neutral float-right" title="config Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

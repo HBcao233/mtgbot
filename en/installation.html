@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>安装 &mdash; mtgbot 0.1.0 documentation</title>
+  <title>Installation &mdash; mtgbot 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -18,7 +18,9 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quick Start" href="quick_start.html" />
+    <link rel="prev" title="Mtgbot Documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,18 +42,20 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">第一步</span></p>
-<ul>
+              <p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Mtgbot Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Modules</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules/config.html">config module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/plugin.html">plugin module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/filters.html">filters module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/util.html">util package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/main.html">main module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/bot.html">bot module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/main.html">main Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/bot.html">bot Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/config.html">config Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/plugin.html">plugin Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/filters.html">filters Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/util.html">util Package</a></li>
 </ul>
 
         </div>
@@ -68,7 +72,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">安装</li>
+      <li class="breadcrumb-item active">Installation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -79,29 +83,35 @@
            <div itemprop="articleBody">
              
   <section id="id1">
-<h1>安装<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
-<p>1. 克隆仓库并安装依赖
-.. code-block:: bash</p>
-<blockquote>
-<div><dl class="field-list simple">
-<dt class="field-odd">linenos<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<p>git clone <a class="reference external" href="https://github.com/HBcao233/mtgbot">https://github.com/HBcao233/mtgbot</a>
-python -m pip install -r requirement.txt</p>
-<p># 安装 ffmpeg (推荐)
-pkg install ffmpeg
-yum install ffmpeg</p>
-</div></blockquote>
-<ol class="arabic simple" start="2">
-<li><p>覆盖 telethon 部分文件, 以实现如 解析&lt;blockquote expandable&gt;&lt;/blockquote&gt; 等功能</p></li>
+<h1>Installation<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<ol class="arabic simple">
+<li><p>clone the repo and install requirement</p></li>
 </ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/HBcao233/mtgbot
+<span class="linenos">2</span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirement.txt
+<span class="linenos">3</span>
+<span class="linenos">4</span><span class="c1"># 安装 ffmpeg (推荐)</span>
+<span class="linenos">5</span>pkg<span class="w"> </span>install<span class="w"> </span>ffmpeg
+<span class="linenos">6</span>yum<span class="w"> </span>install<span class="w"> </span>ffmpeg
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>cover some files of telethon package, to realize some features such as parse html <code class="docutils literal notranslate"><span class="pre">&lt;blockquote</span> <span class="pre">expandable&gt;&lt;/blockquote&gt;</span></code>.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="c1"># 查看包安装目录 (显示信息中的 Location 项)</span>
+<span class="linenos">2</span>pip<span class="w"> </span>show<span class="w"> </span>telethon
+<span class="linenos">3</span>cp<span class="w"> </span>-r<span class="w"> </span>libs/telethon<span class="w"> </span>&lt;site-package-location&gt;
+</pre></div>
+</div>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Mtgbot Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="quick_start.html" class="btn btn-neutral float-right" title="Quick Start" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

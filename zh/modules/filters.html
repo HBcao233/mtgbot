@@ -45,22 +45,52 @@
               <p class="caption" role="heading"><span class="caption-text">第一步</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Mtgbot 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">快速上手</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">模块</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="main.html">main 模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bot.html">bot 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">config 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin.html">plugin 模块</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">filters 模块</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#filters.Command"><code class="docutils literal notranslate"><span class="pre">Command()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#filters.Filter"><code class="docutils literal notranslate"><span class="pre">Filter</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#filters.Filter.filter"><code class="docutils literal notranslate"><span class="pre">Filter.filter()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.Command"><code class="docutils literal notranslate"><span class="pre">Command()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.PRIVATE"><code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.CHANNEL"><code class="docutils literal notranslate"><span class="pre">CHANNEL</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.GROUP"><code class="docutils literal notranslate"><span class="pre">GROUP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.TEXT"><code class="docutils literal notranslate"><span class="pre">TEXT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.MEDIA"><code class="docutils literal notranslate"><span class="pre">MEDIA</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.PHOTO"><code class="docutils literal notranslate"><span class="pre">PHOTO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.DOCUMENT"><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.FILE"><code class="docutils literal notranslate"><span class="pre">FILE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.ONLYTEXT"><code class="docutils literal notranslate"><span class="pre">ONLYTEXT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.COMMAND"><code class="docutils literal notranslate"><span class="pre">COMMAND</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.WEB_PREVIEW"><code class="docutils literal notranslate"><span class="pre">WEB_PREVIEW</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.AUDIO"><code class="docutils literal notranslate"><span class="pre">AUDIO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.VOICE"><code class="docutils literal notranslate"><span class="pre">VOICE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.VIDEO"><code class="docutils literal notranslate"><span class="pre">VIDEO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.VIDEO_NOTE"><code class="docutils literal notranslate"><span class="pre">VIDEO_NOTE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.GIF"><code class="docutils literal notranslate"><span class="pre">GIF</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.STICKER"><code class="docutils literal notranslate"><span class="pre">STICKER</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.CONTACT"><code class="docutils literal notranslate"><span class="pre">CONTACT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.GAME"><code class="docutils literal notranslate"><span class="pre">GAME</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.GEO"><code class="docutils literal notranslate"><span class="pre">GEO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.INVOICE"><code class="docutils literal notranslate"><span class="pre">INVOICE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.POLL"><code class="docutils literal notranslate"><span class="pre">POLL</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.VENUE"><code class="docutils literal notranslate"><span class="pre">VENUE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.DICE"><code class="docutils literal notranslate"><span class="pre">DICE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.VIA_BOT"><code class="docutils literal notranslate"><span class="pre">VIA_BOT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.BUTTON"><code class="docutils literal notranslate"><span class="pre">BUTTON</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.REPLY"><code class="docutils literal notranslate"><span class="pre">REPLY</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.FORWARD"><code class="docutils literal notranslate"><span class="pre">FORWARD</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">util 包</a></li>
-<li class="toctree-l1"><a class="reference internal" href="main.html">main 模块</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bot.html">bot 模块</a></li>
 </ul>
 
         </div>
@@ -89,21 +119,218 @@
              
   <section id="module-filters">
 <span id="filters"></span><h1>filters 模块<a class="headerlink" href="#module-filters" title="Link to this heading"></a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="filters.Command">
-<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">Command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></span></span><a class="headerlink" href="#filters.Command" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="filters.Filter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">Filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#filters.Filter" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">Filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#filters.Filter" title="Link to this definition"></a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>过滤器</p>
+<p>事件过滤器</p>
+<dl>
+<dt>可与同类进行:</dt><dd><ul class="simple">
+<li><p>非运算 <code class="docutils literal notranslate"><span class="pre">~</span> <span class="pre">Filter</span></code></p></li>
+<li><p>与运算 <code class="docutils literal notranslate"><span class="pre">Filter</span> <span class="pre">&amp;</span> <span class="pre">Filter</span></code></p></li>
+<li><p>或运算 <code class="docutils literal notranslate"><span class="pre">Filter</span> <span class="pre">|</span> <span class="pre">Filter</span></code></p></li>
+<li><p>异或运算 <code class="docutils literal notranslate"><span class="pre">Filter</span> <span class="pre">^</span> <span class="pre">Filter</span></code></p></li>
+</ul>
+</dd>
+<dt>Arguments</dt><dd><dl>
+<dt>value (<cite>Callable[[Any], bool]</cite>):</dt><dd><p>过滤函数</p>
+<p>参数需为 event, 返回值为 bool</p>
+</dd>
+</dl>
+</dd>
+<dt>Members</dt><dd><dl>
+<dt>value (<cite>Callable[[Any], bool]</cite>):</dt><dd><p>过滤函数</p>
+<p>参数需为 event, 返回值为 bool</p>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="filters.Filter.filter">
 <span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#filters.Filter.filter" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>运行过滤函数进行过滤</p>
+</dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="filters.Command">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">Command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></span></span><a class="headerlink" href="#filters.Command" title="Link to this definition"></a></dt>
+<dd><p>返回一个 过滤指定命令 的过滤器</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cmd</strong> (<cite>str</cite>) -- 命令名</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.PRIVATE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">PRIVATE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.PRIVATE" title="Link to this definition"></a></dt>
+<dd><p>过滤私聊</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.CHANNEL">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">CHANNEL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.CHANNEL" title="Link to this definition"></a></dt>
+<dd><p>过滤频道</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.GROUP">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">GROUP</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.GROUP" title="Link to this definition"></a></dt>
+<dd><p>过滤群组</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.TEXT">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">TEXT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.TEXT" title="Link to this definition"></a></dt>
+<dd><p>是否有文本</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.MEDIA">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">MEDIA</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.MEDIA" title="Link to this definition"></a></dt>
+<dd><p>是否有媒体</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.PHOTO">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">PHOTO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.PHOTO" title="Link to this definition"></a></dt>
+<dd><p>是否有图片</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.DOCUMENT">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">DOCUMENT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.DOCUMENT" title="Link to this definition"></a></dt>
+<dd><p>是否有文档</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.FILE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">FILE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.FILE" title="Link to this definition"></a></dt>
+<dd><p>是否有图片或文档
+等价于 PHOTO | DOCUMENT</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.ONLYTEXT">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">ONLYTEXT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.ONLYTEXT" title="Link to this definition"></a></dt>
+<dd><p>是否为纯文本 (有文本且无文件)</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.COMMAND">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">COMMAND</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.COMMAND" title="Link to this definition"></a></dt>
+<dd><p>是否是命令</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.WEB_PREVIEW">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">WEB_PREVIEW</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.WEB_PREVIEW" title="Link to this definition"></a></dt>
+<dd><p>是否有链接预览</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.AUDIO">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">AUDIO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.AUDIO" title="Link to this definition"></a></dt>
+<dd><p>是否有音频</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.VOICE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">VOICE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.VOICE" title="Link to this definition"></a></dt>
+<dd><p>是否有语音留言</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.VIDEO">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">VIDEO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.VIDEO" title="Link to this definition"></a></dt>
+<dd><p>是否有视频</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.VIDEO_NOTE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">VIDEO_NOTE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.VIDEO_NOTE" title="Link to this definition"></a></dt>
+<dd><p>是否有视频留言</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.GIF">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">GIF</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.GIF" title="Link to this definition"></a></dt>
+<dd><p>是否有gif</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.STICKER">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">STICKER</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.STICKER" title="Link to this definition"></a></dt>
+<dd><p>是否有贴纸</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.CONTACT">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">CONTACT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.CONTACT" title="Link to this definition"></a></dt>
+<dd><p>是否有联系人分享</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.GAME">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">GAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.GAME" title="Link to this definition"></a></dt>
+<dd><p>是否有游戏</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.GEO">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">GEO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.GEO" title="Link to this definition"></a></dt>
+<dd><p>是否有位置 (GeoPoint media)</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.INVOICE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">INVOICE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.INVOICE" title="Link to this definition"></a></dt>
+<dd><p>是否有发票</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.POLL">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">POLL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.POLL" title="Link to this definition"></a></dt>
+<dd><p>是否有投票</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.VENUE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">VENUE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.VENUE" title="Link to this definition"></a></dt>
+<dd><p>是否有 MessageMediaVenue</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.DICE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">DICE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.DICE" title="Link to this definition"></a></dt>
+<dd><p>是否有 MessageMediaDice, 骰子</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.VIA_BOT">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">VIA_BOT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.VIA_BOT" title="Link to this definition"></a></dt>
+<dd><p>是否来自机器人</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.BUTTON">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">BUTTON</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.BUTTON" title="Link to this definition"></a></dt>
+<dd><p>是否有按钮</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.REPLY">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">REPLY</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.REPLY" title="Link to this definition"></a></dt>
+<dd><p>是否回复某消息</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.FORWARD">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">FORWARD</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.FORWARD" title="Link to this definition"></a></dt>
+<dd><p>是否是转发消息</p>
 </dd></dl>
 
 </section>

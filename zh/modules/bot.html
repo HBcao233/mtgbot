@@ -19,6 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="config 模块" href="config.html" />
     <link rel="prev" title="main 模块" href="main.html" /> 
 </head>
 
@@ -44,15 +45,26 @@
               <p class="caption" role="heading"><span class="caption-text">第一步</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Mtgbot 文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">快速上手</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">模块</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="main.html">main 模块</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">bot 模块</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bot.Bot"><code class="docutils literal notranslate"><span class="pre">Bot</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bot.Bot.request_callback"><code class="docutils literal notranslate"><span class="pre">Bot.request_callback()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bot.Bot.schedule_decorator"><code class="docutils literal notranslate"><span class="pre">Bot.schedule_decorator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bot.Bot.schedule"><code class="docutils literal notranslate"><span class="pre">Bot.schedule()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bot.Bot.schedule_delete_messages"><code class="docutils literal notranslate"><span class="pre">Bot.schedule_delete_messages()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">config 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plugin.html">plugin 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filters.html">filters 模块</a></li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">util 包</a></li>
-<li class="toctree-l1"><a class="reference internal" href="main.html">main 模块</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">bot 模块</a></li>
 </ul>
 
         </div>
@@ -79,8 +91,65 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="bot">
-<h1>bot 模块<a class="headerlink" href="#bot" title="Link to this heading"></a></h1>
+  <section id="module-bot">
+<span id="bot"></span><h1>bot 模块<a class="headerlink" href="#module-bot" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="bot.Bot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bot.</span></span><span class="sig-name descname"><span class="pre">Bot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">session:</span> <span class="pre">typing.Union[str,</span> <span class="pre">pathlib.Path,</span> <span class="pre">Session],</span> <span class="pre">api_id:</span> <span class="pre">int,</span> <span class="pre">api_hash:</span> <span class="pre">str,</span> <span class="pre">*,</span> <span class="pre">connection:</span> <span class="pre">typing.Type[Connection]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'telethon.network.connection.tcpfull.ConnectionTcpFull'&gt;,</span> <span class="pre">use_ipv6:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">proxy:</span> <span class="pre">tuple</span> <span class="pre">|</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">local_addr:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">tuple</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">timeout:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">10,</span> <span class="pre">request_retries:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">5,</span> <span class="pre">connection_retries:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">5,</span> <span class="pre">retry_delay:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">auto_reconnect:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">sequential_updates:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">flood_sleep_threshold:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">60,</span> <span class="pre">raise_last_call_error:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">device_model:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">system_version:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">app_version:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">lang_code:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'en',</span> <span class="pre">system_lang_code:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'en',</span> <span class="pre">loop:</span> <span class="pre">~asyncio.events.AbstractEventLoop</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">base_logger:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">~logging.Logger</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">receive_updates:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">catch_up:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">entity_cache_limit:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">5000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.Bot" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">TelegramClient</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bot.Bot.request_callback">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">request_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.Bot.request_callback" title="Link to this definition"></a></dt>
+<dd><p>请求回调</p>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">bot(functions.XXX)</span></code> (<code class="docutils literal notranslate"><span class="pre">bot.__call__</span></code>) 向telegram发送 Request 后做后续处理 (如记录发送消息id, debug记录所有请求)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bot.Bot.schedule_decorator">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">schedule_decorator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.Bot.schedule_decorator" title="Link to this definition"></a></dt>
+<dd><p>计划任务装饰器</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bot.Bot.schedule">
+<span class="sig-name descname"><span class="pre">schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.Bot.schedule" title="Link to this definition"></a></dt>
+<dd><p>设置计划任务</p>
+<dl>
+<dt>Arguments</dt><dd><dl>
+<dt>time (<cite>int</cite>):</dt><dd><p>延迟时间</p>
+</dd>
+<dt>func (<cite>callable</cite>):</dt><dd><p>执行函数</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>非异步函数传参请用: functools.partial(func, *args, **kwargs)</p>
+</div>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bot.Bot.schedule_delete_messages">
+<span class="sig-name descname"><span class="pre">schedule_delete_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PeerUser</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PeerChat</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PeerChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerEmpty</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerSelf</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerChat</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerUser</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerUserFromMessage</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputPeerChannelFromMessage</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">User</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Chat</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Channel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UserFull</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChatFull</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChatFull</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ChannelFull</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Message</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageReplyTo</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessagePinned</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageCallbackQuery</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Message</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageReplyTo</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessagePinned</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">InputMessageCallbackQuery</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">revoke</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.Bot.schedule_delete_messages" title="Link to this definition"></a></dt>
+<dd><p>计划删除消息</p>
+<dl class="simple">
+<dt>Arguments</dt><dd><dl class="simple">
+<dt>time (<cite>int</cite>):</dt><dd><p>延迟时间</p>
+</dd>
+<dt>entity (<cite>hints.EntityLike</cite>):</dt><dd><p>指定实体 一般为 peer</p>
+</dd>
+<dt>message_ids (<cite>typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]</cite>):</dt><dd><p>消息id列表</p>
+</dd>
+<dt>revoke (<cite>bool</cite>):</dt><dd><p>是否为对方也删除, 默认为 True</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -88,6 +157,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
         <a href="main.html" class="btn btn-neutral float-left" title="main 模块" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="config.html" class="btn btn-neutral float-right" title="config 模块" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

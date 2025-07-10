@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>filters module &mdash; mtgbot 0.1.0 documentation</title>
+  <title>filters Module &mdash; mtgbot 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="util package" href="util.html" />
-    <link rel="prev" title="plugin module" href="plugin.html" /> 
+    <link rel="next" title="util Package" href="util.html" />
+    <link rel="prev" title="plugin Module" href="plugin.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,25 +42,55 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">第一步</span></p>
+              <p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Mtgbot Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Modules</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="config.html">config module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plugin.html">plugin module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">filters module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#filters.Command"><code class="docutils literal notranslate"><span class="pre">Command()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bot.html">bot Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">config Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin.html">plugin Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">filters Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#filters.Filter"><code class="docutils literal notranslate"><span class="pre">Filter</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#filters.Filter.filter"><code class="docutils literal notranslate"><span class="pre">Filter.filter()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.Command"><code class="docutils literal notranslate"><span class="pre">Command()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.PRIVATE"><code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.CHANNEL"><code class="docutils literal notranslate"><span class="pre">CHANNEL</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.GROUP"><code class="docutils literal notranslate"><span class="pre">GROUP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.TEXT"><code class="docutils literal notranslate"><span class="pre">TEXT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.MEDIA"><code class="docutils literal notranslate"><span class="pre">MEDIA</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.PHOTO"><code class="docutils literal notranslate"><span class="pre">PHOTO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.DOCUMENT"><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.FILE"><code class="docutils literal notranslate"><span class="pre">FILE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.ONLYTEXT"><code class="docutils literal notranslate"><span class="pre">ONLYTEXT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.COMMAND"><code class="docutils literal notranslate"><span class="pre">COMMAND</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.WEB_PREVIEW"><code class="docutils literal notranslate"><span class="pre">WEB_PREVIEW</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.AUDIO"><code class="docutils literal notranslate"><span class="pre">AUDIO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.VOICE"><code class="docutils literal notranslate"><span class="pre">VOICE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.VIDEO"><code class="docutils literal notranslate"><span class="pre">VIDEO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.VIDEO_NOTE"><code class="docutils literal notranslate"><span class="pre">VIDEO_NOTE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.GIF"><code class="docutils literal notranslate"><span class="pre">GIF</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.STICKER"><code class="docutils literal notranslate"><span class="pre">STICKER</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.CONTACT"><code class="docutils literal notranslate"><span class="pre">CONTACT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.GAME"><code class="docutils literal notranslate"><span class="pre">GAME</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.GEO"><code class="docutils literal notranslate"><span class="pre">GEO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.INVOICE"><code class="docutils literal notranslate"><span class="pre">INVOICE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.POLL"><code class="docutils literal notranslate"><span class="pre">POLL</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.VENUE"><code class="docutils literal notranslate"><span class="pre">VENUE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.DICE"><code class="docutils literal notranslate"><span class="pre">DICE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.VIA_BOT"><code class="docutils literal notranslate"><span class="pre">VIA_BOT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.BUTTON"><code class="docutils literal notranslate"><span class="pre">BUTTON</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.REPLY"><code class="docutils literal notranslate"><span class="pre">REPLY</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters.FORWARD"><code class="docutils literal notranslate"><span class="pre">FORWARD</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="util.html">util package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bot.html">bot module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">util Package</a></li>
 </ul>
 
         </div>
@@ -77,7 +107,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">filters module</li>
+      <li class="breadcrumb-item active">filters Module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/modules/filters.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -88,22 +118,218 @@
            <div itemprop="articleBody">
              
   <section id="module-filters">
-<span id="filters"></span><h1>filters module<a class="headerlink" href="#module-filters" title="Link to this heading"></a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="filters.Command">
-<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">Command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></span></span><a class="headerlink" href="#filters.Command" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
+<span id="filters"></span><h1>filters Module<a class="headerlink" href="#module-filters" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="filters.Filter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">Filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#filters.Filter" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">Filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#filters.Filter" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>过滤器</p>
+<p>Event Filter</p>
+<dl>
+<dt>Can operations with the same class instance:</dt><dd><ul class="simple">
+<li><p>NOT operation <code class="docutils literal notranslate"><span class="pre">~</span> <span class="pre">Filter</span></code></p></li>
+<li><p>AND operation <code class="docutils literal notranslate"><span class="pre">Filter</span> <span class="pre">&amp;</span> <span class="pre">Filter</span></code></p></li>
+<li><p>OR operation <code class="docutils literal notranslate"><span class="pre">Filter</span> <span class="pre">|</span> <span class="pre">Filter</span></code></p></li>
+<li><p>XOR operation <code class="docutils literal notranslate"><span class="pre">Filter</span> <span class="pre">^</span> <span class="pre">Filter</span></code></p></li>
+</ul>
+</dd>
+<dt>Arguments</dt><dd><dl>
+<dt>value (<cite>Callable[[Any], bool]</cite>):</dt><dd><p>filtering function</p>
+<p>Arguments must be <code class="docutils literal notranslate"><span class="pre">event</span></code>, and returns is bool</p>
+</dd>
+</dl>
+</dd>
+<dt>Members</dt><dd><dl>
+<dt>value (<cite>Callable[[Any], bool]</cite>):</dt><dd><p>filtering function</p>
+<p>Arguments must be <code class="docutils literal notranslate"><span class="pre">event</span></code>, and returns is bool</p>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="filters.Filter.filter">
 <span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#filters.Filter.filter" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Run the filtering function to filter event.</p>
+</dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="filters.Command">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">Command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></span></span><a class="headerlink" href="#filters.Command" title="Link to this definition"></a></dt>
+<dd><p>Return a Filter which can filter the specified command</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cmd</strong> (<cite>str</cite>) – Command’s name</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.PRIVATE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">PRIVATE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.PRIVATE" title="Link to this definition"></a></dt>
+<dd><p>filter private</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.CHANNEL">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">CHANNEL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.CHANNEL" title="Link to this definition"></a></dt>
+<dd><p>filter channel</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.GROUP">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">GROUP</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.GROUP" title="Link to this definition"></a></dt>
+<dd><p>filter group</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.TEXT">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">TEXT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.TEXT" title="Link to this definition"></a></dt>
+<dd><p>filter has text</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.MEDIA">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">MEDIA</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.MEDIA" title="Link to this definition"></a></dt>
+<dd><p>filter has media</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.PHOTO">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">PHOTO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.PHOTO" title="Link to this definition"></a></dt>
+<dd><p>filter has photo</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.DOCUMENT">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">DOCUMENT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.DOCUMENT" title="Link to this definition"></a></dt>
+<dd><p>filter has document</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.FILE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">FILE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.FILE" title="Link to this definition"></a></dt>
+<dd><p>filter has file</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.ONLYTEXT">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">ONLYTEXT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.ONLYTEXT" title="Link to this definition"></a></dt>
+<dd><p>filter only text (has text but no file)</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.COMMAND">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">COMMAND</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.COMMAND" title="Link to this definition"></a></dt>
+<dd><p>filter command</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.WEB_PREVIEW">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">WEB_PREVIEW</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.WEB_PREVIEW" title="Link to this definition"></a></dt>
+<dd><p>filter has web preview</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.AUDIO">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">AUDIO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.AUDIO" title="Link to this definition"></a></dt>
+<dd><p>filter has audio</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.VOICE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">VOICE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.VOICE" title="Link to this definition"></a></dt>
+<dd><p>filter has has voice</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.VIDEO">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">VIDEO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.VIDEO" title="Link to this definition"></a></dt>
+<dd><p>filter has video</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.VIDEO_NOTE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">VIDEO_NOTE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.VIDEO_NOTE" title="Link to this definition"></a></dt>
+<dd><p>filter has video_note</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.GIF">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">GIF</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.GIF" title="Link to this definition"></a></dt>
+<dd><p>filter has gif</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.STICKER">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">STICKER</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.STICKER" title="Link to this definition"></a></dt>
+<dd><p>filter has sticker</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.CONTACT">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">CONTACT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.CONTACT" title="Link to this definition"></a></dt>
+<dd><p>filter has contact</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.GAME">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">GAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.GAME" title="Link to this definition"></a></dt>
+<dd><p>filter has game</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.GEO">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">GEO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.GEO" title="Link to this definition"></a></dt>
+<dd><p>filter has GeoPoint media</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.INVOICE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">INVOICE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.INVOICE" title="Link to this definition"></a></dt>
+<dd><p>filter has invoice</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.POLL">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">POLL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.POLL" title="Link to this definition"></a></dt>
+<dd><p>filter has poll</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.VENUE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">VENUE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.VENUE" title="Link to this definition"></a></dt>
+<dd><p>filter has MessageMediaVenue</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.DICE">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">DICE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.DICE" title="Link to this definition"></a></dt>
+<dd><p>filter has MessageMediaDice</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.VIA_BOT">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">VIA_BOT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.VIA_BOT" title="Link to this definition"></a></dt>
+<dd><p>filter whether sent from bot</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.BUTTON">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">BUTTON</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.BUTTON" title="Link to this definition"></a></dt>
+<dd><p>filter whether has buttons</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.REPLY">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">REPLY</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.REPLY" title="Link to this definition"></a></dt>
+<dd><p>filter whether is reply to a message</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="filters.FORWARD">
+<span class="sig-prename descclassname"><span class="pre">filters.</span></span><span class="sig-name descname"><span class="pre">FORWARD</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#filters.Filter" title="filters.Filter"><span class="pre">Filter</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;filters.Filter</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#filters.FORWARD" title="Link to this definition"></a></dt>
+<dd><p>filter whether is a forward message</p>
 </dd></dl>
 
 </section>
@@ -112,8 +338,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="plugin.html" class="btn btn-neutral float-left" title="plugin module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="util.html" class="btn btn-neutral float-right" title="util package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="plugin.html" class="btn btn-neutral float-left" title="plugin Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="util.html" class="btn btn-neutral float-right" title="util Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
