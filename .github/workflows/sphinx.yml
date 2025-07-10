@@ -23,6 +23,7 @@ jobs:
         python -m pip install -r requirements.txt
         sphinx-build -D language='zh' -b html source build/zh
         sphinx-build -D language='en' -b html source build/en
+        cp index.html build/
     
     - name: Upload docs
       uses: actions/upload-artifact@v4

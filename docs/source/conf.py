@@ -31,7 +31,11 @@ language = 'zh'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.githubpages']
+extensions = [
+  'sphinx.ext.autodoc', 
+  'sphinx.ext.githubpages',
+  'sphinx.ext.napoleon',
+]
 
 html_theme = 'sphinx_rtd_theme'
 

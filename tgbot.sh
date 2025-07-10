@@ -50,7 +50,7 @@ choose() {
   control_text=""
   index=0
   show 
-  echo -n '请输入: 0'
+  echo -n '请输入序号: 0'
   while IFS= read -s -n 1 char; do
     if [[ "$char" == $'\x08' ]] || [[ "$char" == $'\x7f' ]]; then
       text="${text%?}"
@@ -218,7 +218,7 @@ case $action in
     ps aux | grep python | grep -v grep
     ;;
   *)
-    echo "Usage: $0 start|stop|status|log"
+    echo "Usage: $0 <status|start|stop|restart|log|ps>"
     exit 1
 esac
 exit 0
