@@ -3,9 +3,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Python Module Index &mdash; mtgbot 0.1.0 documentation</title>
+  <title>安装 &mdash; mtgbot 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -17,14 +18,7 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
- 
-
-    <script>
-      DOCUMENTATION_OPTIONS.COLLAPSE_INDEX = true;
-    </script>
-
-
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -74,8 +68,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Python Module Index</li>
+      <li class="breadcrumb-item active">安装</li>
       <li class="wy-breadcrumbs-aside">
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,32 +78,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-
-   <h1>Python Module Index</h1>
-
-   <div class="modindex-jumpbox">
-   <a href="#cap-c"><strong>c</strong></a> | 
-   <a href="#cap-f"><strong>f</strong></a>
-   </div>
-
-   <table class="indextable modindextable">
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-c"><td></td><td>
-       <strong>c</strong></td><td></td></tr>
-     <tr>
-       <td></td>
-       <td>
-       <a href="modules/config.html#module-config"><code class="xref">config</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-f"><td></td><td>
-       <strong>f</strong></td><td></td></tr>
-     <tr>
-       <td></td>
-       <td>
-       <a href="modules/filters.html#module-filters"><code class="xref">filters</code></a></td><td>
-       <em></em></td></tr>
-   </table>
+  <section id="id1">
+<h1>安装<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>1. 克隆仓库并安装依赖
+.. code-block:: bash</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">linenos<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>git clone <a class="reference external" href="https://github.com/HBcao233/mtgbot">https://github.com/HBcao233/mtgbot</a>
+python -m pip install -r requirement.txt</p>
+<p># 安装 ffmpeg (推荐)
+pkg install ffmpeg
+yum install ffmpeg</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>覆盖 telethon 部分文件, 以实现如 解析&lt;blockquote expandable&gt;&lt;/blockquote&gt; 等功能</p></li>
+</ol>
+</section>
 
 
            </div>

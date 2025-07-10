@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; mtgbot 0.1.0 文档</title>
+  <title>安装 &mdash; mtgbot 0.1.0 文档</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -68,9 +68,9 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="breadcrumb-item active">安装</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/modules.rst.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="_sources/installation.rst.txt" rel="nofollow"> 查看页面源码</a>
       </li>
   </ul>
   <hr/>
@@ -78,8 +78,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="toctree-wrapper compound">
-</div>
+  <section id="id1">
+<h1>安装<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>1. 克隆仓库并安装依赖
+.. code-block:: bash</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">linenos<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>git clone <a class="reference external" href="https://github.com/HBcao233/mtgbot">https://github.com/HBcao233/mtgbot</a>
+python -m pip install -r requirement.txt</p>
+<p># 安装 ffmpeg (推荐)
+pkg install ffmpeg
+yum install ffmpeg</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>覆盖 telethon 部分文件, 以实现如 解析&lt;blockquote expandable&gt;&lt;/blockquote&gt; 等功能</p></li>
+</ol>
+</section>
 
 
            </div>

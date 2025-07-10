@@ -3,9 +3,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Python Module Index &mdash; mtgbot 0.1.0 documentation</title>
+  <title>快速上手 &mdash; mtgbot 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -17,14 +18,7 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
- 
-
-    <script>
-      DOCUMENTATION_OPTIONS.COLLAPSE_INDEX = true;
-    </script>
-
-
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -74,8 +68,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Python Module Index</li>
+      <li class="breadcrumb-item active">快速上手</li>
       <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quick_start.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,32 +78,57 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-
-   <h1>Python Module Index</h1>
-
-   <div class="modindex-jumpbox">
-   <a href="#cap-c"><strong>c</strong></a> | 
-   <a href="#cap-f"><strong>f</strong></a>
-   </div>
-
-   <table class="indextable modindextable">
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-c"><td></td><td>
-       <strong>c</strong></td><td></td></tr>
-     <tr>
-       <td></td>
-       <td>
-       <a href="modules/config.html#module-config"><code class="xref">config</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-f"><td></td><td>
-       <strong>f</strong></td><td></td></tr>
-     <tr>
-       <td></td>
-       <td>
-       <a href="modules/filters.html#module-filters"><code class="xref">filters</code></a></td><td>
-       <em></em></td></tr>
-   </table>
+  <section id="id1">
+<h1>快速上手<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>最快速上手 mtgbot 只需两步
+1. 创建 xxxbot/.env
+2. 使用 tgbot脚本 或 Docker  启动bot</p>
+<section id="env">
+<h2>创建 .env<a class="headerlink" href="#env" title="Link to this heading"></a></h2>
+<p>创建 <code class="docutils literal notranslate"><span class="pre">xxxbot/.env</span></code>, 例如:</p>
+</section>
+<section id="tgbot">
+<h2>tgbot 脚本运行 (推荐)<a class="headerlink" href="#tgbot" title="Link to this heading"></a></h2>
+<p>运行 <code class="docutils literal notranslate"><span class="pre">tgbot.sh/tgbot.ps1</span> <span class="pre">start</span> <span class="pre">xxxbot</span></code> 即可</p>
+</section>
+<section id="docker">
+<h2>Docker 运行 (备选)<a class="headerlink" href="#docker" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>修改 <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code></p></li>
+</ol>
+<p>2. 使用 docker-compose 命令运行
+.. code-block:: bash</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">linenos<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p># 构建镜像并运行
+docker-compose build &amp;&amp; docker-compose up -d</p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>如果只修改 python 代码可以直接 docker restart 重启
+如果修改了 .env, requirement.txt 或 libs 文件夹等 docker 加载内容,
+则需要进入项目目录 docker compose build &amp;&amp; docker compose up -d 重新构建镜像</p>
+</div>
+<p>3. docker 常用命令
+.. code-block:: bash</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">linenos<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p># 重启
+docker restart &lt;container_name&gt;
+# 查看运行日志
+docker logs &lt;container_name&gt; –tail 50</p>
+</div></blockquote>
+</section>
+<section id="python">
+<h2>python 直接运行 (不推荐)<a class="headerlink" href="#python" title="Link to this heading"></a></h2>
+</section>
+</section>
 
 
            </div>

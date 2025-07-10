@@ -41,7 +41,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">First Steps</span></p>
+              <p class="caption" role="heading"><span class="caption-text">第一步</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Mtgbot Documentation</a></li>
 </ul>
@@ -82,19 +82,27 @@
   <section id="mtgbot">
 <h1>Mtgbot Documentation<a class="headerlink" href="#mtgbot" title="Link to this heading"></a></h1>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nd">@handler</span><span class="p">(</span>
-<span class="linenos">2</span>   <span class="s1">&#39;ping&#39;</span><span class="p">,</span>
-<span class="linenos">3</span>   <span class="n">pattern</span><span class="o">=</span><span class="n">_pattern</span><span class="p">,</span>
-<span class="linenos">4</span>   <span class="n">info</span><span class="o">=</span><span class="s1">&#39;/ping ping! pong!&#39;</span><span class="p">,</span>
-<span class="linenos">5</span>   <span class="nb">filter</span><span class="o">=</span><span class="n">filters</span><span class="o">.</span><span class="n">PRIVATE</span> <span class="o">|</span> <span class="n">filters</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="s1">&#39;ping&#39;</span><span class="p">),</span>
-<span class="linenos">6</span><span class="p">)</span>
-<span class="linenos">7</span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ping</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-<span class="linenos">8</span>   <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s1">&#39;pong!&#39;</span><span class="p">)</span>
+<span class="linenos">2</span>  <span class="s1">&#39;hello&#39;</span><span class="p">,</span>
+<span class="linenos">3</span>  <span class="n">info</span><span class="o">=</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">,</span>
+<span class="linenos">4</span><span class="p">)</span>
+<span class="linenos">5</span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_hello</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+<span class="linenos">6</span>  <span class="k">await</span> <span class="n">event</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<ul class="simple">
+<li><p>第一次使用? 跳转 <span class="xref std std-ref">installation</span></p></li>
+<li><p>需要 Telethon 文档? <a class="reference external" href="https://docs.telethon.dev/">https://docs.telethon.dev/</a></p></li>
+<li><p>Telethon Bot 对比 HTTP Bot Api 的优势? 见 <a class="reference external" href="https://docs.telethon.dev/en/stable/concepts/botapi-vs-mtproto.html#botapi">HTTP Bot API vs MTProto</a></p></li>
+</ul>
+<section id="id1">
+<h2>这是什么?<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>mtgbot 是一个基于 <a class="reference external" href="https://github.com/LonamiWebs/Telethon">Telethon</a> 的、轻量化的 Telegram 机器人框架。 致力于用最简单的方式开发复杂机器人</p>
+<p>是否厌倦了繁文缛节的 Nonebot 2, 是否看不惯反人类的依赖注入机制, 来试试轻量化的机器人框架 Mtgbot 吧</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
 </div>
+</section>
 </section>
 
 
