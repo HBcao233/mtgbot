@@ -11,7 +11,7 @@
   ◆
   <a href="https://deepwiki.com/HBcao233/mtgbot">DeepWiki</a>
   ◆
-  <a href="https://hbcao233.github.io/mtgbot/zh/">文档</a>
+  <a href="https://mtgbot.readthedocs.io">文档</a>
   <br/>
   <a href="https://docs.telethon.dev">Telethon 文档</a>
   ◆
@@ -111,7 +111,7 @@ tgbot.ps1 <start|restart|stop|status|log>
 ## 开发 Development
 一个最简单 Hello World 插件 belike
 
-更多指南详见 <a href="https://hbcao233.github.io/mtgbot/zh/">文档</a>
+更多指南详见 <a href="https://mtgbot.readthedocs.io">文档</a>
 ```
 from plugin import Command
 
