@@ -9,9 +9,11 @@
 <p align="center">
   <a href="https://github.com/HBcao233/mtgbot-plugins">Plugins</a>
   ◆
-  <a href="https://deepwiki.com/HBcao233/mtgbot">DeepWiki</a>
+  <a href="https://mtgbot.readthedocs.io">文档 (zh/en)</a>
+  <br/>
+  <a href="https://deepwiki.com/HBcao233/mtgbot">DeepWiki (en)</a>
   ◆
-  <a href="https://mtgbot.readthedocs.io">文档</a>
+  <a href="https://opendeep.wiki/HBcao233/mtgbot">OpenDeepWiki (zh)</a>
   <br/>
   <a href="https://docs.telethon.dev">Telethon 文档</a>
   ◆
