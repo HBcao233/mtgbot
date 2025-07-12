@@ -1,4 +1,5 @@
 from typing import Callable
+import config
 
 
 class Filter:
@@ -125,3 +126,5 @@ BUTTON: Filter = Filter(lambda event: event.message.buttons)
 REPLY: Filter = Filter(lambda event: event.message.is_reply)
 #: 是否是转发消息
 FORWARD: Filter = Filter(lambda event: event.message.forward)
+
+SUPERADMIN: Filter = Filter(lambda event: event.chat_id in config.superadmin)

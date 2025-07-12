@@ -14,7 +14,7 @@ default_api_hash = '014b35b6184100b085b0d0572f9b5103'
 #: Bot 实例
 #: 
 #: :meta hide-value:
-bot: 'Bot' = None
+bot: 'Bot'
 
 #: mtgbot 根目录
 #:

@@ -67,7 +67,22 @@ mtgbot
 * [@hbcao2bot](https://t.me/hbcao2bot)
 
 ## 使用 Usage
-Docker 运行
+tgbot 脚本运行 (推荐)
+```
+# 查看包安装目录 (显示信息中的 Location 项)
+pip show telethon
+# 复制覆盖 telethon 依赖库, 修改部分文件以实现如 解析<blockquote expandable></blockquote> 等功能
+cp -r libs/telethon <site-package-location>
+
+
+# 参数运行 tgbot.sh 可以选择操作
+tgbot.sh [status|start|restart|stop|log|ps] [botname]
+
+# 需要 Powershell 7 
+tgbot.ps1 <start|restart|stop|status|log>
+```
+
+Docker 运行 (备选方案)
 ```
 # 1.克隆仓库或手动下载
 git clone https://github.com/HBcao233/mtgbot
@@ -95,20 +110,10 @@ docker restart tgbot2
 docker logs mtgbot --tail 50
 ```
 
-启动脚本运行
-```
-# 查看包安装目录 (显示信息中的 Location 项)
-pip show telethon
-# 复制覆盖 telethon 依赖库, 修改部分文件以实现如 解析<blockquote expandable></blockquote> 等功能
-cp -r libs/telethon <site-package-location>
+## 插件热重载 (v1.1 新增功能)
 
+在 `.env` 中配置 `superadmin` 项后, 可在机器人输入 `/reload` 重载插件及环境变量
 
-# 参数运行 tgbot.sh 可以选择操作
-tgbot.sh [status|start|restart|stop|log|ps] [botname]
-
-# 需要 Powershell 7 
-tgbot.ps1 <start|restart|stop|status|log>
-```
 
 ## 开发 Development
 一个最简单 Hello World 插件 belike

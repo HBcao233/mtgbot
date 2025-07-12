@@ -6,6 +6,7 @@ import inspect
 import functools
 import asyncio
 import logging
+import importlib
 
 import config
 import filters
@@ -129,7 +130,7 @@ class Scope(object):
     """
     所有superadmin (请在 .env 中配置 superadmin 项, 可以为一个数字或以半角逗号 "," 隔开的id列表)
     """
-    return ScopeList([Scope.user(i) for i in config.superadmin])
+    return ScopeList([Scope.chat(i) for i in config.superadmin])
 
 
 class ScopeList(list):
@@ -201,7 +202,7 @@ class Command:
     pattern (`str` | `re.Pattern` | `callable`):
       正则表达式
       
-      默认值: re.compile(r'^/' + self.cmd + '.*').match
+      默认值: re.compile(r'^/' + self.cmd + '( .*)?$').match
     
     enable (`callable` | `bool`):
       是否启用
@@ -240,7 +241,7 @@ class Command:
 
     self.cmd: str = cmd
     if pattern is None and self.cmd:
-      pattern = r'^/' + self.cmd + '.*'
+      pattern = r'^/' + re.escape(self.cmd) + '( .*)?$'
     if isinstance(pattern, str):
       pattern = re.compile(pattern).match
     elif isinstance(pattern, re.Pattern):
@@ -409,6 +410,7 @@ class Setting:
 
 
 load_logger = logging.getLogger('mtgbot.plugin.load')
+modules = {}
 
 
 def load_plugin(name):
@@ -419,7 +421,8 @@ def load_plugin(name):
   :meta private:
   """
   try:
-    __import__(name, fromlist=[])
+    module = importlib.import_module(name)
+    modules[name] = module
     load_logger.info(f'Success to load plugin "{name}"')
   except Exception:
     load_logger.warning('Error to load plugin "' + name + '"', exc_info=1)
@@ -447,6 +450,55 @@ def load_plugins():
     load_plugin(
       f'{config.bot_home + "." if config.bot_home else ""}plugins.{m.group(1)}'
     )
+
+
+def reload_plugin(module):
+  """
+  重新加载指定名称的插件
+  一般不在插件开发中使用
+  
+  :meta private:
+  """
+  try:
+    importlib.reload(module)
+    load_logger.info(f'Success to reload plugin "{module.__name__}"')
+  except ModuleNotFoundError:
+    try:
+      del modules[module.__name__]
+    except KeyError:
+      pass
+    load_logger.warning(f'Error to reload plugin "{module.__name__}": Module Not Found.')
+  except Exception:
+    load_logger.warning(f'Error to reload plugin "{module.__name__}"', exc_info=1)
+
+
+def reload_plugins():
+  """
+  重新加载所有插件
+  一般不在插件开发中使用
+  
+  :meta private:
+  """
+  for i in list(modules.values()):
+    reload_plugin(i)
+  
+  # 检测有无新增插件
+  dirpath = os.path.join(config.botHome, 'plugins')
+  for name in os.listdir(dirpath):
+    path = os.path.join(dirpath, name)
+    if os.path.isfile(path) and (name.startswith('_') or not name.endswith('.py')):
+      continue
+    if os.path.isdir(path) and (
+      name.startswith('_') or not os.path.exists(os.path.join(path, '__init__.py'))
+    ):
+      continue
+    m = re.match(r'([_A-Z0-9a-z]+)(.py)?', name)
+    if not m:
+      continue
+    name = f'{config.bot_home + "." if config.bot_home else ""}plugins.{m.group(1)}'
+    if name in modules.keys():
+      continue
+    load_plugin(name)
 
 
 def import_plugin(name):

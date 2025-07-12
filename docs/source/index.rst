@@ -5,7 +5,9 @@ Mtgbot 文档
 .. code-block:: python
   :linenos:
 
-  @handler(
+  from plugin import Command
+  
+  @Command(
     'hello',
     info='Hello World!',
   )
