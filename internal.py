@@ -399,6 +399,9 @@ async def _init():
 
   if commands.get(Scope.private()) is None:
     commands[Scope.private()] = commands[Scope.all()]
+  # 超管私聊命令补偿
+  for i in config.superadmin:
+    commands[Scope.chat(i)].update(commands[Scope.private()])
   if commands.get(Scope.chats()) is None:
     commands[Scope.chats()] = commands[Scope.all()]
   if commands.get(Scope.chat_admins()) is None:

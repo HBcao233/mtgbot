@@ -241,7 +241,7 @@ class Command:
 
     self.cmd: str = cmd
     if pattern is None and self.cmd:
-      pattern = r'^/' + re.escape(self.cmd) + '( .*)?$'
+      pattern = r'^/' + re.escape(self.cmd) + '(@' + re.escape(config.bot.me.username) + ')?( .*)?$'
     if isinstance(pattern, str):
       pattern = re.compile(pattern).match
     elif isinstance(pattern, re.Pattern):
