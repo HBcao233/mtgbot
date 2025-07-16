@@ -7,8 +7,10 @@ from .string import (
 
 from .file import (
   getFile,
+  getResourceFile,
   getResource,
   getDataFile,
+  getCacheFile,
   getCache,
 )
 
