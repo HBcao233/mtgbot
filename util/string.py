@@ -70,12 +70,12 @@ widths = [
 
 def multiple_replace(text, d: Mapping[str, str]):
   """
-  多个替换 
-  
+  多个替换
+
   Arguments
-    text (`str`): 
+    text (`str`):
       需要替换的文本
-      
+
     d (`Mapping[str, str]`):
       替换字典, 将出现的key替换为value
   """
@@ -143,7 +143,7 @@ def randStr(length: int = 8) -> str:
   随机字符串
 
   Arguments
-      length (`int`): 
+      length (`int`):
         字符串长度, 默认为 8
 
   Returns
@@ -163,11 +163,11 @@ def md5sum(
   计算字符串或文件的 md5 值
 
   Arguments
-      string (`str`): 
+      string (`str`):
         字符串（三选一）
-      byte (`bytes`): 
+      byte (`bytes`):
         bytes（三选一）
-      file_path (`str`): 
+      file_path (`str`):
         文件路径（三选一）
 
   Returns
@@ -189,7 +189,7 @@ def md5sum(
 def char_width(o: int) -> int:
   """
   返回 Unicode 十进制序号对应字符的屏幕宽度
-  
+
   Return the screen column width for unicode ordinal o.
   """
   global widths
@@ -214,22 +214,23 @@ def str_width(s: str) -> int:
 class Options:
   """
   解析命令选项, 将text用空格打散后查找是否有期待字符串
-  
+
   如 Options('/pid mask', mark=('spoiler', '遮罩'), hide='') -> Options(mark=True, hide=False)
-  
+
   Arguments
     text (`str`):
-      解析文本 
-      
+      解析文本
+
     args (`Mapping[str, Union[str, Sequence[str]]]`):
       期待字符串
-      
+
       以下情况 Options.aaa=True
-      
+
       - ``aaa=''``: 出现 'aaa'
       - ``aaa='bbb'``: 出现 'aaa' 或 'bbb'
       - ``aaa=('bbb', 'ccc')``: 出现 'aaa', 'bbb', 'ccc' 其中之一
   """
+
   def __init__(self, text: str, **args: Mapping[str, Union[str, Sequence[str]]]):
     self.text = text
     self.args = args
@@ -252,11 +253,11 @@ class Options:
 
   def __iter__(self):
     return iter(self.args)
-    
+
   def get(self, key):
     """返回指定key的属性值"""
     return key in self._options
-    
+
   def keys(self):
     """返回所有属性名"""
     return self.args.keys()

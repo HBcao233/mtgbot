@@ -12,11 +12,11 @@ from .log import logger
 def getData(file: str) -> dict:
   """
   读取 ``data/{file}.json`` 文件, 并将其转为字典数据
-  
+
   Arguments
     file (`str`):
       文件名
-  
+
   Returns
     dict: 字典数据
   """
@@ -34,13 +34,13 @@ def getData(file: str) -> dict:
 def setData(file: str, data: dict):
   """
   将字典数据转为json存入 ``data/{file}.json`` 文件
-  
+
   Arguments
     file (`str`):
-      文件名 
-    
+      文件名
+
     data (`dict`):
-      字典数据 
+      字典数据
   """
   with open(getDataFile(f'{file}.json'), 'w') as f:
     json.dumps(data, f, indent=2)
@@ -49,14 +49,15 @@ def setData(file: str, data: dict):
 class Data(object):
   """
   读取 ``data/{file}.json`` 文件, 并将其转为 方便py存取的格式
-  
+
   .. code-block:: python
-    
+
     with Data('urls') as data:
       print(data['xxx'])
       print(data.get('xxx'))
       data['xxx'] = 'yyy'
   """
+
   def __init__(self, file: str):
     self.file = file
     self.data = getData(file)
@@ -69,13 +70,13 @@ class Data(object):
 
   def __len__(self):
     return len(self.data)
-  
+
   def save(self):
     """
     保存数据
     """
     setData(self.file, self.data)
-  
+
   @staticmethod
   def value_to_json(v):
     return v
@@ -119,7 +120,7 @@ class Photos(Data):
   """
   保存已发送至 Telegram 的图片 file_id
   """
-  
+
   def __init__(self):
     super().__init__('photos')
 
@@ -154,7 +155,7 @@ class Documents(Data):
   """
   保存已发送至 Telegram 的文档 file_id
   """
-  
+
   def __init__(self, file='documents'):
     super().__init__(file)
 
@@ -187,18 +188,21 @@ class Documents(Data):
 
 class Videos(Documents):
   """保存已发送至 Telegram 的视频 file_id"""
+
   def __init__(self):
     super().__init__('videos')
 
 
 class Animations(Documents):
   """保存已发送至 Telegram 的动画 file_id"""
+
   def __init__(self):
     super().__init__('animations')
 
 
 class Audios(Documents):
   """保存已发送至 Telegram 的音频 file_id"""
+
   def __init__(self):
     super().__init__('audios')
 
@@ -207,6 +211,7 @@ class Settings(Data):
   """
   保存机器人设置
   """
+
   class Unset:
     pass
 
@@ -229,7 +234,7 @@ class Settings(Data):
 def namedtuple_factory(cursor, row):
   """
   SQLite 命名数组工厂
-  
+
   :meta private:
   """
   fields = [column[0] for column in cursor.description]
@@ -253,6 +258,7 @@ class MessageData:
   """
   消息id数据库
   """
+
   inited = False
 
   def __new__(cls):
@@ -323,7 +329,7 @@ class MessageData:
   def get_message(cls, chat_id: Union[int, types.Message], message_id: int = None):
     """
     获取 message_id 列
-    
+
     - `MessageData.get_message(message: types.Message)`
     - `MessageData.get_message(chat_id: int, message_id: int)`
     """
@@ -365,7 +371,7 @@ class MessageData:
   def has_message(cls, chat_id, message_id=None):
     """
     是否存在 message_id
-    
+
     - `MessageData.has_message(message: types.Message)`
     - `MessageData.has_message(chat_id: int, message_id: int)`
     """
@@ -391,7 +397,7 @@ class MessageData:
   def iter_chats(cls) -> Generator[int, None, None]:
     """
     枚举 chat_id
-    
+
     Returns
       `Generator[int, None, None]`
     """
@@ -413,20 +419,20 @@ class MessageData:
   ) -> Generator[int, None, None]:
     """
     枚举某 chat 中的 message_id
-    
+
     Arguments
       chat_id (`int`):
         chat_id
-      
+
       reverse (`bool`):
         是否反向
-        
+
         - ``False``: 由小到大
         - ``True``: 由大到小
-      
+
       min_id (`int`):
         最小id
-        
+
       max_id (`int`):
         最大id
     """

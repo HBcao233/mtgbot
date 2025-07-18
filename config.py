@@ -12,19 +12,19 @@ default_api_id = '4'
 default_api_hash = '014b35b6184100b085b0d0572f9b5103'
 
 #: Bot 实例
-#: 
+#:
 #: :meta hide-value:
 bot: 'Bot'
 
 #: mtgbot 根目录
 #:
 #: :meta hide-value:
-botRoot: str = os.path.dirname(os.path.realpath(__file__)) 
+botRoot: str = os.path.dirname(os.path.realpath(__file__))
 
-#: bot 私有目录 (.env所在目录) 
+#: bot 私有目录 (.env所在目录)
 #:
 #: :meta hide-value:
-botHome: str = botRoot 
+botHome: str = botRoot
 
 #: 加载的 Commands
 commands: list['Command'] = []
@@ -33,15 +33,15 @@ inlines: list['InlineCommand'] = []
 #: 加载的 Settings
 settings: list['Setting'] = []
 
-#: 当前环境变量 (.env导入的变量)  
+#: 当前环境变量 (.env导入的变量)
 #:
 #: :meta hide-value:
-env: dict = os.environ 
+env: dict = os.environ
 
-#: bot文件夹名 
+#: bot文件夹名
 #:
 #: :meta hide-value:
-bot_home: str = env.get('BOT_HOME', '')  
+bot_home: str = env.get('BOT_HOME', '')
 bot_home = sys.argv[1] if len(sys.argv) > 1 else bot_home
 if bot_home:
   botHome = os.path.join(botRoot, bot_home)
@@ -94,4 +94,3 @@ if (proxy_port := env.get('proxy_port', '')) != '':
         'password': proxy_password,
       }
     )
-

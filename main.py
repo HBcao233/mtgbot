@@ -30,7 +30,7 @@ if __name__ == '__main__':
       config.api_hash,
       proxy=config.proxy,
     ).start(bot_token=config.token)
-    config.bot = bot 
+    config.bot = bot
     builtins.bot = bot
   except ConnectionError:
     logger.critical('连接错误', exc_info=1)
@@ -47,4 +47,3 @@ if __name__ == '__main__':
     pass
   except KeyboardInterrupt:
     pass
-  

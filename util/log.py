@@ -67,7 +67,7 @@ class TimedHandler(TimedRotatingFileHandler):
     currentTime = int(time.time())
     timeTuple = time.localtime(currentTime)
     filename = time.strftime(suffix, timeTuple) + self.base_name
-    
+
     super().__init__(
       os.path.join(logs_dir, filename),
       'MIDNIGHT',
@@ -79,7 +79,7 @@ class TimedHandler(TimedRotatingFileHandler):
       atTime=None,
       errors=errors,
     )
-      
+
     self.suffix = suffix
     self.extMatch = re.compile(
       r'^\d{4}-\d{2}-\d{2}' + re.escape(self.base_name) + r'$', re.ASCII
@@ -94,13 +94,14 @@ class TimedHandler(TimedRotatingFileHandler):
   def rotator(self, source, dest):
     self.baseFilename = os.path.abspath(os.fspath(dest))
 
+
 #: logging.StreamHandler: 默认日志处理器
 default_handler = logging.StreamHandler(sys.stdout)
 default_handler.setFormatter(main_formater)
 default_handler.setLevel(main_level)
 default_handler.addFilter(default_handler_filter)
 
-  #: 文件日志处理器
+#: 文件日志处理器
 file_handler: TimedHandler
 if flag:
   file_handler = TimedHandler()

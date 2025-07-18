@@ -5,23 +5,23 @@ import config
 class Filter:
   """
   事件过滤器
-  
+
   可与同类进行:
     - 非运算 ``~ Filter``
     - 与运算 ``Filter & Filter``
     - 或运算 ``Filter | Filter``
     - 异或运算 ``Filter ^ Filter``
-    
+
   Arguments
     value (`Callable[[Any], bool]`):
       过滤函数
-      
+
       参数需为 event, 返回值为 bool
 
   Members
     value (`Callable[[Any], bool]`):
       过滤函数
-      
+
       参数需为 event, 返回值为 bool
   """
 
@@ -56,12 +56,13 @@ class Filter:
 def Command(cmd='') -> Filter:
   """
   返回一个 过滤指定命令 的过滤器
-  
+
   Arguments:
     cmd (`str`):
       命令名
   """
   return Filter(lambda event: event.message.message.startswith('/' + cmd)) & (~FILE)
+
 
 #: 过滤私聊
 PRIVATE: Filter = Filter(lambda event: event.is_private)

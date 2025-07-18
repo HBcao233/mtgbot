@@ -1,4 +1,5 @@
 from telethon import types, utils
+from typing import Any
 import os
 import cv2
 import numpy as np
@@ -10,17 +11,17 @@ import config
 from .log import logger
 
 
-def videoInfo(path: str) -> tuple['file', int, int, int, bytes]:
+def videoInfo(path: str) -> tuple[Any, int, int, int, bytes]:
   """
   获取视频信息
-  
+
   Arguments
     path (`str`):
       文件路径
-  
+
   Returns
     `tuple`
-    
+
     - `file object`: 文件对象
     - `int`: 视频时长
     - `int`: 视频宽度
@@ -89,22 +90,22 @@ async def ffmpeg(command: list[str], progress_callback: callable = None):
   运行 ffmpeg 命令
 
   Arguments
-    command (list[str]): 
+    command (list[str]):
       命令空格分割列表
-      
-    progress_callback (callable, optional): 
+
+    progress_callback (callable, optional):
       进度回调函数
-  
+
   Returns
-    returncode (int): 
+    returncode (int):
       命令返回值 returncode
-  
-    stdout (str): 
+
+    stdout (str):
       命令行输出 (已解码)
-  
+
   Examples
     .. code-block:: python
-      
+
       mid = event.reply('请等待...')
       bar = Progress(mid)
       returncode, stdout = await ffmpeg(['ffmpeg', input, 'output.mp4', '-y'], bar.update)
@@ -255,35 +256,35 @@ async def file_to_media(
 ):
   """
   文件路径转 MessageMedia, 覆盖 spoiler
-  
+
   .. note::
     参数说明详见 `send_file <https://docs.telethon.dev/en/stable/modules/client.html#telethon.client.uploads.UploadMethods.send_file>`_
-  
+
   Arguments
     path (`str`):
-      文件路径 
-    
+      文件路径
+
     spoiler (`bool`):
       是否遮罩
-    
+
     force_document (`bool`):
       图片等强制以文件形式发送
-    
+
     file_size (`int`):
       文件大小
-    
+
     progress_callback (`callable`):
       进度回调函数
-    
+
     attributes (`list`):
       文件属性
-    
+
     thumb (`str` | `bytes` | `filw`):
       JPEG 缩略图, 最大宽高必须小于 320, 大小最大 20KB
-    
+
     allow_cache (`bool`):
       允许缓存
-    
+
     voice_note (`bool`):
       是否作为语音留言发送
 
@@ -295,20 +296,20 @@ async def file_to_media(
 
     mime_type (`str`):
       指定文件 mime_type
-    
+
     as_image (`bool`):
       强制作为图片
-    
+
     ttl (`int`):
       文件的生存时间（也称为“自毁定时器”或“自毁媒体”）。如果设置了，文件只能在短时间内查看，然后它们就会自动从消息历史记录中消失。
-      
+
       范围: 1 ~ 60
-      
+
       并非所有媒体都可以使用这个参数, 如文本文件, 对它们使用将报错 TtlMediaInvalidError.
-    
+
     nosound_video (`bool`):
-      将无音轨视频发送成 gif还是视频. 
-      
+      将无音轨视频发送成 gif还是视频.
+
       - ``False``: Telegram 中将显示为 gif
       - ``True``: Telegram 中将显示为视频
   """
@@ -317,7 +318,7 @@ async def file_to_media(
     mime_type = mimetypes.guess_type(f'x{_ext}')[0]
     video, duration, w, h, thumb = videoInfo(path)
     media = types.InputMediaUploadedDocument(
-      file = await config.bot.upload_file(
+      file=await config.bot.upload_file(
         video,
         progress_callback=progress_callback,
       ),

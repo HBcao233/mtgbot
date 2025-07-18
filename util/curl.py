@@ -98,26 +98,27 @@ def getPath(url=None, ext=None, saveas=None, mime_type=None):
 class Client(httpx.AsyncClient):
   """
   httpx 异步客户端
-  
+
   .. important::
     follow_redirects 默认值被设置为了 ``True``, 而 `httpx.AsyncClient` 默认值为 ``False``
-  
+
   Arguments
-    proxy (`bool`): 
+    proxy (`bool`):
       是否使用代理
 
-    headers (`dict` | `httpx.Headers`): 
+    headers (`dict` | `httpx.Headers`):
       指定headers，如 p站图片需要{"Referer": "https://www.pixiv.net"}
-    
-    follow_redirects (`bool`): 
+
+    follow_redirects (`bool`):
       是否跟踪重定向, 默认为 True
 
-    timeout (`int` | `httpx.Timeout`): 
+    timeout (`int` | `httpx.Timeout`):
       默认为无限制
-      
+
     kwargs:
       其他参数
   """
+
   def __init__(
     self, *, proxy=True, headers=None, follow_redirects=True, timeout=None, **kwargs
   ):
@@ -139,7 +140,7 @@ class Client(httpx.AsyncClient):
       timeout=timeout,
       **kwargs,
     )
-  
+
   '''
   def build_request(self,
     method, url, 
@@ -189,21 +190,21 @@ class Client(httpx.AsyncClient):
     流式 GET 请求下载文件, 返回下载文件路径
 
     Arguments
-      url (`str`):  
+      url (`str`):
         文件url
-        
-      ext (`bool` | `str`): 
+
+      ext (`bool` | `str`):
         (优先级大于saveas)
         为True/ 'auto' 时: 自动从url中获取文件后缀名
         为str时: 指定后缀
-        
-      saveas (`str`): 
+
+      saveas (`str`):
         指定下载文件名或路径
-        
-      nocache (`bool`): 
+
+      nocache (`bool`):
         是否不使用缓存, 默认为 ``False``
-      
-      rand (`bool`): 
+
+      rand (`bool`):
         是否在文件结尾加入随机字符串bytes
 
     Returns

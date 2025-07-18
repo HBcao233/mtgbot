@@ -1,4 +1,4 @@
-from telethon import types, custom, errors
+from telethon import custom, errors
 import math
 import time
 from typing import Union
@@ -10,31 +10,31 @@ class Progress:
   """进度条
 
   Arguments
-    mid (`types.Message <https://docs.telethon.dev/en/stable/modules/custom.html#telethon.tl.custom.message.Message>`_): 
+    mid (`types.Message <https://docs.telethon.dev/en/stable/modules/custom.html#telethon.tl.custom.message.Message>`_):
       用于进度条显示的 Message
-      
-    total (`int` | `float`): 
+
+    total (`int` | `float`):
       总数，将会以 p/total 计算当前进度百分比
-    
-    prefix (`str`): 
+
+    prefix (`str`):
       进度条前显示的字符
-  
+
   Attributes
-    chars (`list[str]`): 
+    chars (`list[str]`):
       一个由全角空格及八分之一至完整方块共9个UTF-8字符组成的列表
-      
-    p (`int`): 
+
+    p (`int`):
       当前进度
-  
+
   Example
-    .. code-block:: python 
-    
+    .. code-block:: python
+
       mid = event.reply('请等待...')
       bar = Progress(mid)
       for i in range(100):
         bar.update(i+1)
         await asyncio.sleep(1)
-      
+
       bar.set_prefix('发送中...')
       async with bot.action(event.chat_id, 'video'):
         await bot.send_file(
@@ -43,7 +43,7 @@ class Progress:
           reply_to=event.message,
           progress_callback=bar.update,
         )
-  
+
       command = ['ffmpeg', ...]
       returncode, stdout = util.ffmpeg(command, bar.update)
   """

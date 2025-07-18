@@ -96,7 +96,7 @@ async def _reload(event):
   config.telegraph_author_url = config.env.get('telegraph_author_url', '')
   config.telegraph_access_token = config.env.get('telegraph_access_token', '')
   logger.info(f'.env 重载完成')
-  
+
   config.commands = []
   config.inlines = []
   config.settings = []

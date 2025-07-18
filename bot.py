@@ -16,14 +16,14 @@ class Bot(TelegramClient):
   async def connect(self):
     """
     连接 Telegram 服务器, 自动处理异常, 记录登录用时
-    
+
     :meta private:
     """
     start_time = time.perf_counter()
     logger.info('登录中')
     try:
       await super().connect()
-    except errors.AuthKeyDuplicatedError as e: 
+    except errors.AuthKeyDuplicatedError as e:
       logger.warn(f'AuthKeyDuplicatedError: {e}')
       path = os.path.join(config.botHome, 'bot.session')
       os.remove(path)
@@ -54,7 +54,7 @@ class Bot(TelegramClient):
   async def request_callback(self, request, res):
     """
     请求回调
-    
+
     使用 ``bot(functions.XXX)`` (``bot.__call__``) 向telegram发送 Request 后做后续处理 (如记录发送消息id, debug记录所有请求)
     """
     logger.debug(
@@ -107,7 +107,7 @@ class Bot(TelegramClient):
   ) -> 'types.Message':
     """
     编辑消息前去除空Button
-    
+
     :meta private:
     """
     # 自动去除 buttons 中的空列表
@@ -132,15 +132,17 @@ class Bot(TelegramClient):
       supports_streaming=supports_streaming,
       schedule=schedule,
     )
-    
-  async def delete_messages(self, entity: 'hints.EntityLike',
+
+  async def delete_messages(
+    self,
+    entity: 'hints.EntityLike',
     message_ids: 'typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]',
     *,
     revoke: bool = True,
   ):
     """
     删除信息, 触发 MessageDeleteForbiddenError 时自动尝试对 `ids` 每一个进行删除
-    
+
     :meta private:
     """
     try:
@@ -154,7 +156,7 @@ class Bot(TelegramClient):
         except errors.MessageDeleteForbiddenError:
           pass
       raise
-  
+
   @staticmethod
   def schedule_decorator(func):
     """
@@ -184,14 +186,14 @@ class Bot(TelegramClient):
   def schedule(self, time, func):
     """
     设置计划任务
-    
+
     Arguments
       time (`int`):
         延迟时间
-    
+
       func (`callable`):
-        执行函数 
-        
+        执行函数
+
         .. note::
           非异步函数传参请用: functools.partial(func, \\*args, \\*\\*kwargs)
     """
@@ -203,10 +205,10 @@ class Bot(TelegramClient):
     if inspect.isawaitable(func):
       func = functools.partial(self.loop.create_task, func)
     self.loop.call_later(time, func)
-  
+
   def schedule_delete_messages(
-    self, 
-    time: int, 
+    self,
+    time: int,
     entity: 'hints.EntityLike',
     message_ids: 'typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]',
     *,
@@ -214,25 +216,30 @@ class Bot(TelegramClient):
   ):
     """
     计划删除消息
-    
+
     Arguments
       time (`int`):
         延迟时间
-      
+
       entity (`hints.EntityLike`):
         指定实体 一般为 peer
-    
+
       message_ids (`typing.Union[hints.MessageIDLike, typing.Sequence[hints.MessageIDLike]]`):
         消息id列表
-    
+
       revoke (`bool`):
         是否为对方也删除, 默认为 True
     """
     try:
-      self.schedule(time, self.delete_messages(
-        entity, 
-        message_ids,
-        revoke=revoke,
-      ))
+      self.schedule(
+        time,
+        self.delete_messages(
+          entity,
+          message_ids,
+          revoke=revoke,
+        ),
+      )
     except errors.MessageDeleteForbiddenError:
-        logger.warn('计划任务 Bot.delete_messages 遇到错误 MessageDeleteForbiddenError', exc_info=1)
+      logger.warn(
+        '计划任务 Bot.delete_messages 遇到错误 MessageDeleteForbiddenError', exc_info=1
+      )

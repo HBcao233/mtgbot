@@ -10,16 +10,16 @@ from util.log import logger
 async def createPage(title, content):
   """
   创建 Telegraph 页面
-  
+
   Arguments
     title (`str`):
       标题
-  
+
     content (`list`):
       内容, 格式如下 (详见 `Node <https://telegra.ph/api#Node>`_)
-      
+
       .. code-block:: python
-        
+
         [
           {
             'tag': '',  # a, aside, b, blockquote, br, code, em, figcaption, figure, h3, h4, hr, i, iframe, img, li, ol, p, pre, s, strong, u, ul, video

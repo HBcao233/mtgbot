@@ -19,10 +19,10 @@ logger = logging.getLogger('mtgbot.plugin')
 class Scope(object):
   """
   命令显示范围
-  
+
   一般情况下请用静态方法创建
   """
-  
+
   def __init__(self, type=None, chat_id=None, user_id=None):
     if type is None:
       type = types.BotCommandScopeDefault
@@ -80,7 +80,7 @@ class Scope(object):
   def chat(chat_id):
     """
     给定 chat_id 指代的群聊/频道
-    
+
     或给定 chat_id 的用户私聊
     """
     return Scope(types.BotCommandScopePeer, chat_id)
@@ -101,9 +101,9 @@ class Scope(object):
   def chats(chat_id=None, user_id=None):
     """
     所有群聊和频道;
-    
+
     或给定 chat_id 指代的群聊/频道/用户;
-    
+
     或给定 chat_id 指代的群聊/频道中特定的 user_id 指代的用户
     """
     if chat_id and user_id:
@@ -117,7 +117,7 @@ class Scope(object):
   def chat_admins(chat_id=None):
     """
     所有群聊和频道的管理员;
-    
+
     或给定 chat_id 指代的群聊/频道的管理员
     """
     if chat_id:
@@ -137,6 +137,7 @@ class ScopeList(list):
   """
   命令范围列表
   """
+
   def append(self, value):
     if utils.is_list_like(value):
       for i in value:
@@ -169,10 +170,10 @@ class ScopeList(list):
 async def get_event_info(event):
   """
   event chat info
-  
+
   :meta private:
   """
-  
+
   sender = await event.get_sender()
   name = getattr(sender, 'first_name', None) or getattr(sender, 'title', None)
   if t := getattr(sender, 'last_name', None):
@@ -192,36 +193,36 @@ async def get_event_info(event):
 class Command:
   """
   命令装饰器
-  
+
   定制化的 bot.on(events.NewMessage()) 装饰器
-  
+
   Arguments
     cmd (`str`):
       命令名称
-    
+
     pattern (`str` | `re.Pattern` | `callable`):
       正则表达式
-      
+
       默认值: re.compile(r'^/' + self.cmd + '( .*)?$').match
-    
+
     enable (`callable` | `bool`):
       是否启用
-      
+
     info (`str`):
       命令描述消息, 不为空则会在命令列表中显示
-      
+
     scope (`ScopeList` | `Scope`):
       命令描述显示范围
-      
+
     show_info (`bool` | `callable`):
       是否显示命令描述
-      
+
     filter (`filters.Filter` | `Any`):
-      过滤器, 需为 一个实现了filter方法的任意对象, 
-      
+      过滤器, 需为 一个实现了filter方法的任意对象,
+
       建议使用 `filters <filters.html>`_ 中的内置的 `Filter <filters.html#filters.Filter>`_ 类实例化
   """
-  
+
   def __init__(
     self,
     cmd: str = '',
@@ -241,7 +242,13 @@ class Command:
 
     self.cmd: str = cmd
     if pattern is None and self.cmd:
-      pattern = r'^/' + re.escape(self.cmd) + '(@' + re.escape(config.bot.me.username) + ')?( .*)?$'
+      pattern = (
+        r'^/'
+        + re.escape(self.cmd)
+        + '(@'
+        + re.escape(config.bot.me.username)
+        + ')?( .*)?$'
+      )
     if isinstance(pattern, str):
       pattern = re.compile(pattern).match
     elif isinstance(pattern, re.Pattern):
@@ -338,15 +345,16 @@ class Command:
 class InlineCommand:
   """
   内联命令装饰器
-  
+
   定制化的 bot.on(events.InlineQuery() 装饰器
-  
+
   Arguments
     pattern (`str` | `re.Pattern` | `callable`):
       正则表达式
-      
+
       默认值: None (匹配全部)
   """
+
   def __init__(
     self,
     pattern: Union[str, re.Pattern, callable] = None,
@@ -372,6 +380,7 @@ class InlineCommand:
     self.func = func
     return self.func
 
+
 #: Command 别名
 command_handler = Command
 #: Command 别名
@@ -383,14 +392,14 @@ inline_handler = InlineCommand
 class Setting:
   """
   设置按钮装饰器
-  
+
   定制化的 bot.on(events.CallbackQuery()) 装饰器
-  
+
   Arguments
     text (`str`):
       按钮文本
   """
-  
+
   def __init__(
     self,
     text: str,
@@ -417,7 +426,7 @@ def load_plugin(name):
   """
   加载指定名称的插件
   一般不在插件开发中使用, 导入插件请使用 `import_plugin`
-  
+
   :meta private:
   """
   try:
@@ -432,7 +441,7 @@ def load_plugins():
   """
   加载所有插件
   一般不在插件开发中使用
-  
+
   :meta private:
   """
   dirpath = os.path.join(config.botHome, 'plugins')
@@ -456,7 +465,7 @@ def reload_plugin(module):
   """
   重新加载指定名称的插件
   一般不在插件开发中使用
-  
+
   :meta private:
   """
   try:
@@ -467,7 +476,9 @@ def reload_plugin(module):
       del modules[module.__name__]
     except KeyError:
       pass
-    load_logger.warning(f'Error to reload plugin "{module.__name__}": Module Not Found.')
+    load_logger.warning(
+      f'Error to reload plugin "{module.__name__}": Module Not Found.'
+    )
   except Exception:
     load_logger.warning(f'Error to reload plugin "{module.__name__}"', exc_info=1)
 
@@ -476,12 +487,12 @@ def reload_plugins():
   """
   重新加载所有插件
   一般不在插件开发中使用
-  
+
   :meta private:
   """
   for i in list(modules.values()):
     reload_plugin(i)
-  
+
   # 检测有无新增插件
   dirpath = os.path.join(config.botHome, 'plugins')
   for name in os.listdir(dirpath):
@@ -503,8 +514,8 @@ def reload_plugins():
 
 def import_plugin(name):
   """
-  导入插件 
-  
+  导入插件
+
   Arguments
     name (`str`):
       插件名, 去掉plugins.前缀, 及 .py 后缀的文件名或文件夹名

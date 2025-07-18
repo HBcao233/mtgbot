@@ -26,7 +26,7 @@ templates_path = ['_templates']
 exclude_patterns = []
 
 language = 'en'
-locale_dirs = ['../locales/']   # path is example but recommended.
+locale_dirs = ['../locales/']  # path is example but recommended.
 gettext_compact = False  # optional.
 gettext_uuid = True  # optional.
 
@@ -35,7 +35,7 @@ gettext_uuid = True  # optional.
 
 
 extensions = [
-  'sphinx.ext.autodoc', 
+  'sphinx.ext.autodoc',
   'sphinx.ext.githubpages',
   'sphinx.ext.napoleon',
 ]
@@ -43,4 +43,3 @@ extensions = [
 html_theme = 'sphinx_rtd_theme'
 
 html_static_path = []
-

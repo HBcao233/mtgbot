@@ -40,7 +40,7 @@ _foo()
     'tgbot')
       COMPREPLY=( \$(compgen -W 'status start stop restart log ps' -- \$cur) ) 
       ;;
-    'start' | 'stop' | 'restart')
+    'start' | 'stop' | 'restart' | 'log')
       COMPREPLY=( \$(compgen -W '${bots[@]}' -- \$cur) ) 
       ;;
     '*')
@@ -51,10 +51,11 @@ _foo()
 complete -F _foo tgbot
 EOF
 cat > "$HOME/.config/fish/completions/tgbot.fish" << EOF
-complete -x -c tgbot -n "not __fish_seen_subcommand_from start; and not __fish_seen_subcommand_from restart; and not __fish_seen_subcommand_from stop" -a "status start stop restart log ps"
+complete -x -c tgbot -n "not __fish_seen_subcommand_from start; and not __fish_seen_subcommand_from restart; and not __fish_seen_subcommand_from stop; and not __fish_seen_subcommand_from log" -a "status start stop restart log ps"
 complete -x -c tgbot -n "__fish_seen_subcommand_from start" -a "${bots[@]}"
 complete -x -c tgbot -n "__fish_seen_subcommand_from stop" -a "${bots[@]}"
 complete -x -c tgbot -n "__fish_seen_subcommand_from restart" -a "${bots[@]}"
+complete -x -c tgbot -n "__fish_seen_subcommand_from log" -a "${bots[@]}"
 EOF
 
 show() {

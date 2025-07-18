@@ -31,7 +31,9 @@ def getResourceFile(name=''):
   """
   return getFile('resources/', name)
 
+
 getResource = getResourceFile
+
 
 def getDataFile(name=''):
   """
@@ -51,5 +53,6 @@ def getCacheFile(name=''):
   if not os.path.isdir(path):
     os.mkdir(path)
   return getDataFile(os.path.join('cache/', str(name)))
+
 
 getCache = getCacheFile
