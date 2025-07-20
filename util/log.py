@@ -4,10 +4,14 @@ import os
 import re
 import time
 import config
+from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
+from zoneinfo import ZoneInfo 
+
 
 __all__ = ['logger', 'default_handler', 'file_handler']
 
+tz = config.env.get('TZ', '') or 'Asia/Shanghai'
 flag = True
 logs_dir = os.path.join(config.botHome, 'logs/')
 if not os.path.isdir(logs_dir):
@@ -23,6 +27,15 @@ logging.getLogger('telethon.client.users').setLevel(logging.ERROR)
 logging.getLogger('telethon.client.updates').setLevel(logging.ERROR)
 logging.getLogger('telethon.network.mtprotosender').setLevel(logging.ERROR)
 logging.getLogger('telethon.extensions.messagepacker').setLevel(logging.ERROR)
+
+
+def tz_converter(sec, what):
+  timezone = ZoneInfo(tz)
+  now = datetime.now(timezone)
+  return now.timetuple()
+
+
+logging.Formatter.converter = tz_converter
 
 
 main_format = (
