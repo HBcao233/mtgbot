@@ -103,9 +103,6 @@ class Client(httpx.AsyncClient):
     follow_redirects 默认值被设置为了 ``True``, 而 `httpx.AsyncClient` 默认值为 ``False``
 
   Arguments
-    proxy (`bool`):
-      是否使用代理
-
     headers (`dict` | `httpx.Headers`):
       指定headers，如 p站图片需要{"Referer": "https://www.pixiv.net"}
 
@@ -120,7 +117,7 @@ class Client(httpx.AsyncClient):
   """
 
   def __init__(
-    self, *, proxy=True, headers=None, follow_redirects=True, timeout=None, **kwargs
+    self, *, proxy=None, headers=None, follow_redirects=True, timeout=None, **kwargs
   ):
     if headers is None:
       headers = {}
@@ -133,7 +130,7 @@ class Client(httpx.AsyncClient):
     )
     _headers.update(headers)
     super().__init__(
-      proxy=config.proxy_url if proxy else None,
+      proxy=proxy,
       verify=False,
       follow_redirects=follow_redirects,
       headers=_headers,
@@ -247,13 +244,15 @@ class Client(httpx.AsyncClient):
 
 
 async def request(
-  method, url, *, proxy=False, follow_redirects=True, timeout=None, **kwargs
+  method, url, *, proxy=None, follow_redirects=True, timeout=None, **kwargs
 ):
   """
   异步 client.request() 的简略写法
   """
   async with Client(
-    proxy=proxy, follow_redirects=follow_redirects, timeout=timeout
+    proxy=proxy,
+    follow_redirects=follow_redirects, 
+    timeout=timeout,
   ) as client:
     r = await client.request(method, url, **kwargs)
     log = logger.info
@@ -285,7 +284,7 @@ async def getImg(
   saveas: str = None,
   nocache: bool = True,
   rand: bool = False,
-  proxy=False,
+  proxy=None,
   follow_redirects=True,
   timeout=None,
   **kwargs,

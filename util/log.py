@@ -12,6 +12,7 @@ from zoneinfo import ZoneInfo
 __all__ = ['logger', 'default_handler', 'file_handler']
 
 tz = config.env.get('TZ', '') or 'Asia/Shanghai'
+timezone = ZoneInfo(tz)
 flag = True
 logs_dir = os.path.join(config.botHome, 'logs/')
 if not os.path.isdir(logs_dir):
@@ -30,7 +31,6 @@ logging.getLogger('telethon.extensions.messagepacker').setLevel(logging.ERROR)
 
 
 def tz_converter(sec, what):
-  timezone = ZoneInfo(tz)
   now = datetime.now(timezone)
   return now.timetuple()
 
