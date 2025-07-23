@@ -9,6 +9,7 @@ import mimetypes
 
 import config
 from .log import logger
+from .file import getCache
 
 
 def videoInfo(path: str) -> tuple[Any, int, int, int, bytes]:
@@ -210,6 +211,26 @@ async def video2mp4(path, progress_callback=None):
   return output
 
 
+async def to_img(path, ext='jpg'):
+  _name = os.path.basename(path)
+  name = os.path.splitext(_name)[0]
+  img = getCache(f'{name}_img.{ext}')
+  command = [
+    'ffmpeg',
+    '-i',
+    path,
+    '-frames:v',
+    '1',
+    img,
+    '-y',
+  ]
+  returncode, stdout = await ffmpeg(command)
+  if returncode != 0:
+    logger.error(stdout)
+    return False
+  return img
+  
+
 def message_media_to_media(message_media, spoiler: bool = False):
   """
   Media 转 MessageMedia, 覆盖 spoiler
@@ -339,6 +360,9 @@ async def file_to_media(
       ttl_seconds=ttl,
     )
     return media
+    
+  if _ext == '.webp':
+    path = await to_img(path)
 
   input_file, media, as_image = await config.bot._file_to_media(
     path,

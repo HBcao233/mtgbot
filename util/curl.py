@@ -132,6 +132,7 @@ class Client(httpx.AsyncClient):
     super().__init__(
       proxy=proxy,
       verify=False,
+      http2=True,
       follow_redirects=follow_redirects,
       headers=_headers,
       timeout=timeout,
