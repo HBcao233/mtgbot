@@ -73,6 +73,7 @@ class Progress:
     self.set_prefix(prefix if prefix else mid.message)
     self.percent = percent
     self.wait_until = 0
+    self.lines = {}
 
   def set_prefix(self, prefix=''):
     if not prefix.endswith('\n'):
@@ -81,35 +82,52 @@ class Progress:
 
   def set_total(self, total=100):
     self.total = total
-
-  async def update(self, p=0, total=None, *, line=None):
+  
+  def get_text(self, p, total=None):
     if total is None:
       total = self.total
-    if time.time() - self.wait_until <= 1:
-      return
-
-    self.p = p
-    mid = self.mid
-
     x = math.floor(104 * p / total)
     text = '['
     text += self.chars[8] * (x // 8)
-    text += self.chars[x % 8]
-    text += self.chars[0] * (13 - x // 8)
+    if x != 104:
+      text += self.chars[x % 8]
+      text += self.chars[0] * (12 - x // 8)
 
     if self.percent:
       precent = f'{p / total * 100:.2f}'.rstrip('0').rstrip('.') + '%'
     else:
       precent = f'{p} / {total}'
     text += f'] {precent}'
+    return text
+
+  async def update(self, p=0, total=None, *, line=None):
+    if total is None:
+      total = self.total
+    if line is not None:
+      self.lines[str(line)] = {
+        'p': p,
+        'total': total,
+      }
+    if time.time() - self.wait_until <= 1:
+      return
+
+    self.p = p
+    mid = self.mid
+
     if line is None:
+      self.lines = {}
+      text = self.get_text(p, total)
       text = self.prefix + text
     else:
       mid = (await bot.get_messages(mid.chat_id, ids=[mid.id]))[0]
       msg = mid.message.split('\n')
-      if line >= len(msg):
-        msg.extend([''] * (line - len(msg) + 1))
-      msg[line] = text
+      msg[0] = self.prefix.strip('\n')
+      for k, v in self.lines.items():
+        l = int(k)
+        text = self.get_text(v['p'], v['total'])
+        if l >= len(msg):
+          msg += [''] * (l - len(msg) + 1)
+        msg[l] = text
       text = '\n'.join(msg)
 
     try:
