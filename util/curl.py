@@ -18,7 +18,7 @@ logger = logging.getLogger('mtgbot.curl')
 outdated_time = 3600 * 24 * 3
 
 mimetypes.add_type('image/png', '.png')
-mimetypes.add_type('image/jpeg', '.jpeg')
+mimetypes.add_type('image/jpeg', '.jpg')
 mimetypes.add_type('image/webp', '.webp')
 mimetypes.add_type('image/gif', '.gif')
 mimetypes.add_type('image/bmp', '.bmp')
