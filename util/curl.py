@@ -71,20 +71,24 @@ def getPath(url=None, ext=None, saveas=None, mime_type=None):
   _name = ''
   _ext = ''
   if ext is True or ext == 'auto':
+    # 自动判断后缀名
     if mime_type is not None:
       _ext = mimetypes.guess_extension(mime_type)
     elif url is not None:
       mime_type = mimetypes.guess_type(url)[0]
       _ext = mimetypes.guess_extension(mime_type)
   elif isinstance(ext, str):
+    # 指定后缀名
     _ext = ext if ext.startswith('.') else '.' + ext
 
+  #指定文件名/路径
   if saveas:
     arr = os.path.splitext(saveas)
     _name = arr[0]
     if not _ext:
       _ext = '.' + arr[1]
 
+  # 未指定文件名使用url的md5值
   if not _name:
     _name = md5sum(url)
 

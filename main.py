@@ -24,6 +24,7 @@ if __name__ == '__main__':
   )
 
   try:
+    # 创建 bot
     bot: Bot = Bot(
       util.getFile('bot.session'),
       config.api_id,
@@ -31,15 +32,19 @@ if __name__ == '__main__':
       proxy=config.proxy,
     ).start(bot_token=config.token)
     config.bot = bot
+    # 将bot变量添加到 builtin 方便使用
     builtins.bot = bot
   except ConnectionError:
     logger.critical('连接错误', exc_info=1)
     exit(1)
 
   start_time = time.perf_counter()
+  # 加载内部模块
   config.internal = importlib.import_module('internal')
+  # 加载插件
   load_plugins()
   logger.info(f'插件载入完成, 用时: {time.perf_counter() - start_time}s')
+  # 初始化
   bot.loop.create_task(config.internal._init())
   try:
     bot.run_until_disconnected()
