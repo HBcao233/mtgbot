@@ -17,6 +17,11 @@ from util.data import MessageData
 
 @Command('start')
 async def _start(event, text):
+  """
+  start命令, 如果存在help命令将自动触发
+  
+  :meta public:
+  """
   if text == '':
     for i in bot.list_event_handlers():
       if getattr(i[1], 'pattern', None):
@@ -31,6 +36,11 @@ async def _start(event, text):
   info='取消当前正在进行的任务',
 )
 async def _cancel(event):
+  """
+  取消任务命令
+  
+  :meta public:
+  """
   f = True
 
   for i in bot._event_handler_tasks:
@@ -61,6 +71,11 @@ async def _cancel(event):
   filter=filters.PRIVATE,
 )
 async def _settings(event):
+  """
+  机器人设置命令
+  
+  :meta public:
+  """
   buttons = []
   index = 0
   for i in config.settings:
@@ -89,6 +104,12 @@ async def _settings(event):
   filter=filters.PRIVATE & filters.SUPERADMIN & filters.COMMAND,
 )
 async def _reload(event):
+  """
+  重载插件命令 
+  仅超管私聊可用
+  
+  :meta public:
+  """
   load_dotenv(dotenv_path=config.env_path, verbose=True)
   config.env = os.environ
   config.superadmin = [int(x) for x in config.env.get('superadmin', '').split(',') if x]
@@ -111,6 +132,10 @@ async def _reload(event):
 
 @bot.on(events.CallbackQuery(pattern=rb'delete(?:~([\x00-\xff]{6,6}))?$'))
 async def _delete_button(event):
+  """
+  删除消息按钮 
+  ~6字节整数用于指定发送者
+  """
   chat_id = event.chat_id
   match = event.pattern_match
   sender_id = None
@@ -126,7 +151,7 @@ async def _delete_button(event):
 @bot.on(events.NewMessage)
 async def _add_message(event):
   """
-  添加消息, util.data.MessageData 的数据来源
+  保存消息id, util.data.MessageData 的数据来源
   """
   MessageData.add_message(
     utils.get_peer_id(event.message.peer_id),
@@ -159,9 +184,78 @@ async def _global_inline_query(event):
     await event.answer(res)
 
 
+def normalize_value(k, v):
+  """
+  * all 统一为 all; 字符串,打散
+  
+  :meta private:
+  """
+  if k != 'cmd':
+    if v == '*' or v == 'all':
+      return 'all'
+    return v
+  if isinstance(v, list):
+    return v
+  if v == '*' or v == 'all':
+    return 'all'
+  return [i.strip() for i in v.split(',')]
+
+def filter_none_cmd(i, k):
+  """
+  过滤config: 无效cmd
+  
+  :meta private:
+  """
+  if not i or not i.get('cmd'):
+    logger.warning(f'{k}-{i}: cmd项为空, 已忽略')
+    return False
+  return True
+
+def filter_peer(i):
+  """
+  过滤config: Peer 指定群聊
+  
+  :meta private:
+  """
+  if isinstance(i['chat_id'], int) and i['chat_id'] != 0:
+    return True 
+  logger.warning(f'NoScopePeer-{i}: chat_id 配置错误, 已忽略')
+  return False
+
+def filter_peer_user(i):
+  """
+  过滤config: PeerUser (指定群聊中的用户)
+  
+  :meta private:
+  """
+  if (
+    isinstance(i['chat_id'], int)
+    and isinstance(i['user_id'], int)
+    and i['chat_id'] < 0
+    and i['user_id'] > 0
+  ):
+    return True
+  logger.warning(f'NoScopePeerUser-{i}: chat_id/user_id 配置错误, 已忽略')
+  return False
+
+def filter_peer_admins(i):
+  """
+  过滤config: PeerAdmins
+  
+  :meta private:
+  """
+  if isinstance(i['chat_id'], str) and i['chat_id'] == 'all':
+    return True
+  if isinstance(i['chat_id'], int) and i['chat_id'] < 0:
+    return True
+  logger.warning(f'NoScopePeerAdmins-{i}: chat_id 配置错误, 已忽略')
+  return False
+
 def _load_scopes_config():
   """
   加载 Scopes配置
+  
+  :meta private:
   """
   path = util.getFile('', 'scopes.toml')
   c = {
@@ -181,68 +275,100 @@ def _load_scopes_config():
   except Exception:
     logger.warning('Scopes Config 加载失败', exc_info=1)
     return c
+  
   c = {
     k: [
       {
-        _k: (
-          (_v if _v != '*' else 'all')
-          if _k != 'cmd'
-          else (
-            _v
-            if isinstance(_v, list)
-            else (
-              [j.strip() for j in _v.split(',')] if _v != 'all' and _v != '*' else 'all'
-            )
-          )
-        )
+        _k: normalize_value(_k, _v)
         for _k, _v in i.items()
       }
       for i in v
-      if i != {}
-      and (
-        ('cmd' in i and i['cmd'] != '' and i['cmd'] != [])
-        or logger.warning(f'{k}-{i}: cmd项为空, 已忽略') == 'x'
-      )
+      if filter_none_cmd(i, k)
     ]
     for k, v in c.items()
   }
-
-  c['NoScopePeer'] = [
-    i
-    for i in c['NoScopePeer']
-    if (
-      (isinstance(i['chat_id'], int) and i['chat_id'] != 0)
-      or logger.warning(f'NoScopePeer-{i}: chat_id 配置错误, 已忽略') == 'x'
-    )
-  ]
-  c['NoScopePeerUser'] = [
-    i
-    for i in c['NoScopePeerUser']
-    if (
-      (
-        isinstance(i['chat_id'], int)
-        and isinstance(i['user_id'], int)
-        and i['chat_id'] < 0
-        and i['user_id'] > 0
-      )
-      or logger.warning(f'NoScopePeerUser-{i}: chat_id/user_id 配置错误, 已忽略') == 'x'
-    )
-  ]
-  c['NoScopePeerAdmins'] = [
-    i
-    for i in c['NoScopePeerAdmins']
-    if (
-      (
-        (isinstance(i['chat_id'], str) and i['chat_id'] == 'all')
-        or (isinstance(i['chat_id'], int) and i['chat_id'] < 0)
-      )
-      or logger.warning(f'NoScopePeerAdmins-{i}: chat_id 配置错误, 已忽略') == 'x'
-    )
-  ]
+  c['NoScopePeer'] = [i for i in c['NoScopePeer'] if filter_peer(i)]
+  c['NoScopePeerUser'] = [i for i in c['NoScopePeerUser'] if filter_peer_user(i) ]
+  c['NoScopePeerAdmins'] = [i for i in c['NoScopePeerAdmins'] if filter_peer_admins(i) ]
   return c
+  
 
+def fc_users(v, c):
+  """
+  过滤cmd: 所有私聊
+  
+  :meta private:
+  """
+  for i in c['NoScopeUsers']:
+    if i['cmd'] == 'all':
+      return set()
+    v = {j for j in v if j[0] not in i['cmd']}
+  return v
 
-def filter_scopes_config(commands, c):
+def fc_chats(v, c):
+  """
+  过滤cmd: 所有群聊
+  
+  :meta private:
+  """
+  for i in c['NoScopeChats']:
+    if i['cmd'] == 'all':
+      return set()
+    v = {j for j in v if j[0] not in i['cmd']}
+  return v
+
+def fc_chatadmins(v, c):
+  """
+  过滤cmd: 所有群聊的管理员
+
+  :meta private:
+  """
+  for i in c['NoScopeChatAdmins']:
+    if i['cmd'] == 'all':
+      return set()
+    v = {j for j in v if j[0] not in i['cmd']}
+  return v
+
+def fc_peer(v, c):
+  """
+  过滤cmd: 指定频道/群聊/用户
+
+  :meta private:
+  """
+  for i in c['NoScopePeer']:
+    if i['chat_id'] == k.chat_id:
+      if i['cmd'] == 'all':
+        return set()
+      v = {j for j in v if j[0] not in i['cmd']}
+  return v
+
+def fc_peer_user(v, c):
+  """
+  过滤cmd: 指定用户私聊
+
+  :meta private:
+  """
+  for i in c['NoScopePeerUser']:
+    if i['chat_id'] == k.chat_id and i['user_id'] == k.user_id:
+      if i['cmd'] == 'all':
+        return set()
+      v = {j for j in v if j[0] not in i['cmd']}
+  return v 
+
+def fc_peeradmins(k, v, c):
+  """
+  过滤cmd: 指定群聊中的管理员
+
+  :meta private:
+  """
+  for i in c['NoScopePeerAdmins']:
+    if i['chat_id'] == k.chat_id:
+      if i['cmd'] == 'all':
+        return set()
+      v = {j for j in v if j[0] not in i['cmd']}
+  return
+
+def _filter_scopes_config(commands, c):
   """
   使用 ScopesConfig 对命令进行过滤
 
@@ -252,17 +378,12 @@ def filter_scopes_config(commands, c):
     for i in c['NoScopeAll']:
       if i['cmd'] == 'all':
         return {}
-      else:
-        commands[k] = {j for j in v if j[0] not in i['cmd']}
+      commands[k] = {j for j in v if j[0] not in i['cmd']}
 
     if k.type == types.BotCommandScopeUsers or (
       k.type == types.BotCommandScopePeer and k.chat_id > 0
     ):
-      for i in c['NoScopeUsers']:
-        if i['cmd'] == 'all':
-          commands[k] = set()
-        else:
-          commands[k] = {j for j in v if j[0] not in i['cmd']}
+      commands[k] = fc_users(commands[k], c)
 
     if k.type in (
       types.BotCommandScopeChats,
@@ -270,52 +391,28 @@ def filter_scopes_config(commands, c):
       types.BotCommandScopeChatAdmins,
       types.BotCommandScopePeerAdmins,
     ) or (k.type == types.BotCommandScopePeer and k.chat_id < 0):
-      for i in c['NoScopeChats']:
-        if i['cmd'] == 'all':
-          commands[k] = set()
-        else:
-          commands[k] = {j for j in v if j[0] not in i['cmd']}
+      commands[k] = fc_chats(commands[k], c)
 
     if k.type in (types.BotCommandScopeChatAdmins, types.BotCommandScopePeerAdmins):
-      for i in c['NoScopeChatAdmins']:
-        if i['cmd'] == 'all':
-          commands[k] = set()
-        else:
-          commands[k] = {j for j in v if j[0] not in i['cmd']}
+      commands[k] = fc_chatadmins(v, c)
 
     if k.type == types.BotCommandScopePeer:
-      for i in c['NoScopePeer']:
-        if i['chat_id'] == k.chat_id:
-          if i['cmd'] == 'all':
-            commands[k] = set()
-          else:
-            commands[k] = {j for j in v if j[0] not in i['cmd']}
-
+      commands[k] = fc_peer(v, c)
     elif k.type == types.BotCommandScopePeerUser:
-      for i in c['NoScopePeerUser']:
-        if i['chat_id'] == k.chat_id and i['user_id'] == k.user_id:
-          if i['cmd'] == 'all':
-            commands[k] = set()
-          else:
-            commands[k] = {j for j in v if j[0] not in i['cmd']}
-
+      commands[k] = fc_peer_user(v, c)
     elif k.type == types.BotCommandScopePeerAdmins:
-      for i in c['NoScopePeerAdmins']:
-        if i['chat_id'] == k.chat_id:
-          if i['cmd'] == 'all':
-            commands[k] = set()
-          else:
-            commands[k] = {j for j in v if j[0] not in i['cmd']}
+      commands[k] = fc_peeradmins(k, v, c)
   return commands
 
 
-async def _init():
+async def _init_commands():
   """
-  初始化
+  Command初始化 
+  注册命令，并将同一范围下所有命令整理为集合set
+  
+  :meta private:
   """
-  start_time = time.perf_counter()
-  # ---start--- Command初始化 ---start---
-  commands: dict[Scope, set[tuple[str, str]]] = {}
+  commands = {}
   try:
     for i in config.commands:
       if not util.bool_or_callable(i.enable):
@@ -326,12 +423,17 @@ async def _init():
           if s not in commands:
             commands[s] = set()
           commands[s].add((i.cmd, i.info))
+    return commands
   except Exception:
     logger.critical(f'{i.func.__module__}.{i} 初始化失败', exc_info=1)
     exit(1)
-  # ---end--- Command初始化 ---end---
 
-  # ---start--- 重置Scope ---start---
+async def _reset_bot_scope(commands):
+  """
+  重置 bot scope
+  
+  :meta private:
+  """
   await bot(
     functions.bots.ResetBotCommandsRequest(
       scope=types.BotCommandScopeDefault(),
@@ -359,6 +461,7 @@ async def _init():
 
   logger.debug(f'old_peer: {old_peer}')
   logger.debug(f'new_peer: {new_peer}')
+  # 对比改变部分进行按需重置
   for k, v in old_peer.items():
     need_reset = False
     if k not in new_peer.keys():
@@ -391,21 +494,29 @@ async def _init():
 
   with data:
     data['scope_peer'] = new_peer
-  # ---end--- 重置Scope ---end---
 
-  # ---start--- 设置Scope ---start---
-  scopes_config = _load_scopes_config()
-  logger.info(f'读取到Scopes配置: {scopes_config}')
-
+def _fill_commands(commands, scopes_config):
+  """
+  命令补偿，以便没有的范围可以进行过滤
+  给每个范围添加 Scope.all() 的命令
+  超级管理员添加 Scope.private() 的命令
+  给群聊相关范围添加 Scope.chats() 的命令
+  NoScope 配置中的聊天作命令补偿 以便过滤
+  
+  :meta private:
+  """
   if commands.get(Scope.private()) is None:
     commands[Scope.private()] = commands[Scope.all()]
+
   # 超管私聊命令补偿
   for i in config.superadmin:
     commands[Scope.chat(i)].update(commands[Scope.private()])
+  
   if commands.get(Scope.chats()) is None:
     commands[Scope.chats()] = commands[Scope.all()]
   if commands.get(Scope.chat_admins()) is None:
-    commands[Scope.chat_admins()] = commands[Scope.all()]
+    commands[Scope.chat_admins()] = commands[Scope.chats()]
+  
   for k in commands:
     if k.type in (
       types.BotCommandScopePeerUser,
@@ -413,6 +524,8 @@ async def _init():
       types.BotCommandScopePeerAdmins,
     ) or (k.type == types.BotCommandScopePeer and k.chat_id < 0):
       commands[k].update(commands[Scope.chats()])
+  
+  # NoScope 配置中的聊天作命令补偿 以便过滤
   for i in scopes_config['NoScopePeer']:
     k = Scope.chat(i['chat_id'])
     if i['chat_id'] > 0:
@@ -429,18 +542,40 @@ async def _init():
     k = Scope.chat_admins(i['chat_id'])
     if k not in commands:
       commands[k] = commands[Scope.chats()]
+
   # 给所有其他 Scope 添加 Scope.all() 的命令
   for k in commands:
     if k.type != types.BotCommandScopeDefault:
       commands[k].update(commands[Scope.all()])
+  return commands
 
-  commands = filter_scopes_config(commands, scopes_config)
+
+async def _init():
+  """
+  初始化
+  
+  :meta private:
+  """
+  start_time = time.perf_counter()
+  
+  # 初始化 commands
+  commands: dict[Scope, set[tuple[str, str]]] = await _init_commands()
+  # 重置 scope
+  await _reset_bot_scope(commands)
+
+  # ---start--- 设置Scope ---start---
+  scopes_config = _load_scopes_config()
+  logger.info(f'读取到Scopes配置: {scopes_config}')
+  # 命令补偿
+  commands = _fill_commands(commands, scopes_config)
+  # 命令过滤
+  commands = _filter_scopes_config(commands, scopes_config)
   logger.debug(
     '{\n'
     + ('\n'.join([f'  {k}: {str([i[0] for i in v])},' for k, v in commands.items()]))
     + '\n}'
   )
-
+  # 提交 scope
   for k, v in commands.items():
     try:
       await bot(
