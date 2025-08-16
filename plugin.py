@@ -247,7 +247,7 @@ class Command:
         + re.escape(self.cmd)
         + '(@'
         + re.escape(config.bot.me.username)
-        + ')?( .*)?$'
+        + r')?( [^\x00]*)?$'
       )
     if isinstance(pattern, str):
       pattern = re.compile(pattern).match
