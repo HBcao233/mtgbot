@@ -1,4 +1,3 @@
-from typing import Callable
 import config
 
 
@@ -128,4 +127,4 @@ REPLY: Filter = Filter(lambda event: event.message.is_reply)
 #: 是否是转发消息
 FORWARD: Filter = Filter(lambda event: event.message.forward)
 
-SUPERADMIN: Filter = Filter(lambda event: event.chat_id in config.superadmin)
+SUPERADMIN: Filter = Filter(lambda event: event.sender_id in config.superadmin)
