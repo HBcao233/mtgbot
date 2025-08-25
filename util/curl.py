@@ -7,7 +7,6 @@ from stat import ST_MTIME
 import mimetypes
 import inspect
 
-import config
 from .string import randStr
 from .string import md5sum
 from .file import getCache, _getFile
@@ -81,7 +80,7 @@ def getPath(url=None, ext=None, saveas=None, mime_type=None):
     # 指定后缀名
     _ext = ext if ext.startswith('.') else '.' + ext
 
-  #指定文件名/路径
+  # 指定文件名/路径
   if saveas:
     arr = os.path.splitext(saveas)
     _name = arr[0]
@@ -256,7 +255,7 @@ async def request(
   """
   async with Client(
     proxy=proxy,
-    follow_redirects=follow_redirects, 
+    follow_redirects=follow_redirects,
     timeout=timeout,
   ) as client:
     r = await client.request(method, url, **kwargs)

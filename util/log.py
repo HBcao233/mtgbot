@@ -7,7 +7,7 @@ import time
 import config
 from datetime import datetime
 from logging.handlers import BaseRotatingHandler
-from zoneinfo import ZoneInfo 
+from zoneinfo import ZoneInfo
 
 
 __all__ = ['logger', 'default_handler', 'file_handler']
@@ -51,7 +51,7 @@ class MainFormatter(logging.Formatter):
   """
   主要日志格式化器
   """
-  
+
   def format(self, record):
     """
     日志格式化
@@ -64,8 +64,15 @@ class MainFormatter(logging.Formatter):
         continue
       path = path.replace(i, '')
     record.module = path.strip('/').replace('/', '.')
-    record.levelname = ['\033[35m', '\033[32m', '\033[33m', '\033[31m', '\033[31;47m'][int(record.levelno / 10 - 1)] + record.levelname + '\033[0m'
+    record.levelname = (
+      ['\033[35m', '\033[32m', '\033[33m', '\033[31m', '\033[31;47m'][
+        int(record.levelno / 10 - 1)
+      ]
+      + record.levelname
+      + '\033[0m'
+    )
     return super().format(record)
+
 
 #: 主要日志格式
 main_format = (
@@ -116,6 +123,7 @@ class TimedHandler(BaseRotatingHandler):
   """
   按时间分块文件处理器
   """
+
   def __init__(self, name='', backupCount=30):
     if not name:
       self.base_name = '.log'
@@ -124,13 +132,15 @@ class TimedHandler(BaseRotatingHandler):
 
     now = datetime.now(timezone)
     filename = os.path.join(logs_dir, now.strftime('%Y-%m-%d') + self.base_name)
-    BaseRotatingHandler.__init__(self, filename, 'a', encoding=io.text_encoding('utf-8'), delay=False, errors=None)
-    
+    BaseRotatingHandler.__init__(
+      self, filename, 'a', encoding=io.text_encoding('utf-8'), delay=False, errors=None
+    )
+
     self.backupCount = backupCount
     self.match = re.compile(
       r'^\d{4}-\d{2}-\d{2}' + re.escape(self.base_name) + r'$', re.ASCII
     ).match
-    
+
     if os.path.exists(filename):
       t = int(os.stat(filename).st_mtime)
     else:
@@ -146,7 +156,7 @@ class TimedHandler(BaseRotatingHandler):
     if t < self.rolloverAt:
       return False
     return True
-    
+
   def getFilesToDelete(self):
     result = []
     for i in os.listdir(logs_dir):
@@ -157,7 +167,7 @@ class TimedHandler(BaseRotatingHandler):
       result = []
     else:
       result.sort()
-      result = result[:len(result) - self.backupCount]
+      result = result[: len(result) - self.backupCount]
     return result
 
   def doRollover(self):

@@ -82,7 +82,7 @@ class Progress:
 
   def set_total(self, total=100):
     self.total = total
-  
+
   def get_text(self, p, total=None):
     if total is None:
       total = self.total

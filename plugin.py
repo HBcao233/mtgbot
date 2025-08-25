@@ -247,7 +247,7 @@ class Command:
         + re.escape(self.cmd)
         + '(@'
         + re.escape(config.bot.me.username)
-        + r')?( [^\x00]*)?$'
+        + r')?( [^\x00]*?)?$'
       )
     if isinstance(pattern, str):
       pattern = re.compile(pattern).match
@@ -503,7 +503,7 @@ def reload_plugins():
       name.startswith('_') or not os.path.exists(os.path.join(path, '__init__.py'))
     ):
       continue
-    
+
     m = re.match(r'([_A-Z0-9a-z]+)(.py)?', name)
     if not m:
       continue
@@ -512,14 +512,15 @@ def reload_plugins():
         if i.endswith('.py') and i != '__init__.py':
           mo = None
           try:
-            name = f'{config.bot_home + "." if config.bot_home else ""}plugins.{m.group(1)}.{i.replace('.py', '')}'
+            name = f'{config.bot_home + "." if config.bot_home else ""}plugins.{m.group(1)}.{i.replace(".py", "")}'
             mo = importlib.import_module(name)
             importlib.reload(mo)
             load_logger.info(f'Success to reload plugin "{mo.__name__}"')
           except ModuleNotFoundError:
-            load_logger.warning(f'Error to reload plugin "{mo.__name__ if mo else name}"', exc_info=1)
-    
-    
+            load_logger.warning(
+              f'Error to reload plugin "{mo.__name__ if mo else name}"', exc_info=1
+            )
+
     name = f'{config.bot_home + "." if config.bot_home else ""}plugins.{m.group(1)}'
     if name in modules.keys():
       continue

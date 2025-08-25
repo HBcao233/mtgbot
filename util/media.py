@@ -229,7 +229,7 @@ async def to_img(path, ext='jpg'):
     logger.error(stdout)
     return False
   return img
-  
+
 
 def message_media_to_media(message_media, spoiler: bool = False):
   """
@@ -360,7 +360,7 @@ async def file_to_media(
       ttl_seconds=ttl,
     )
     return media
-    
+
   if _ext == '.webp':
     path = await to_img(path)
 
