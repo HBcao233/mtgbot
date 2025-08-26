@@ -245,7 +245,7 @@ case $action in
       num=$3
     fi
     # printf "$(tail -n $num $root/$bot/bot.log | sed -e "s/\(.*\[DEBUG\].*\)/\\\e[35m\1\\\033[00m/g" -e "s/\(.*\[INFO\].*\)/\\\e[32m\1\\\033[00m/g" -e "s/\(.*\[WARNING\].*\)/\\\e[33m\1\\\033[00m/g" -e "s/\(.*\[ERROR\].*\)/\\\e[31m\1\\\033[00m/g" -e "s/\(.*\[CRITICAL\].*\)/\\\e[31;47m\1\\\033[00m/g")"
-    printf "$(tail -n $num $root/$bot/bot.log | sed -e "s/\[\(DEBUG\)\]/\[\\\e[35m\1\\\033[00m\]/g" -e "s/\[\(INFO\)\]/\[\\\e[32m\1\\\033[00m\]/g" -e "s/\[\(WARNING\)\]/\[\\\e[33m\1\\\033[00m\]/g" -e "s/\[\(ERROR\)\]/\[\\\e[31m\1\\\033[00m\]/g" -e "s/\[\(CRITICAL\)\]/\[\\\e[31;47m\1\\\033[00m\]/g")"
+    printf "$(tail -n $num $root/$bot/bot.log | sed -e 's/\\/\\\\/g' -e "s/\[\(DEBUG\)\]/\[\\\e[35m\1\\\033[00m\]/g" -e "s/\[\(INFO\)\]/\[\\\e[32m\1\\\033[00m\]/g" -e "s/\[\(WARNING\)\]/\[\\\e[33m\1\\\033[00m\]/g" -e "s/\[\(ERROR\)\]/\[\\\e[31m\1\\\033[00m\]/g" -e "s/\[\(CRITICAL\)\]/\[\\\e[31;47m\1\\\033[00m\]/g")"
     ;;
   ps)
     ps aux | grep python | grep -v grep
