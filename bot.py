@@ -230,16 +230,22 @@ class Bot(TelegramClient):
       revoke (`bool`):
         是否为对方也删除, 默认为 True
     """
-    try:
-      self.schedule(
-        time,
-        self.delete_messages(
+    async def d(entity, message_ids, *, revoke=revoke):
+      try:
+        await self.delete_messages(
           entity,
           message_ids,
           revoke=revoke,
-        ),
-      )
-    except errors.MessageDeleteForbiddenError:
-      logger.warn(
-        '计划任务 Bot.delete_messages 遇到错误 MessageDeleteForbiddenError', exc_info=1
-      )
+        )
+      except errors.MessageDeleteForbiddenError:
+        logger.warn(
+          '计划任务 Bot.delete_messages 遇到错误 MessageDeleteForbiddenError', exc_info=1
+        )
+    self.schedule(
+      time,
+      d(
+        entity,
+        message_ids,
+        revoke=revoke,
+      ),
+    )
