@@ -161,7 +161,7 @@ class TimedHandler(BaseRotatingHandler):
     result = []
     for i in os.listdir(logs_dir):
       if self.match(i):
-        result.append(os.path.join(path, i))
+        result.append(os.path.join(logs_dir, i))
 
     if len(result) < self.backupCount:
       result = []
@@ -213,11 +213,11 @@ if enable_file_handler:
 logger = logging.getLogger('mtgbot')
 logger.setLevel(logging.INFO)
 root_logger = logging.getLogger('root')
-if not root_logger.handlers:
+if not logger.handlers:
   # 输出日志到命令行/docker logs
   root_logger.handlers = []
   root_logger.addHandler(default_handler)
-
+  
   # 输出至 logs 文件夹
   if enable_file_handler:
     root_logger.addHandler(file_handler)

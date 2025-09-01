@@ -1,5 +1,5 @@
 # 从子模块中导入部分常用命令，方便调用
-from .log import logger
+from .log import logger, tz, timezone
 from . import string, file, media, data, curl, telegraph
 from .string import (
   randStr,

@@ -43,10 +43,27 @@ def setData(file: str, data: dict):
       字典数据
   """
   with open(getDataFile(f'{file}.json'), 'w') as f:
-    json.dumps(data, f, indent=2)
+    json.dump(data, f, indent=2)
 
 
-class Data(object):
+class DataMeta(type):
+  """
+  单例模式
+  """
+  _instances = {}
+  
+  def __call__(cls, file: str = ''):
+    args = (file,)
+    if not file:
+      file = cls.__name__.lower()
+      args = ()
+    if file not in DataMeta._instances:
+      instance = super().__call__(*args)
+      DataMeta._instances[file] = instance
+    return DataMeta._instances[file]
+
+
+class Data(metaclass=DataMeta):
   """
   读取 ``data/{file}.json`` 文件, 并将其转为 方便py存取的格式
 
