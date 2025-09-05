@@ -380,5 +380,6 @@ async def file_to_media(
     ttl=ttl,
     nosound_video=nosound_video,
   )
-  media.spoiler = spoiler
+  if getattr(media, 'spoiler', None):
+    media.spoiler = spoiler
   return media
