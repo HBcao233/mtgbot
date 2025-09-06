@@ -34,7 +34,7 @@ logging.getLogger('telethon.client.users').setLevel(logging.ERROR)
 logging.getLogger('telethon.client.updates').setLevel(logging.ERROR)
 logging.getLogger('telethon.network.mtprotosender').setLevel(logging.ERROR)
 logging.getLogger('telethon.extensions.messagepacker').setLevel(logging.ERROR)
-
+logging.getLogger('hpack.hpack').setLevel(logging.ERROR)
 
 def tz_converter(self, what):
   """
@@ -81,7 +81,7 @@ main_format = (
 main_formater = MainFormatter(main_format)
 logging.basicConfig(
   format=main_format,
-  level=logging.INFO,
+  level=logging.DEBUG,
 )
 
 
@@ -211,7 +211,7 @@ if enable_file_handler:
 
 #: 全局 logger 日志记录器
 logger = logging.getLogger('mtgbot')
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 root_logger = logging.getLogger('root')
 if not logger.handlers:
   # 输出日志到命令行/docker logs
