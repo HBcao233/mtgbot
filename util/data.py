@@ -1,7 +1,7 @@
 from telethon import types, utils
 from typing import Union, Generator
 from collections import namedtuple
-import ujson as json
+import json 
 import os.path
 import sqlite3
 

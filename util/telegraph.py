@@ -1,5 +1,5 @@
 from telethon.events.common import EventCommon
-import ujson as json
+import json
 import inspect
 
 import util

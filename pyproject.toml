@@ -1,3 +1,36 @@
+[project]
+name = "mtgbot"
+version = "1.1"
+description = "a lightweighting Telegram Bot framework which is based on Telethon MTProto protocol library."
+readme = "README.md"
+requires-python = ">= 3.12"
+dependencies = [
+  "telethon",
+  "cryptg",
+  "httpx[http2]",
+  "httpx[socks]",
+  "opencv-python",
+  "pillow",
+  "rlottie-python",
+  "moviepy",
+  "psutil",
+  "python-dotenv",
+  "dowhen",
+]
+optional-dependencies = [
+  "python-socks[asyncio]",
+]
+authors = [
+  {name = "HBcao233", email = "hbcaoqaq@163.com"},
+]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.urls]
+Documentation = "https://mtgbot.readthedocs.io/en/"
+Repository = "https://github.com/hbcao233/mtgbot"
+Issues = "https://github.com/hbcao233/mtgbot/issues"
+
 [tool.ruff]
 indent-width = 2
 builtins = ["bot"]

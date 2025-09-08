@@ -434,7 +434,7 @@ def load_plugin(name):
     modules[name] = module
     load_logger.info(f'Success to load plugin "{name}"')
   except Exception:
-    load_logger.warning('Error to load plugin "' + name + '"', exc_info=1)
+    load_logger.error('Error to load plugin "' + name + '"', exc_info=1)
 
 
 def load_plugins():
@@ -476,11 +476,11 @@ def reload_plugin(module):
       del modules[module.__name__]
     except KeyError:
       pass
-    load_logger.warning(
+    load_logger.error(
       f'Error to reload plugin "{module.__name__}": Module Not Found.'
     )
   except Exception:
-    load_logger.warning(f'Error to reload plugin "{module.__name__}"', exc_info=1)
+    load_logger.error(f'Error to reload plugin "{module.__name__}"', exc_info=1)
 
 
 def reload_plugins():
@@ -517,7 +517,7 @@ def reload_plugins():
             importlib.reload(mo)
             load_logger.info(f'Success to reload plugin "{mo.__name__}"')
           except ModuleNotFoundError:
-            load_logger.warning(
+            load_logger.error(
               f'Error to reload plugin "{mo.__name__ if mo else name}"', exc_info=1
             )
 
@@ -541,4 +541,4 @@ def import_plugin(name):
       fromlist=[name],
     )
   except Exception:
-    load_logger.warning('Error to import plugin "' + name + '"', exc_info=1)
+    load_logger.error('Error to import plugin "' + name + '"', exc_info=1)
