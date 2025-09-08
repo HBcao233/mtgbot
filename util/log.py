@@ -59,7 +59,8 @@ class MainFormatter(logging.Formatter):
     """
     path = os.path.splitext(record.pathname)[0]
     path = re.sub(r'/[^/]+?(/\.\.)+', '', path)
-    for i in sys.path:
+    paths = sys.path or []
+    for i in paths:
       if not i:
         continue
       path = path.replace(i, '')
