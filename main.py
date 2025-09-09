@@ -46,13 +46,13 @@ if __name__ == '__main__':
   logger.info(f'插件载入完成, 用时: {time.perf_counter() - start_time}s')
   # 初始化
   bot.loop.create_task(config.internal._init())
-  
+
   for i in bot.start_funcs:
     try:
       bot.loop.create_task(i())
     except Exception as e:
       logger.exception('创建启动函数错误')
-  
+
   try:
     bot.run_until_disconnected()
   except asyncio.exceptions.CancelledError:

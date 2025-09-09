@@ -476,9 +476,7 @@ def reload_plugin(module):
       del modules[module.__name__]
     except KeyError:
       pass
-    load_logger.error(
-      f'Error to reload plugin "{module.__name__}": Module Not Found.'
-    )
+    load_logger.error(f'Error to reload plugin "{module.__name__}": Module Not Found.')
   except Exception:
     load_logger.error(f'Error to reload plugin "{module.__name__}"', exc_info=1)
 

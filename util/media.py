@@ -252,8 +252,11 @@ def file_id_to_media(file_id, spoiler: bool = False):
   file_id 转 MessageMedia, 覆盖 spoiler
   """
   media = utils.resolve_bot_file_id(file_id)
+  if media is None:
+    return None
   media = utils.get_input_media(media)
-  media.spoiler = spoiler
+  if getattr(media, 'spoiler', None):
+    media.spoiler = spoiler
   return media
 
 
@@ -380,6 +383,8 @@ async def file_to_media(
     ttl=ttl,
     nosound_video=nosound_video,
   )
+  if media is None:
+    return media
   if getattr(media, 'spoiler', None):
     media.spoiler = spoiler
   return media

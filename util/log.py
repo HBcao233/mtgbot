@@ -36,6 +36,7 @@ logging.getLogger('telethon.network.mtprotosender').setLevel(logging.ERROR)
 logging.getLogger('telethon.extensions.messagepacker').setLevel(logging.ERROR)
 logging.getLogger('hpack.hpack').setLevel(logging.ERROR)
 
+
 def tz_converter(self, what):
   """
   时区转换器
@@ -218,7 +219,7 @@ if not logger.handlers:
   # 输出日志到命令行/docker logs
   root_logger.handlers = []
   root_logger.addHandler(default_handler)
-  
+
   # 输出至 logs 文件夹
   if enable_file_handler:
     root_logger.addHandler(file_handler)

@@ -15,27 +15,30 @@ from util.data import MessageData
 
 class Bot(TelegramClient):
   start_funcs = []
-  
+
   def on_start(self, func):
     """
     装饰器, 初始化成功后运行异步函数
     """
     self.start_funcs.append(func)
     return func
-  
+
   def interval(self, time=1):
     """
     装饰器, 每time秒运行一次异步函数
     """
+
     def wrapping(func):
       async def _func():
         await func()
         self.loop.call_later(time, lambda: asyncio.create_task(_func()))
         return func
+
       self.start_funcs.append(_func)
       return _func
+
     return wrapping
-  
+
   async def connect(self):
     """
     连接 Telegram 服务器, 自动处理异常, 记录登录用时
@@ -253,6 +256,7 @@ class Bot(TelegramClient):
       revoke (`bool`):
         是否为对方也删除, 默认为 True
     """
+
     async def d(entity, message_ids, *, revoke=revoke):
       try:
         await self.delete_messages(
@@ -262,8 +266,10 @@ class Bot(TelegramClient):
         )
       except errors.MessageDeleteForbiddenError:
         logger.warn(
-          '计划任务 Bot.delete_messages 遇到错误 MessageDeleteForbiddenError', exc_info=1
+          '计划任务 Bot.delete_messages 遇到错误 MessageDeleteForbiddenError',
+          exc_info=1,
         )
+
     self.schedule(
       time,
       d(

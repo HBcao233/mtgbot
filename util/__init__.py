@@ -30,13 +30,24 @@ from .data import (
   Videos,
   Documents,
   Animations,
+  Audios,
   MessageData,
 )
 
-from .curl import request, get, post, getImg
+from .curl import (
+  request,
+  get,
+  post,
+  getImg,
+  Client,
+)
 
 __all__ = [
+  # log
   'logger',
+  'tz',
+  'timezone',
+  #
   'string',
   'file',
   'media',
@@ -45,16 +56,19 @@ __all__ = [
   'telegraph',
   'randStr',
   'md5sum',
+  # file
   'getFile',
   'getResourceFile',
   'getResource',
   'getDataFile',
   'getCacheFile',
   'getCache',
+  # media
   'videoInfo',
   'resizePhoto',
   'img2bytes',
   'getPhotoThumbnail',
+  # data
   'getData',
   'setData',
   'Data',
@@ -62,11 +76,14 @@ __all__ = [
   'Videos',
   'Documents',
   'Animations',
+  'Audios',
   'MessageData',
+  # curl
   'request',
   'get',
   'post',
   'getImg',
+  'Client',
   'bool_or_callable',
 ]
 

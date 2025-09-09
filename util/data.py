@@ -1,7 +1,7 @@
 from telethon import types, utils
 from typing import Union, Generator
 from collections import namedtuple
-import json 
+import json
 import os.path
 import sqlite3
 
@@ -50,8 +50,9 @@ class DataMeta(type):
   """
   单例模式
   """
+
   _instances = {}
-  
+
   def __call__(cls, file: str = ''):
     args = (file,)
     if not file:
