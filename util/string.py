@@ -236,8 +236,8 @@ class Options:
   """
 
   def __init__(self, text: str, **args: Mapping[str, Union[str, Sequence[str]]]):
-    self.text = text
-    self.args = args
+    self._text = text
+    self._args = args
     self._options = set()
     arr = text.split(' ')
     for k, v in args.items():
@@ -248,15 +248,25 @@ class Options:
 
   def __getattr__(self, key, default=False):
     return key in self._options
+    
+  def __setattr__(self, key, value):
+    if key.startswith('_'):
+      return object.__setattr__(self, key, value)
+    if value:
+      self._options.add(key)
 
   def __getitem__(self, key, default=False):
     return key in self._options
+  
+  def __setitem__(self, key, value):
+    if value:
+      self._options.add(key)
 
   def __contains__(self, item):
     return item in self._options
 
   def __iter__(self):
-    return iter(self.args)
+    return iter(self._args)
 
   def get(self, key):
     """返回指定key的属性值"""
@@ -264,11 +274,11 @@ class Options:
 
   def keys(self):
     """返回所有属性名"""
-    return self.args.keys()
+    return self._args.keys()
 
   def items(self):
     """返回 {属性名: 属性值}"""
-    return {k: k in self for k in self.args}.items()
+    return {k: k in self for k in self._args}.items()
 
   def __str__(self):
     return f'Option({", ".join(f"{k}={v}" for k, v in self.items())})'
