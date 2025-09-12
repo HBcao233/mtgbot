@@ -60,8 +60,9 @@ class MainFormatter(logging.Formatter):
     """
     path = os.path.splitext(record.pathname)[0]
     path = re.sub(r'/[^/]+?(/\.\.)+', '', path)
+    path = path.replace(os.path.join(config.botHome, 'plugins/'), '')
     paths = sys.path or []
-    for i in paths:
+    for i in reversed(paths):
       if not i:
         continue
       path = path.replace(i, '')

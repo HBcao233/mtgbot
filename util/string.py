@@ -25,7 +25,11 @@ markdown_escape_chars = [
   '.',
   '!',
 ]
-html_escape_chars = {'<': '&lt;', '>': '&gt;', '&': '&amp;'}
+html_escape_chars = {
+  '<': '&lt;',
+  '>': '&gt;',
+  '&': '&amp;',
+}
 widths = [
   (126, 1),
   (159, 0),

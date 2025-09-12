@@ -22,13 +22,15 @@ async def _start(event, text):
 
   :meta public:
   """
-  if text == '':
-    for i in bot.list_event_handlers():
-      if getattr(i[1], 'pattern', None):
-        p = i[1].pattern.__self__.pattern
-        if p.startswith('^/help') or p.startswith('/help'):
-          await i[0](event)
-          break
+  logger.info(f'text: {text}')
+  if text != '':
+    return
+  for i in bot.list_event_handlers():
+    if getattr(i[1], 'pattern', None):
+      p = i[1].pattern.__self__.pattern
+      if p.startswith('^/help') or p.startswith('/help'):
+        await i[0](event)
+        break
 
 
 @Command(
@@ -131,16 +133,16 @@ async def _reload(event):
 
 
 @bot.on(events.CallbackQuery(pattern=rb'delete(?:~([\x00-\xff]{6,6}))?$'))
-async def _delete_button(event):
+async def delete_button(event):
   """
   删除消息按钮
-  ~6字节整数用于指定发送者
+  ~6字节有符号整数用于指定发送者
   """
   chat_id = event.chat_id
   match = event.pattern_match
   sender_id = None
   if t := match.group(1):
-    sender_id = int.from_bytes(t, 'big')
+    sender_id = int.from_bytes(t, 'big', signed=True)
   if sender_id and event.sender_id and sender_id != event.sender_id:
     participant = await bot.get_permissions(chat_id, event.sender_id)
     if not participant.delete_messages:

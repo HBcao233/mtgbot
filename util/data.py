@@ -43,7 +43,7 @@ def setData(file: str, data: dict):
       字典数据
   """
   with open(getDataFile(f'{file}.json'), 'w') as f:
-    json.dump(data, f, indent=2)
+    json.dump(data, f, indent=2, ensure_ascii=False)
 
 
 class DataMeta(type):

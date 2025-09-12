@@ -50,7 +50,7 @@ if __name__ == '__main__':
   for i in bot.start_funcs:
     try:
       bot.loop.create_task(i())
-    except Exception as e:
+    except Exception:
       logger.exception('创建启动函数错误')
 
   try:
