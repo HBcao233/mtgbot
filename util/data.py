@@ -321,9 +321,7 @@ class MessageData:
     cls.init()
     if cls.has_message(chat_id, message_id):
       return
-    logger.debug(
-      f'add_message chat_id: {chat_id}, message_id: {message_id}, grouped_id: {grouped_id}'
-    )
+    # logger.debug(f'add_message chat_id: {chat_id}, message_id: {message_id}, grouped_id: {grouped_id}')
 
     cursor = cls._conn.cursor()
     cursor.execute(
