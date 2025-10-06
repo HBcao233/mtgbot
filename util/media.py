@@ -66,10 +66,16 @@ def resizePhoto(path, maxSize=2560, size=None, saveas=None) -> cv2.Mat:
   resize cv2图片
   """
   if isinstance(path, str):
-    img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
+    img = cv2.imread(path, cv2.IMREAD_COLOR)
   else:
     img = path
-  h, w, channels = img.shape
+  
+  if len(img.shape) == 3:
+    h, w, channels = img.shape
+  else:
+    h, w = img.shape 
+    channels = 1
+  
   if size is None:
     if w > maxSize or h > maxSize:
       if w >= h:
