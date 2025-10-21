@@ -11,9 +11,10 @@ import importlib
 import config
 import filters
 from util.data import MessageData
+from util.log import logger, loguru
 
-
-logger = logging.getLogger('mtgbot.plugin')
+if not loguru:
+  logger = logging.getLogger('mtgbot.plugin')
 
 
 class Scope(object):
@@ -432,7 +433,11 @@ def load_plugin(name):
   try:
     module = importlib.import_module(name)
     modules[name] = module
-    load_logger.info(f'Success to load plugin "{name}"')
+    msg = f'Success to load plugin "{name}"'
+    if getattr(logger, 'success', None):
+      logger.success(msg)
+    else:
+      load_logger.info(msg)
   except Exception:
     load_logger.error('Error to load plugin "' + name + '"', exc_info=1)
 

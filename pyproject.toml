@@ -19,6 +19,7 @@ dependencies = [
 ]
 optional-dependencies = [
   "python-socks[asyncio]",
+  "loguru",
 ]
 authors = [
   {name = "HBcao233", email = "hbcaoqaq@163.com"},

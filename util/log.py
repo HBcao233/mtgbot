@@ -9,8 +9,12 @@ from datetime import datetime
 from logging.handlers import BaseRotatingHandler
 from zoneinfo import ZoneInfo
 
+try:
+  import loguru
+except ModuleNotFoundError:
+  loguru = None
 
-__all__ = ['logger', 'default_handler', 'file_handler']
+__all__ = ['logger']
 
 #: 时区字符串
 tz = config.env.get('TZ', '') or 'Asia/Shanghai'
@@ -53,6 +57,10 @@ class MainFormatter(logging.Formatter):
   主要日志格式化器
   """
 
+  def __init__(self, colorize: bool, *args, **kwargs):
+    self.colorize = colorize
+    super().__init__(*args, **kwargs)
+
   def format(self, record):
     """
     日志格式化
@@ -67,13 +75,15 @@ class MainFormatter(logging.Formatter):
         continue
       path = path.replace(i, '')
     record.module = path.strip('/').replace('/', '.')
-    record.levelname = (
-      ['\033[35m', '\033[32m', '\033[33m', '\033[31m', '\033[31;47m'][
-        int(record.levelno / 10 - 1)
-      ]
-      + record.levelname
-      + '\033[0m'
-    )
+    # 添加颜色
+    if self.colorize:
+      record.levelname = (
+        ['\033[35m', '\033[32m', '\033[33m', '\033[31m', '\033[31;47m'][
+          int(record.levelno / 10 - 1)
+        ]
+        + record.levelname
+        + '\033[0m'
+      )
     return super().format(record)
 
 
@@ -81,7 +91,8 @@ class MainFormatter(logging.Formatter):
 main_format = (
   '[%(asctime)s][%(name)s<%(module)s:%(lineno)d>][%(levelname)s]: %(message)s'
 )
-main_formater = MainFormatter(main_format)
+color_formater = MainFormatter(True, main_format)
+nocolor_formater = MainFormatter(False, main_format)
 logging.basicConfig(
   format=main_format,
   level=logging.DEBUG,
@@ -191,37 +202,75 @@ class TimedHandler(BaseRotatingHandler):
     self.rolloverAt = self.computeRollover(currentTime)
 
 
-#: 默认日志处理器
-default_handler = logging.StreamHandler()
-default_handler.setFormatter(main_formater)
-default_handler.setLevel(logging.INFO)
-default_handler.addFilter(default_handler_filter)
+class InterceptHandler(logging.Handler):
+  def emit(self, record):
+    try:
+      level = logger.level(record.levelname).name
+    except ValueError:
+      level = 'INFO'
+    logger.log(level, record.getMessage())
 
-#: 文件日志处理器
-file_handler: TimedHandler
-#: debug 文件日志处理器
-debug_handler: TimedHandler
-if enable_file_handler:
-  file_handler = TimedHandler()
-  file_handler.setFormatter(main_formater)
-  file_handler.setLevel(logging.INFO)
-  file_handler.addFilter(file_handler_filter)
-
-  debug_handler: TimedHandler = TimedHandler('debug')
-  debug_handler.setFormatter(main_formater)
-  debug_handler.setLevel(logging.DEBUG)
-  debug_handler.addFilter(debug_handler_filter)
 
 #: 全局 logger 日志记录器
 logger = logging.getLogger('mtgbot')
 logger.setLevel(logging.DEBUG)
 root_logger = logging.getLogger('root')
 if not logger.handlers:
-  # 输出日志到命令行/docker logs
   root_logger.handlers = []
-  root_logger.addHandler(default_handler)
+  if not loguru:
+    default_handler = logging.StreamHandler()
+    default_handler.setFormatter(color_formater)
+    default_handler.setLevel(logging.INFO)
+    default_handler.addFilter(default_handler_filter)
+    # 输出日志到命令行
+    root_logger.addHandler(default_handler)
+    if enable_file_handler:
+      file_handler = TimedHandler()
+      file_handler.setFormatter(nocolor_formater)
+      file_handler.setLevel(logging.INFO)
+      file_handler.addFilter(file_handler_filter)
 
-  # 输出至 logs 文件夹
-  if enable_file_handler:
-    root_logger.addHandler(file_handler)
-    root_logger.addHandler(debug_handler)
+      debug_handler: TimedHandler = TimedHandler('debug')
+      debug_handler.setFormatter(nocolor_formater)
+      debug_handler.setLevel(logging.DEBUG)
+      debug_handler.addFilter(debug_handler_filter)
+      # 输出至 logs 文件夹
+      root_logger.addHandler(file_handler)
+      root_logger.addHandler(debug_handler)
+  else:
+    # 使用 loguru
+    logger = loguru.logger
+    logger.remove()
+    logger.configure(
+      patcher=lambda record: record.update(time=record['time'].astimezone(timezone))
+    )
+    loguru_format = '[<cyan>{time:YYYY-MM-DD HH:mm:ss.SSS}</cyan>][<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan>][<level>{level}</level>]: {message}'
+    logger.add(
+      sys.stdout,
+      level='INFO',
+      format=loguru_format,
+      colorize=True,
+    )
+
+    # 接管标准 logging
+    root_logger.addHandler(InterceptHandler())
+
+    logger.add('file_1.log', rotation='100 MB')
+
+    logger.add(
+      os.path.join(logs_dir, '{time:YYYY-MM-DD}.log'),
+      level='INFO',
+      format=loguru_format,
+      rotation='04:00',
+      # compression='zip',
+    )
+
+    logger.add(
+      os.path.join(logs_dir, '{time:YYYY-MM-DD}.debug.log'),
+      level='DEBUG',
+      format=loguru_format,
+      filter=lambda record: record['level'].no == logger.level('DEBUG').no,
+      rotation='04:00',
+      # compression='zip',
+    )
+  # endif

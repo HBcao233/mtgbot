@@ -75,7 +75,7 @@ class Bot(TelegramClient):
     else:
       self.me = me
     logger.info(f'登录完成, 用时: {time.perf_counter() - start_time}s')
-    logger.info('当前登录账户信息: %s', self.me)
+    logger.info(f'当前登录账户信息: {self.me}')
 
   async def request_callback(self, request, res):
     """
