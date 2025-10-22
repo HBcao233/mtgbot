@@ -97,6 +97,7 @@ logging.basicConfig(
   format=main_format,
   level=logging.DEBUG,
 )
+logging.captureWarnings(True)
 
 
 def default_handler_filter(record):
@@ -208,7 +209,13 @@ class InterceptHandler(logging.Handler):
       level = logger.level(record.levelname).name
     except ValueError:
       level = 'INFO'
-    logger.log(level, record.getMessage())
+    logger.opt(
+      depth=6,
+      exception=record.exc_info,
+    ).log(
+      level,
+      record.getMessage(),
+    )
 
 
 #: 全局 logger 日志记录器

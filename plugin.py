@@ -328,10 +328,9 @@ class Command:
           logger.info(f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 运行结束')
         raise
       except Exception:
-        logger.error(
+        logger.exception(
           f'命令 "{self.cmd}"({event.chat_id}-{event.sender_id}) 异常结束'
           + (f' ({info})' if self.pattern_cmd else ''),
-          exc_info=1,
         )
         return
       else:
