@@ -18,6 +18,9 @@ class Progress:
 
     prefix (`str`):
       进度条前显示的字符
+      
+    percent (`bool`):
+      是否以百分比显示进度
 
   Attributes
     chars (`list[str]`):
