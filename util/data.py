@@ -294,7 +294,12 @@ class MessageData:
     cls._conn = sqlite3.connect(getDataFile('messages.db'))
     cls._conn.row_factory = namedtuple_factory
     cls._conn.execute(
-      'CREATE TABLE if not exists messages(id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER NOT NULL, message_id INTEGER NOT NULL)'
+      """CREATE TABLE if not exists messages(
+  id INTEGER PRIMARY KEY AUTOINCREMENT, 
+  chat_id INTEGER NOT NULL, 
+  message_id INTEGER NOT NULL,
+  grouped_id INTEGER
+)"""
     )
     cls._conn.execute('CREATE UNIQUE INDEX if not exists id_index ON messages (id)')
 
