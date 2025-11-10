@@ -247,6 +247,7 @@ if not logger.handlers:
   else:
     # 使用 loguru
     logger = loguru.logger
+    logger.warn = logger.warning
     logger.remove()
     logger.configure(
       patcher=lambda record: record.update(time=record['time'].astimezone(timezone))
