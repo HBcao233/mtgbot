@@ -51,27 +51,7 @@ async def help(event):
 
 \u25c6 爬虫
 \u25c6 发送url自动解析可爬取内容
-\u25cf /pid
-{'\u3000' * 3}获取p站作品
-{'\u3000' * 3}( 类似 @Pixiv_bot )
-\u25cf /tid
-{'\u3000' * 3}获取推文
-{'\u3000' * 3}( 类似 @twitter_loli_bot )
-\u25cf /bill
-{'\u3000' * 3}获取b站视频
-{'\u3000' * 3}( 类似 @bilifeedbot )
-\u25cf /douyin
-{'\u3000' * 3}抖音视频解析
-\u25cf /eid
-{'\u3000' * 3}获取e站本子
-\u25cf /nid
-{'\u3000' * 3}获取n站本子
-\u25cf /kid
-{'\u3000' * 3}获取k站图片
-\u25cf /misskey
-{'\u3000' * 3}获取misskey作品
-\u25cf /fanbox
-{'\u3000' * 3}获取fanbox作品
+\u25cf 支持 Pixiv、Twitter、Bilibili、、YouTuBe、抖音、Exhentai、Nhentai、Kemono、Misskey、Fanbox等站点
 
 \u25c6 音乐解析
 \u25cf /qqmusic
