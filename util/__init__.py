@@ -1,6 +1,8 @@
 # 从子模块中导入部分常用命令，方便调用
-from .log import logger, tz, timezone
 from . import string, file, media, data, curl, telegraph
+
+from .base import get_blacklist
+from .log import logger, tz, timezone
 from .string import (
   randStr,
   md5sum,
@@ -43,6 +45,8 @@ from .curl import (
 )
 
 __all__ = [
+  # base 
+  'get_blacklist',
   # log
   'logger',
   'tz',
