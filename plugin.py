@@ -1,5 +1,6 @@
 from telethon import events, utils, types
 from typing import Union, Any, Callable
+from types import ModuleType
 import re
 import os.path
 import inspect
@@ -529,18 +530,18 @@ def reload_plugins():
     load_plugin(name)
 
 
-def import_plugin(name):
+def import_plugin(name) -> ModuleType | None:
   """
-  导入插件
+  导入插件，未找到返回 None
 
   Arguments
     name (`str`):
       插件名, 去掉plugins.前缀, 及 .py 后缀的文件名或文件夹名
   """
   try:
-    return __import__(
+    return importlib.import_module(
       f'{config.bot_home + "." if config.bot_home else ""}plugins.{name}',
-      fromlist=[name],
     )
-  except Exception:
+  except ImportError:
     load_logger.error('Error to import plugin "' + name + '"', exc_info=1)
+    return None

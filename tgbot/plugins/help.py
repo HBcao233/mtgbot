@@ -10,61 +10,61 @@ from util.log import logger
 async def help(event):
   text = f"""<b>Hi! 这里是小派魔!</b>
 指令列表:
-\u25c6 常规
-\u25cf /ping
+◆ 常规
+● /ping
 {'\u3000' * 3}查看小派魔是否存活
-\u25cf /status
+● /status
 {'\u3000' * 3}查看小派魔运行状态
-\u25cf /roll
+● /roll
 {'\u3000' * 3}发动吧命运之骰
-\u25cf /chat
+● /chat
 {'\u3000' * 3}与小派魔对话
-\u25cf /clear
+● /clear
 {'\u3000' * 3}清除对话上下文
-\u25cf /help
+● /help
 {'\u3000' * 3}显示此帮助
 
-\u25c6 游戏
-\u25cf /lighton
+◆ 游戏
+● /lighton
 {'\u3000' * 3}点灯游戏
 
-\u25c6 更多爬虫解析等功能仅限私聊使用"""
+◆ 更多爬虫解析等功能仅限私聊使用"""
 
   if event.is_private:
     text = f"""<b>Hi! 这里是小派魔!</b>
 指令列表:
-\u25c6 常规
-\u25cf /ping
+◆ 常规
+● /ping
 {'\u3000' * 3}查看小派魔是否存活
-\u25cf /status
+● /status
 {'\u3000' * 3}查看小派魔运行状态
-\u25cf /roll
+● /roll
 {'\u3000' * 3}发动吧命运之骰
-\u25cf /chat
+● /chat
 {'\u3000' * 3}与小派魔对话
-\u25cf /clear
+● /clear
 {'\u3000' * 3}清除对话上下文
-\u25cf /settings
+● /settings
 {'\u3000' * 3}小派魔设置
-\u25cf /help
+● /help
 {'\u3000' * 3}显示此帮助
 
-\u25c6 爬虫
-\u25c6 发送url自动解析可爬取内容
-\u25cf 支持 Pixiv、Twitter、Bilibili、、YouTuBe、抖音、Exhentai、Nhentai、Kemono、Misskey、Fanbox等站点
+◆ 爬虫
+◆ 发送url自动解析可爬取内容
+● 支持 Pixiv、Twitter、Bilibili、、YouTuBe、抖音、Exhentai、Nhentai、Kemono、Misskey、Fanbox等站点
 
-\u25c6 音乐解析
-\u25cf /qqmusic
+◆ 音乐解析
+● /qqmusic
 {'\u3000' * 3}QQ音乐解析
-\u25cf /qqmusic_search
+● /qqmusic_search
 {'\u3000' * 3}QQ音乐搜索
-\u25cf /163music
+● /163music
 {'\u3000' * 3}网易云音乐解析
-\u25cf /163music_search
+● /163music_search
 {'\u3000' * 3}网易云音乐搜索
 
-\u25c6 游戏
-\u25cf /lighton
+◆ 游戏
+● /lighton
 {'\u3000' * 3}点灯游戏
 
 对小派魔有任何建议或意见欢迎前往 <a href="https://t.me/HBcaoHouse">🍀派魔喵の家🍥</a> 私聊或评论喵！"""

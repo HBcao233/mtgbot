@@ -1,75 +1,60 @@
+from typing import Union
+from collections.abc import Sequence, Mapping
 import random
 import hashlib
 import re
-from typing import Union
-from collections.abc import Sequence, Mapping
+import base64
 
 
+# fmt: off
 markdown_escape_chars = [
-  '_',
-  '*',
-  '[',
-  ']',
-  '(',
-  ')',
-  '~',
-  '`',
-  '>',
-  '#',
-  '+',
-  '-',
-  '=',
-  '|',
-  '{',
-  '}',
-  '.',
-  '!',
+  '{', '}', '[', ']', '(', ')', 
+  '`', '>', '#', '_', '*', 
+  '+', '-', '.', '!', '\\'
 ]
+# fmt: on
 html_escape_chars = {
   '<': '&lt;',
   '>': '&gt;',
   '&': '&amp;',
 }
+# fmt: off
 widths = [
-  (126, 1),
-  (159, 0),
-  (687, 1),
-  (710, 0),
-  (711, 1),
-  (727, 0),
-  (733, 1),
-  (879, 0),
-  (1154, 1),
-  (1161, 0),
-  (4347, 1),
-  (4447, 2),
-  (7467, 1),
-  (7521, 0),
-  (8369, 1),
-  (8426, 0),
-  (9000, 1),
-  (9002, 2),
-  (11021, 1),
-  (12350, 2),
-  (12351, 1),
-  (12438, 2),
-  (12442, 0),
-  (19893, 2),
-  (19967, 1),
-  (55203, 2),
-  (63743, 1),
-  (64106, 2),
-  (65039, 1),
-  (65059, 0),
-  (65131, 2),
-  (65279, 1),
-  (65376, 2),
-  (65500, 1),
-  (65510, 2),
-  (120831, 1),
-  (262141, 2),
-  (1114109, 1),
+  (126, 1), (159, 0),
+  (687, 1), (710, 0),
+  (711, 1), (727, 0),
+  (733, 1), (879, 0),
+  (1154, 1), (1161, 0),
+  (4347, 1), (4447, 2),
+  (7467, 1), (7521, 0),
+  (8369, 1), (8426, 0),
+  (9000, 1), (9002, 2),
+  (11021, 1), (12350, 2),
+  (12351, 1), (12438, 2),
+  (12442, 0), (19893, 2),
+  (19967, 1), (55203, 2),
+  (63743, 1), (64106, 2),
+  (65039, 1), (65059, 0), 
+  (65131, 2), (65279, 1),
+  (65376, 2), (65500, 1),
+  (65510, 2), (120831, 1),
+  (262141, 2), (1114109, 1),
 ]
+# fmt: on
+
+
+def padding(s):
+  return s + '=' * (4 - len(s) % 4)
+
+def b64_encode(s):
+  if isinstance(s, bytes):
+    return base64.urlsafe_b64encode(s).decode().rstrip('=')
+  return base64.urlsafe_b64encode(s.encode()).decode().rstrip('=')
+
+def b64_decode(s, byte=False):
+  if byte:
+    return base64.urlsafe_b64decode(padding(s).encode())
+  return base64.urlsafe_b64decode(padding(s).encode()).decode()
 
 
 def multiple_replace(text, d: Mapping[str, str]):
@@ -88,7 +73,7 @@ def multiple_replace(text, d: Mapping[str, str]):
 
 
 def markdown_escape(text):
-  """Markdown 转义"""
+  """Markdown 转义: telethon内置markdown解析并不支持转义"""
   return multiple_replace(text, {k: '\\' + k for k in markdown_escape_chars})
 
 
@@ -105,7 +90,7 @@ def html_escape(text):
 def html_unescape(text):
   """HTML 去转义"""
   return multiple_replace(
-    text, {v: k for k, v in dict(**html_escape_chars, **{'"': '&quot;'}).items()}
+    text, {v: k for k, v in {**html_escape_chars, '"': '&quot;'}.items()}
   )
 
 

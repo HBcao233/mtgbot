@@ -39,13 +39,13 @@ if __name__ == '__main__':
     exit(1)
 
   start_time = time.perf_counter()
-  # 加载内部模块
-  config.internal = importlib.import_module('internal')
+  # 加载核心逻辑
+  config.core = importlib.import_module('core')
   # 加载插件
   load_plugins()
   logger.info(f'插件载入完成, 用时: {time.perf_counter() - start_time}s')
   # 初始化
-  bot.loop.create_task(config.internal._init())
+  bot.loop.create_task(config.core._init())
 
   for i in bot.start_funcs:
     try:

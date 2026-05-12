@@ -20,7 +20,11 @@ release = '0.1.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = []
+extensions = [
+  'sphinx.ext.autodoc',
+  'sphinx.ext.githubpages',
+  'sphinx.ext.napoleon',
+]
 
 templates_path = ['_templates']
 exclude_patterns = []
@@ -33,13 +37,5 @@ gettext_uuid = True  # optional.
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-
-extensions = [
-  'sphinx.ext.autodoc',
-  'sphinx.ext.githubpages',
-  'sphinx.ext.napoleon',
-]
-
 html_theme = 'sphinx_rtd_theme'
-
 html_static_path = []

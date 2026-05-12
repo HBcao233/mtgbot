@@ -204,6 +204,9 @@ class TimedHandler(BaseRotatingHandler):
 
 
 class InterceptHandler(logging.Handler):
+  """
+  logging 转发到 loguru Handler
+  """
   def emit(self, record):
     try:
       level = logger.level(record.levelname).name
@@ -262,8 +265,6 @@ if not logger.handlers:
 
     # 接管标准 logging
     root_logger.addHandler(InterceptHandler())
-
-    logger.add('file_1.log', rotation='100 MB')
 
     logger.add(
       os.path.join(logs_dir, '{time:YYYY-MM-DD}.log'),

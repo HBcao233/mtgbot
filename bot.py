@@ -25,14 +25,17 @@ class Bot(TelegramClient):
 
   def interval(self, time=1):
     """
-    装饰器, 每time秒运行一次异步函数
+    计时器任务装饰器, 每time秒运行一次异步函数
     """
 
     def wrapping(func):
       async def _func():
-        await func()
-        self.loop.call_later(time, lambda: asyncio.create_task(_func()))
-        return func
+        try:
+          while True:
+            await func()
+            await asyncio.sleep(time)
+        except Exception:
+          logger.exception('计时器任务执行失败，已终止')
 
       self.start_funcs.append(_func)
       return _func
@@ -278,3 +281,16 @@ class Bot(TelegramClient):
         revoke=revoke,
       ),
     )
+
+  async def get_full_chat(
+    self,
+    entity: 'hints.EntityLike',
+  ):
+    entity = await self.get_entity(entity)
+    if isinstance(entity, types.Channel):
+      full_chat = await self(functions.channels.GetFullChannelRequest(entity))
+    elif isinstance(entity, types.Chat):
+      full_chat = await self(functions.messages.GetFullChatRequest(entity.id))
+    else:
+      return
+    return full_chat

@@ -227,6 +227,10 @@ async def to_img(path, ext='jpg'):
     path,
     '-frames:v',
     '1',
+    '-pix_fmt',
+    'yuv420p',
+    '-q:v',
+    '5',
     img,
     '-y',
   ]

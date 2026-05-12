@@ -1,3 +1,4 @@
+from typing import Callable
 import config
 
 
@@ -24,7 +25,7 @@ class Filter:
       参数需为 event, 返回值为 bool
   """
 
-  def __init__(self, value: callable, /):
+  def __init__(self, value: Callable, /):
     if hasattr(value, 'filter'):
       self.value = value.filter
     else:

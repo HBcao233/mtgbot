@@ -4,7 +4,7 @@ import config
 
 def _getFile(path='', name=''):
   """
-  获取指定目录的指定文件
+  获取指定目录的指定文件路径
   """
   name = name.replace('\\', '/')
   f = os.path.join(path, name)
@@ -13,7 +13,7 @@ def _getFile(path='', name=''):
 
 def getFile(dir_name='', name=''):
   """
-  获取指定bot私有目录下目录名的指定文件
+  获取当前bot私有目录下目录名的指定文件路径
   """
   name = str(name)
   path = os.path.join(config.botHome, dir_name)

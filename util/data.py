@@ -52,6 +52,7 @@ class DataMeta(type):
   """
 
   _instances = {}
+  _count = {}
 
   def __call__(cls, file: str = ''):
     args = (file,)
@@ -125,10 +126,22 @@ class Data(metaclass=DataMeta):
     return self.data.values()
 
   def __enter__(self):
+    if self.file not in DataMeta._count:
+      DataMeta._count[self.file] = 1
+    else:
+      DataMeta._count[self.file] += 1 
+    logger.debug(f'{type(self).__name__} {self.file} __enter__: {DataMeta._count[self.file]}')
     return self
 
   def __exit__(self, exc_type, exc_value, traceback):
     self.save()
+    if self.file in DataMeta._count:
+      DataMeta._count[self.file] -= 1 
+    count = DataMeta._count.get(self.file, -1)
+    logger.debug(f'{type(self).__name__}-{self.file} __exit__: {count}')
+    if count == 0 and self.file in DataMeta._instances:
+      logger.debug(f'销毁 {type(self).__name__}-{self.file} 以便未来重新实例化读取文件更新')
+      del DataMeta._instances[self.file]
 
   def __iter__(self):
     return iter(self.data)

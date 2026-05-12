@@ -1,11 +1,13 @@
 # 从子模块中导入部分常用命令，方便调用
 from . import string, file, media, data, curl, telegraph
 
-from .base import get_blacklist
+from .base import ad_pattern, get_blacklist
 from .log import logger, tz, timezone
 from .string import (
   randStr,
   md5sum,
+  b64_encode,
+  b64_decode,
 )
 
 from .file import (
@@ -46,20 +48,24 @@ from .curl import (
 
 __all__ = [
   # base 
+  'ad_pattern',
   'get_blacklist',
   # log
   'logger',
   'tz',
   'timezone',
-  #
+  # module
   'string',
   'file',
   'media',
   'data',
   'curl',
   'telegraph',
+  # string
   'randStr',
   'md5sum',
+  'b64_encode',
+  'b64_decode',
   # file
   'getFile',
   'getResourceFile',
