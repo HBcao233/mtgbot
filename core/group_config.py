@@ -2,7 +2,7 @@ import sqlite3
 import re
 import threading
 
-from telethon import events, functions, types, Button
+from telethon import events, functions, Button
 import filters
 import config
 from plugin import Command, Scope
@@ -71,15 +71,15 @@ class GroupConfig:
       )
       cls._conn.commit()
       return True
-  
+
   @classmethod
   def remove_config(cls, chat_id: int, config_key: str) -> bool:
     cls._init()
-    
+
     with cls._lock:
       cur = cls._conn.execute(
-          'DELETE FROM group_config WHERE chat_id=? AND config_key=?',
-          (chat_id, config_key),
+        'DELETE FROM group_config WHERE chat_id=? AND config_key=?',
+        (chat_id, config_key),
       )
       cls._conn.commit()
       return cur.rowcount > 0
@@ -87,14 +87,14 @@ class GroupConfig:
   @classmethod
   def iter_config_by_prefix(cls, prefix: str):
     cls._init()
-    
+
     prefix = prefix.replace('\\', '\\\\').replace('%', '\\%').replace('_', '\\_')
     query_param = f'{prefix}%'
     r = cls._conn.execute(
       """SELECT *
       FROM group_config
       WHERE config_key LIKE ? ESCAPE '\\'""",
-      (query_param,)
+      (query_param,),
     )
     for row in r.fetchall():
       yield row
@@ -168,7 +168,7 @@ class GroupConfigSwitch:
       if not sender_permissions.is_admin:
         await event.answer('仅管理员可以修改。', alert=True)
         return
-      
+
       gc_btn.switch(chat_id)
 
       buttons = render_buttons(chat_id)
@@ -204,7 +204,7 @@ async def _settings(event):
   """
   if not event.is_group:
     return
-  
+
   await event.message.delete()
 
   chat_id = event.chat_id
@@ -224,7 +224,7 @@ async def _settings(event):
       # 是当前群聊关联的频道
       if sender_id != linked_channel_id:
         return
-  
+
   buttons = render_buttons(chat_id)
 
   caption = '小派魔的群聊配置'

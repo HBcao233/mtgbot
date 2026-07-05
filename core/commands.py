@@ -110,7 +110,7 @@ async def delete_button(event):
   """
   chat_id = event.chat_id
   sender_id = event.sender_id
-  
+
   match = event.pattern_match
   need_admin = bool(match.group(1))
   if need_admin:
@@ -118,7 +118,7 @@ async def delete_button(event):
     if not sender_permissions.is_admin:
       await event.answer('只有管理员可以点击该按钮', alert=True)
       return
-  
+
   need_sender_id = None
   if t := match.group(2):
     need_sender_id = int.from_bytes(t, 'big', signed=True)
@@ -228,7 +228,7 @@ async def _init():
           commands=[types.BotCommand(*i) for i in v],
         )
       )
-    except ValueError:
+    except (TypeError, ValueError):
       logger.warning('scope 实体化失败, 可能是 bot 未加入群组', exc_info=1)
   # ---end--- 设置Scope ---end---
   logger.info(f'初始化完成, 用时: {time.perf_counter() - start_time}s')

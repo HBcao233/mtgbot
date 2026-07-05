@@ -1,4 +1,4 @@
-from telethon import events, utils, types
+from telethon import events, errors, utils, types
 from typing import Union, Any, Callable
 from types import ModuleType
 import re
@@ -53,8 +53,14 @@ class Scope(object):
     """
     if self.chat_id is None:
       return self.type()
+
     if self._chat_id is None:
-      self._chat_id = await bot.get_input_entity(self.chat_id)
+      try:
+        self._chat_id = await bot.get_input_entity(self.chat_id)
+      except errors.ChannelPrivateError:
+        logger.warning(f'{self} 转换为 BotCommandScope 失败: ChannelPrivateError')
+        return None
+
     if self.user_id is not None:
       if self._user_id is None:
         self._user_id = await bot.get_input_entity(self.user_id)
